@@ -185,3 +185,23 @@ func (v Vec2) Sgn() Vec2 {
 	}
 	return result
 }
+
+func Min2(a, b Vec2) Vec2 {
+	if a.X > b.X {
+		a.X = b.X
+	}
+	if a.Y > b.Y {
+		a.Y = b.Y
+	}
+	return a
+}
+
+func Max2(a, b Vec2) Vec2 {
+	if a.X < b.X {
+		a.X = b.X
+	}
+	if a.Y < b.Y {
+		a.Y = b.Y
+	}
+	return a
+}
