@@ -1,7 +1,6 @@
 package ioutil
 
 import (
-	"io/ioutil"
 	iu "io/ioutil"
 	"strings"
 )
@@ -13,7 +12,7 @@ func ReadFile(filename string) ([]byte, error) {
 
 // ReadLines reads a file and returns a slice of strings, one per line.
 func ReadLines(filename string) ([]string, error) {
-	bb, err := ioutil.ReadFile("input")
+	bb, err := iu.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
@@ -22,9 +21,18 @@ func ReadLines(filename string) ([]string, error) {
 
 // ReadFileString reads a file and returns it as a string, trimmed.
 func ReadFileString(filename string) (string, error) {
-	bb, err := ioutil.ReadFile("input")
+	bb, err := iu.ReadFile(filename)
 	if err != nil {
 		return "", err
 	}
 	return strings.TrimSpace(string(bb)), nil
+}
+
+// MustReadFileString reads a string from a file or panics.
+func MustReadFileString(filename string) string {
+	s, err := ReadFileString(filename)
+	if err != nil {
+		panic(err)
+	}
+	return s
 }

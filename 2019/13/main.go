@@ -38,7 +38,7 @@ func runProgram(program []int64, startColor bool) (map[vec2]int, error) {
 
 	drawing := map[vec2]int{}
 
-	go intcode.RunProgramChans(ctx, program, readChan, writeChan, errChan, false, "")
+	go intcode.RunProgramChans(ctx, program, readChan, writeChan, errChan, nil, false, "")
 
 OUTER:
 	for {
@@ -73,7 +73,7 @@ func playProgram(program []int64) (map[vec2]int, int, error) {
 	drawing := map[vec2]int{}
 	score := 0
 
-	go intcode.RunProgramChans(ctx, program, readChan, writeChan, errChan, false, "")
+	go intcode.RunProgramChans(ctx, program, readChan, writeChan, errChan, nil, false, "")
 
 	var ballPos vec2
 	var output int64

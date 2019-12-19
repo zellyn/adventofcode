@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/zellyn/adventofcode/geom"
 )
 
@@ -132,4 +134,8 @@ func multmaps(a, b, c map[int]int) int {
 		}
 	}
 	return result
+}
+
+func main() {
+	fmt.Println("everything in the tests!")
 }

@@ -204,7 +204,7 @@ func RunProgram(originalState []int64, reads []int64, debug bool) (state []int64
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-	go RunProgramChans(ctx, state, readsChan, writesChan, errChan, debug, "")
+	go RunProgramChans(ctx, state, readsChan, writesChan, errChan, nil, debug, "")
 	for {
 		select {
 		case err := <-errChan:
@@ -228,7 +228,7 @@ func ensureSize(state []int64, index64 int64) []int64 {
 
 // RunProgramChans runs an intcode program, modifying the state in place, and using
 // channels for input and output.
-func RunProgramChans(ctx context.Context, originalState []int64, reads <-chan int64, writes chan<- int64, errs chan<- error, debug bool, debugPrefix string) {
+func RunProgramChans(ctx context.Context, originalState []int64, reads <-chan int64, writes chan<- int64, errs chan<- error, updates <-chan [2]int64, debug bool, debugPrefix string) {
 	state := make([]int64, len(originalState))
 	copy(state, originalState)
 
@@ -239,6 +239,16 @@ func RunProgramChans(ctx context.Context, originalState []int64, reads <-chan in
 	pc := 0
 	var base int64
 	for {
+		select {
+		case <-ctx.Done():
+			logErr(nil)
+			return
+		case update := <-updates:
+			state[update[0]] = update[1]
+		default:
+			// do nothing
+		}
+
 		rawOp := state[pc]
 		op, err := getOp(rawOp)
 		if err != nil {

@@ -37,7 +37,7 @@ func runProgram(program []int64, startColor bool) (map[[2]int]bool, error) {
 	pos := [2]int{0, 0}
 	heading := N
 
-	go intcode.RunProgramChans(ctx, program, readChan, writeChan, errChan, false, "")
+	go intcode.RunProgramChans(ctx, program, readChan, writeChan, errChan, nil, false, "")
 
 OUTER:
 	for {

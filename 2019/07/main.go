@@ -58,7 +58,7 @@ func runParallelSequence(program []int64, phases []int64, debug bool) (signal in
 
 	for i := range phases {
 		writeChan := readChans[(i+1)%len(phases)]
-		go intcode.RunProgramChans(ctx, program, readChans[i], writeChan, errChans[i],
+		go intcode.RunProgramChans(ctx, program, readChans[i], writeChan, errChans[i], nil,
 			debug, "AMP"+strconv.Itoa(i))
 	}
 	readChans[0] <- 0

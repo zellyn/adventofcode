@@ -83,7 +83,7 @@ func newState(filename string) (*state, error) {
 
 	ctx, cancel := context.WithCancel(context.Background())
 	s.progCancel = cancel
-	go intcode.RunProgramChans(ctx, program, s.readChan, s.writeChan, s.errChan, false, "")
+	go intcode.RunProgramChans(ctx, program, s.readChan, s.writeChan, s.errChan, nil, false, "")
 
 	return s, nil
 }

@@ -179,3 +179,7 @@ func parseChemCount(s string) (string, int, error) {
 	}
 	return strings.TrimSpace(parts[1]), c, nil
 }
+
+func main() {
+	fmt.Println("everything in the tests!")
+}
