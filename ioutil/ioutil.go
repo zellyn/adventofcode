@@ -12,11 +12,11 @@ func ReadFile(filename string) ([]byte, error) {
 
 // ReadLines reads a file and returns a slice of strings, one per line.
 func ReadLines(filename string) ([]string, error) {
-	bb, err := iu.ReadFile(filename)
+	s, err := ReadFileString(filename)
 	if err != nil {
 		return nil, err
 	}
-	return strings.Split(strings.TrimSpace(string(bb)), "\n"), nil
+	return strings.Split(s, "\n"), nil
 }
 
 // ReadFileString reads a file and returns it as a string, trimmed.
@@ -25,7 +25,7 @@ func ReadFileString(filename string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return strings.TrimSpace(string(bb)), nil
+	return strings.TrimRight(string(bb), " \t\r\n"), nil
 }
 
 // MustReadFileString reads a string from a file or panics.

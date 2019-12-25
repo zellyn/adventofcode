@@ -186,6 +186,7 @@ func (v Vec2) Sgn() Vec2 {
 	return result
 }
 
+// Min2 returns the minimum of two vectors in both X and Y.
 func Min2(a, b Vec2) Vec2 {
 	if a.X > b.X {
 		a.X = b.X
@@ -196,6 +197,7 @@ func Min2(a, b Vec2) Vec2 {
 	return a
 }
 
+// Max2 returns the minimum of two vectors in both X and Y.
 func Max2(a, b Vec2) Vec2 {
 	if a.X < b.X {
 		a.X = b.X
@@ -204,4 +206,22 @@ func Max2(a, b Vec2) Vec2 {
 		a.Y = b.Y
 	}
 	return a
+}
+
+// Dirs4 are the four cardinal direction length-1 Vec2s.
+var Dirs4 = []Vec2{
+	{0, -1},
+	{1, 0},
+	{0, 1},
+	{-1, 0},
+}
+
+// Neighbors4 returns the four orthogonally adjacent positions of a Vec2 position.
+func Neighbors4(pos Vec2) []Vec2 {
+	return []Vec2{
+		{pos.X - 1, pos.Y},
+		{pos.X, pos.Y + 1},
+		{pos.X + 1, pos.Y},
+		{pos.X, pos.Y - 1},
+	}
 }

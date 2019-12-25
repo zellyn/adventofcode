@@ -3,10 +3,11 @@ package intcode
 import (
 	"context"
 	"fmt"
-	"github.com/zellyn/adventofcode/ioutil"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/zellyn/adventofcode/ioutil"
 )
 
 // ReadProgram reads a file with a single intCode program.
@@ -202,7 +203,7 @@ func RunProgram(originalState []int64, reads []int64, debug bool) (state []int64
 	for _, read := range reads {
 		readsChan <- read
 	}
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
 	go RunProgramChans(ctx, state, readsChan, writesChan, errChan, nil, debug, "")
 	for {
@@ -350,4 +351,22 @@ func Copy(program []int64) []int64 {
 	c := make([]int64, len(program))
 	copy(c, program)
 	return c
+}
+
+// ToAscii converts a slice of int64s to a string.
+func ToAscii(ints []int64) string {
+	s := ""
+	for _, i := range ints {
+		s += string(rune(i))
+	}
+	return s
+}
+
+// FromAscii converts a string to a slice of int64s.
+func FromAscii(s string) []int64 {
+	var ints []int64
+	for _, r := range s {
+		ints = append(ints, int64(r))
+	}
+	return ints
 }
