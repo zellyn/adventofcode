@@ -79,3 +79,43 @@ func Dijkstra(start Node) (int, error) {
 	}
 	return 0, fmt.Errorf("no winning path found")
 }
+
+// PermutationsInt64 returns all permutations of a slice of int64s.
+func PermutationsInt64(items []int64) [][]int64 {
+	if len(items) <= 1 {
+		return [][]int64{items}
+	}
+
+	var result [][]int64
+	for i, item := range items {
+		others := make([]int64, len(items)-1)
+		copy(others, items[:i])
+		copy(others[i:], items[i+1:])
+		ps := PermutationsInt64(others)
+		for _, p := range ps {
+			val := append([]int64{item}, p...)
+			result = append(result, val)
+		}
+	}
+	return result
+}
+
+// PermutationsString returns all permutations of a slice of strings.
+func PermutationsString(items []string) [][]string {
+	if len(items) <= 1 {
+		return [][]string{items}
+	}
+
+	var result [][]string
+	for i, item := range items {
+		others := make([]string, len(items)-1)
+		copy(others, items[:i])
+		copy(others[i:], items[i+1:])
+		ps := PermutationsString(others)
+		for _, p := range ps {
+			val := append([]string{item}, p...)
+			result = append(result, val)
+		}
+	}
+	return result
+}

@@ -2,6 +2,7 @@ package ioutil
 
 import (
 	iu "io/ioutil"
+	"strconv"
 	"strings"
 )
 
@@ -35,4 +36,19 @@ func MustReadFileString(filename string) string {
 		panic(err)
 	}
 	return s
+}
+
+// ParseInts parses a string of separated ints into a slice of ints.
+func ParseInts(commaString string, separator string) ([]int, error) {
+	input := strings.TrimSpace(commaString)
+	entries := strings.Split(input, separator)
+	ints := make([]int, len(entries))
+	for i, v := range entries {
+		i64, err := strconv.ParseInt(v, 10, 64)
+		if err != nil {
+			return nil, err
+		}
+		ints[i] = int(i64)
+	}
+	return ints, nil
 }

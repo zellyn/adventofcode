@@ -127,3 +127,24 @@ func ModGeometricSum(r, n, m int) (int, error) {
 
 	return ModMul(top, inv, m), nil
 }
+
+// Sort3 sorts three ints in ascending order.
+func Sort3(a, b, c int) (int, int, int) {
+	if a < b {
+		if b < c {
+			return a, b, c
+		}
+		if a < c {
+			return a, c, b
+		}
+		return c, a, b
+	}
+
+	if a < c {
+		return b, a, c
+	}
+	if b < c {
+		return b, c, a
+	}
+	return c, b, a
+}

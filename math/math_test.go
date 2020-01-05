@@ -144,3 +144,42 @@ func TestModInv(t *testing.T) {
 		}
 	}
 }
+
+func TestSort3(t *testing.T) {
+	testdata := []struct {
+		abc  []int
+		want []int
+	}{
+		{
+			abc:  []int{1, 2, 3},
+			want: []int{1, 2, 3},
+		},
+		{
+			abc:  []int{1, 1, 2},
+			want: []int{1, 1, 2},
+		},
+		{
+			abc:  []int{1, 1, 1},
+			want: []int{1, 1, 1},
+		},
+	}
+
+	for _, tt := range testdata {
+		a, b, c := tt.abc[0], tt.abc[1], tt.abc[2]
+		wa, wb, wc := tt.want[0], tt.want[1], tt.want[2]
+		for _, x := range [][]int{
+			{a, b, c},
+			{a, c, b},
+			{b, a, c},
+			{b, c, a},
+			{c, a, b},
+			{c, b, a},
+		} {
+			a, b, c = x[0], x[1], x[2]
+			ga, gb, gc := Sort3(a, b, c)
+			if ga != wa || gb != wb || gc != wc {
+				t.Errorf("Want Sort3(%d,%d,%d)==%d,%d,%d; got %d,%d,%d", a, b, c, wa, wb, wc, ga, gb, gc)
+			}
+		}
+	}
+}

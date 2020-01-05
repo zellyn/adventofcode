@@ -1,6 +1,9 @@
 package util
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 const MaxUint = ^uint(0)
 const MaxInt = int(MaxUint >> 1)
@@ -78,4 +81,30 @@ func highestTrueRange(lowTrue int, highFalse int, pred func(int) (bool, error)) 
 		}
 	}
 	return lowTrue, nil
+}
+
+// TrimmedLines takes a string, splits it into lines, and trims each line of starting
+// and ending whitespace.
+func TrimmedLines(s string) []string {
+	result := strings.Split(strings.TrimSpace(s), "\n")
+	for i, r := range result {
+		result[i] = strings.TrimSpace(r)
+	}
+	return result
+}
+
+// GroupString returns the input string, broken into runs of consecutive characters
+func GroupString(s string) []string {
+	var result []string
+	last := -1
+	for i := range s {
+		c := s[i : i+1]
+		if len(result) == 0 || result[last][:1] != c {
+			result = append(result, c)
+			last++
+		} else {
+			result[last] = result[last] + c
+		}
+	}
+	return result
 }

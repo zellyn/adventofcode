@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/zellyn/adventofcode/2019/graph"
 	"github.com/zellyn/adventofcode/charmap"
 	"github.com/zellyn/adventofcode/geom"
+	"github.com/zellyn/adventofcode/graph"
 	"github.com/zellyn/adventofcode/ioutil"
 )
 
