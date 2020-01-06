@@ -2,6 +2,7 @@ package util
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -107,4 +108,39 @@ func GroupString(s string) []string {
 		}
 	}
 	return result
+}
+
+// StringsAndInts is a set of parsed strings and ints from a line of input.
+type StringsAndInts struct {
+	Strings []string
+	Ints    []int
+}
+
+// ParseStringsAndInts takes a slice of input lines, a slice of string field indexes,
+// and a slice of int field indexes. It returns a slice of StringsAndInts structs,
+// one per line.
+func ParseStringsAndInts(lines []string, fields int, stringFields []int, intFields []int) ([]StringsAndInts, error) {
+	var result []StringsAndInts
+
+	for i, line := range lines {
+		sai := StringsAndInts{}
+		parts := strings.Split(line, " ")
+		if len(parts) != fields {
+			return nil, fmt.Errorf("want %d fields; got %d at line %d: %q", fields, len(parts), i, line)
+		}
+
+		for _, index := range stringFields {
+			sai.Strings = append(sai.Strings, parts[index])
+		}
+		for _, index := range intFields {
+			ii, err := strconv.Atoi(parts[index])
+			if err != nil {
+				return nil, fmt.Errorf("unparseable field %d at line %d (%q): %v", index, i, line, err)
+			}
+			sai.Ints = append(sai.Ints, ii)
+		}
+		result = append(result, sai)
+	}
+
+	return result, nil
 }
