@@ -94,6 +94,22 @@ func TrimmedLines(s string) []string {
 	return result
 }
 
+// RemoveBlanks returns a slice of strings, but trimmed, and with empty/all-whitespace
+// strings removed.
+func RemoveBlanks(ss []string) []string {
+	var r []string
+
+	for _, s := range ss {
+		s = strings.TrimSpace(s)
+		if s == "" {
+			continue
+		}
+		r = append(r, s)
+	}
+
+	return r
+}
+
 // GroupString returns the input string, broken into runs of consecutive characters
 func GroupString(s string) []string {
 	var result []string

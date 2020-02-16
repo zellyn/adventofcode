@@ -2,6 +2,8 @@ package math
 
 import (
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestModExp(t *testing.T) {
@@ -180,6 +182,44 @@ func TestSort3(t *testing.T) {
 			if ga != wa || gb != wb || gc != wc {
 				t.Errorf("Want Sort3(%d,%d,%d)==%d,%d,%d; got %d,%d,%d", a, b, c, wa, wb, wc, ga, gb, gc)
 			}
+		}
+	}
+}
+
+func TestChooseNUint32(t *testing.T) {
+	testdata := []struct {
+		ints []uint32
+		n    int
+		want [][]uint32
+	}{
+		{
+			ints: []uint32{1, 2, 3, 4},
+			n:    3,
+			want: [][]uint32{
+				{1, 2, 3},
+				{1, 2, 4},
+				{1, 3, 4},
+				{2, 3, 4},
+			},
+		},
+		{
+			ints: []uint32{1, 2, 3, 4},
+			n:    2,
+			want: [][]uint32{
+				{1, 2},
+				{1, 3},
+				{1, 4},
+				{2, 3},
+				{2, 4},
+				{3, 4},
+			},
+		},
+	}
+
+	for _, tt := range testdata {
+		got := ChooseNUint32(tt.ints, tt.n)
+		if !cmp.Equal(got, tt.want) {
+			t.Errorf("want ChooseNUint32(%v)=%v; got %v", tt.ints, tt.want, got)
 		}
 	}
 }

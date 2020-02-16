@@ -1,0 +1,6 @@
+github.com/google/go-cmp v0.4.0 h1:xsAVV57WRhGj6kEIi8ReJzQlHHqcBYCElAvkovg3B/4=
+github.com/google/go-cmp v0.4.0/go.mod h1:v8dTdLbMG2kIc/vJvl+f65V22dbkXbowE6jgT/gNBxE=
+github.com/zellyn/project-euler v0.0.0-20200117142144-087061f00735 h1:5ch/UaHb0P9bhS3Cy10pFAKdUWFIS8Y2GljBTKKUM/I=
+github.com/zellyn/project-euler v0.0.0-20200117142144-087061f00735/go.mod h1:CeWLzipXTwlU3nfVXTMbY1L8ljc619Hzv4uG04Qq/Mk=
+golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543 h1:E7g+9GITq07hpfrRu66IVDexMakfv52eLZ2CXBWiKr4=
+golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543/go.mod h1:I/5z698sn9Ka8TeJc9MKroUUfqBBauWjQqLJ2OPfmY0=

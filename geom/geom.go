@@ -225,3 +225,29 @@ func Neighbors4(pos Vec2) []Vec2 {
 		{pos.X, pos.Y - 1},
 	}
 }
+
+// Dirs8 are the eight neighboring Vec2s to the given Vec2.
+var Dirs8 = []Vec2{
+	{0, -1},
+	{1, -1},
+	{1, 0},
+	{1, 1},
+	{0, 1},
+	{-1, 1},
+	{-1, 0},
+	{-1, -1},
+}
+
+// Neighbors8 returns the four orthogonally and diagonally adjacent positions of a Vec2 position.
+func Neighbors8(pos Vec2) []Vec2 {
+	return []Vec2{
+		{pos.X, pos.Y - 1},
+		{pos.X + 1, pos.Y - 1},
+		{pos.X + 1, pos.Y},
+		{pos.X + 1, pos.Y + 1},
+		{pos.X, pos.Y + 1},
+		{pos.X - 1, pos.Y + 1},
+		{pos.X - 1, pos.Y},
+		{pos.X - 1, pos.Y - 1},
+	}
+}

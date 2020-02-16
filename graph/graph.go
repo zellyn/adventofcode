@@ -44,6 +44,10 @@ func (h *nodeHeap) Pop() interface{} {
 }
 
 func Dijkstra(start Node) (int, error) {
+	return DijkstraDebug(start, false)
+}
+
+func DijkstraDebug(start Node, debug bool) (int, error) {
 	// priors := map[string]string{}
 	nameToNeighbor := map[string]Node{
 		start.String(): start,
@@ -52,6 +56,8 @@ func Dijkstra(start Node) (int, error) {
 	done := map[string]bool{}
 
 	todo := nodeHeap([]costedNodeName{{name: start.String(), steps: 0}})
+
+	count := 0
 
 	for todo.Len() > 0 {
 		costedName := heap.Pop(&todo).(costedNodeName)
@@ -62,6 +68,12 @@ func Dijkstra(start Node) (int, error) {
 		node := nameToNeighbor[costedName.name]
 		min := costedName.steps
 
+		if debug {
+			count++
+			if count%10000 == 0 {
+				fmt.Printf("...%d: steps=%d\n", count, min)
+			}
+		}
 		// fmt.Printf("Considering node %v: steps=%d\n", node, min)
 
 		if node.End() {

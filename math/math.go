@@ -148,3 +148,34 @@ func Sort3(a, b, c int) (int, int, int) {
 	}
 	return c, b, a
 }
+
+// MaxUint is the largest uint value.
+const MaxUint = ^uint(0)
+
+// MaxInt is the max int value.
+const MaxInt = int(MaxUint >> 1)
+
+// MinInt is the smallest (negative) int value.
+const MinInt = -MaxInt - 1
+
+// ChooseNUint32 returns distinct groups of n uint32s from the inputs.
+// It assumes the inputs are distinct too.
+func ChooseNUint32(ints []uint32, n int) [][]uint32 {
+	if n == 0 {
+		return [][]uint32{{}}
+	}
+	if len(ints) < n {
+		return nil
+	}
+	if len(ints) == n {
+		return [][]uint32{ints}
+	}
+	without := ChooseNUint32(ints[1:], n)
+	with := ChooseNUint32(ints[1:], n-1)
+	result := make([][]uint32, len(without)+len(with))
+	copy(result[len(with):], without)
+	for i, w := range with {
+		result[i] = append([]uint32{ints[0]}, w...)
+	}
+	return result
+}
