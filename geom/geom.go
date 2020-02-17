@@ -82,6 +82,11 @@ func (v Vec3) Sgn() Vec3 {
 	return result
 }
 
+// Mul returns the vector multiplied by a scalar.
+func (v Vec3) Mul(factor int) Vec3 {
+	return Vec3{X: v.X * factor, Y: v.Y * factor, Z: v.Z * factor}
+}
+
 var vec3regex = regexp.MustCompile(`<x=(-?[0-9]+), *y=(-?[0-9]+), *z=(-?[0-9]+)>`)
 
 // ParseVec3 parses a string vec3 in format "<x=17,y=42,z=-1>".
@@ -144,12 +149,12 @@ func (v Vec2) Abs() Vec2 {
 	return v
 }
 
-// Sum returns the x+y+z.
+// Sum returns the x+y.
 func (v Vec2) Sum() int {
 	return v.X + v.Y
 }
 
-// AbsSum returns |x| + |y| + |z|.
+// AbsSum returns |x| + |y|.
 func (v Vec2) AbsSum() int {
 	return v.Abs().Sum()
 }
@@ -184,6 +189,11 @@ func (v Vec2) Sgn() Vec2 {
 		result.Y = 1
 	}
 	return result
+}
+
+// Mul returns the vector multiplied by a scalar.
+func (v Vec2) Mul(factor int) Vec2 {
+	return Vec2{X: v.X * factor, Y: v.Y * factor}
 }
 
 // Min2 returns the minimum of two vectors in both X and Y.

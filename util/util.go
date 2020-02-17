@@ -160,3 +160,31 @@ func ParseStringsAndInts(lines []string, fields int, stringFields []int, intFiel
 
 	return result, nil
 }
+
+// ParseGrid parses a set of lines of whitespacespace-separated ints into a 2D grid.
+func ParseGrid(lines []string) ([][]int, error) {
+	var result [][]int
+	var fields int
+	for i, line := range lines {
+		parts := strings.Fields(line)
+		if i == 0 {
+			fields = len(parts)
+		} else {
+			if len(parts) != fields {
+				return nil, fmt.Errorf("line 0 has %d fields; line %d has %d: %q", fields, i+1, len(parts), line)
+			}
+		}
+		ints := make([]int, 0, len(parts))
+
+		for _, part := range parts {
+			theInt, err := strconv.Atoi(part)
+			if err != nil {
+				return nil, fmt.Errorf("error at line %d: %w", i+1, err)
+			}
+			ints = append(ints, theInt)
+		}
+		result = append(result, ints)
+	}
+
+	return result, nil
+}
