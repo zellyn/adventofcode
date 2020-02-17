@@ -7,6 +7,33 @@ import (
 	"github.com/zellyn/adventofcode/ioutil"
 )
 
+// M is a map of geom.Vec2 to rune.
+type M map[geom.Vec2]rune
+
+// MinMax returns a geom.Vec2 for minimum coordinates, and one for maximum.
+func (m M) MinMax() (geom.Vec2, geom.Vec2) {
+	return MinMax(m)
+}
+
+// AsString stringifies a charmap.
+// It uses the `unknown` param for positions within the min/max range
+// of X and Y, but not in the map. Rows are terminated by newlines.
+func (m M) AsString(unknown rune) string {
+	return String(m, unknown)
+}
+
+// Count returns a count of the number of cells in m that hold the matching rune.
+func (m M) Count(which rune) int {
+	count := 0
+	for _, ch := range m {
+		if ch == which {
+			count++
+		}
+	}
+	return count
+}
+
+// MinMax returns a geom.Vec2 for minimum coordinates, and one for maximum.
 func MinMax(drawing map[geom.Vec2]rune) (geom.Vec2, geom.Vec2) {
 	minx, miny, maxx, maxy := 0, 0, 0, 0
 	for k := range drawing {
@@ -30,6 +57,14 @@ func MinMax(drawing map[geom.Vec2]rune) (geom.Vec2, geom.Vec2) {
 // It uses the `unknown` param for positions within the min/max range
 // of X and Y, but not in the map.
 func Draw(drawing map[geom.Vec2]rune, unknown rune) {
+	fmt.Print(String(drawing, unknown))
+}
+
+// String takes a map of `geom.Vec2` to `rune`, and stringifies it out.
+// It uses the `unknown` param for positions within the min/max range
+// of X and Y, but not in the map. Rows are terminated by newlines.
+func String(drawing map[geom.Vec2]rune, unknown rune) string {
+	result := ""
 	min, max := MinMax(drawing)
 	for y := min.Y; y <= max.Y; y++ {
 		for x := min.X; x <= max.X; x++ {
@@ -37,12 +72,14 @@ func Draw(drawing map[geom.Vec2]rune, unknown rune) {
 			if !ok {
 				c = unknown
 			}
-			fmt.Printf("%c", c)
+			result += string(c)
 		}
-		fmt.Println()
+		result += "\n"
 	}
+	return result
 }
 
+// Parse parses a map from a list of strings.
 func Parse(lines []string) map[geom.Vec2]rune {
 	m := map[geom.Vec2]rune{}
 	for y, line := range lines {
@@ -52,6 +89,28 @@ func Parse(lines []string) map[geom.Vec2]rune {
 		}
 	}
 	return m
+}
+
+// New creates a new charmap, filled with the given fill rune.
+func New(width, height int, fill rune) M {
+	m := map[geom.Vec2]rune{}
+	for x := 0; x < width; x++ {
+		for y := 0; y < height; y++ {
+			m[geom.Vec2{X: x, Y: y}] = fill
+		}
+	}
+	return m
+}
+
+// Copy creates a copy of a charmap.
+func (m M) Copy() map[geom.Vec2]rune {
+	c := make(map[geom.Vec2]rune, len(m))
+
+	for k, v := range m {
+		c[k] = v
+	}
+
+	return c
 }
 
 // Read reads a two-dimensional map of characters from a file.

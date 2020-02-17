@@ -1,27 +1,106 @@
 package main
 
-import "testing"
+import (
+	"strings"
+	"testing"
 
-func TestParts(t *testing.T) {
-	testdata := []struct {
-		s    string
-		want int
-	}{
-		{
-			s:    "42",
-			want: 42,
-		},
+	"github.com/zellyn/adventofcode/charmap"
+	"github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
+)
+
+func TestPart1(t *testing.T) {
+	m := charmap.New(50, 6, '.')
+	lines, err := ioutil.ReadLines("input")
+	if err != nil {
+		t.Fatal(err)
+	}
+	err = runCommands(m, lines)
+	if err != nil {
+		t.Fatal(err)
+	}
+	wantCount := 119
+	gotCount := m.Count('#')
+	if wantCount != gotCount {
+		t.Errorf("want count=%d; got %d", wantCount, gotCount)
 	}
 
-	for _, tt := range testdata {
-		t.Run(tt.s, func(t *testing.T) {
-			got, err := foo(tt.s)
-			if err != nil {
-				t.Fatal(err)
-			}
-			if got != tt.want {
-				t.Errorf("Want foo(%q)=%d; got %d", tt.s, tt.want, got)
-			}
-		})
+	// ZFHFSFOGPO
+	wantStr := strings.Join(util.TrimmedLines(`
+	####.####.#..#.####..###.####..##...##..###...##..
+	...#.#....#..#.#....#....#....#..#.#..#.#..#.#..#.
+	..#..###..####.###..#....###..#..#.#....#..#.#..#.
+	.#...#....#..#.#.....##..#....#..#.#.##.###..#..#.
+	#....#....#..#.#.......#.#....#..#.#..#.#....#..#.
+	####.#....#..#.#....###..#.....##...###.#.....##..`), "\n") + "\n"
+	if got := charmap.String(m, '?'); got != wantStr {
+		t.Errorf("final value: want \n%sgot \n%s", wantStr, got)
+	}
+}
+
+func TestCommands(t *testing.T) {
+	want := strings.Join(util.TrimmedLines(`
+		.#..#.#
+		#.#....
+		.#.....`), "\n") + "\n"
+
+	commands := util.TrimmedLines(`
+		rect 3x2
+		rotate column x=1 by 1
+		rotate row y=0 by 4
+		rotate column x=1 by 1`)
+	m := charmap.New(7, 3, '.')
+	err := runCommands(m, commands)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got := charmap.String(m, '?'); got != want {
+		t.Errorf("want: want \n%sgot \n%s", want, got)
+	}
+}
+
+func TestOps(t *testing.T) {
+	m := charmap.New(7, 3, '.')
+	zero := strings.Join(util.TrimmedLines(`
+		.......
+		.......
+		.......`), "\n") + "\n"
+	if got := charmap.String(m, '?'); got != zero {
+		t.Errorf("zero: want \n%sgot \n%s", zero, got)
+	}
+	one := strings.Join(util.TrimmedLines(`
+		###....
+		###....
+		.......`), "\n") + "\n"
+	rect(m, 3, 2)
+	if got := charmap.String(m, '?'); got != one {
+		t.Errorf("one: want \n%sgot \n%s", one, got)
+	}
+
+	two := strings.Join(util.TrimmedLines(`
+		#.#....
+		###....
+		.#.....`), "\n") + "\n"
+	rotateCol(m, 1, 1)
+	if got := charmap.String(m, '?'); got != two {
+		t.Errorf("two: want \n%sgot \n%s", two, got)
+	}
+
+	three := strings.Join(util.TrimmedLines(`
+		....#.#
+		###....
+		.#.....`), "\n") + "\n"
+	rotateRow(m, 0, 4)
+	if got := charmap.String(m, '?'); got != three {
+		t.Errorf("three: want \n%sgot \n%s", three, got)
+	}
+
+	four := strings.Join(util.TrimmedLines(`
+		.#..#.#
+		#.#....
+		.#.....`), "\n") + "\n"
+	rotateCol(m, 1, 1)
+	if got := charmap.String(m, '?'); got != four {
+		t.Errorf("four: want \n%sgot \n%s", four, got)
 	}
 }
