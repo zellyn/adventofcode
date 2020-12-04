@@ -188,3 +188,41 @@ func ParseGrid(lines []string) ([][]int, error) {
 
 	return result, nil
 }
+
+// LinesByParagraph takes a slice of strings, and returns a slice of slices of
+// strings: it separates paragraphs (multiple newlines).
+func LinesByParagraph(lines []string) [][]string {
+	var result [][]string
+	var chunk []string
+
+	for _, line := range lines {
+		if line == "" {
+			if chunk != nil {
+				result = append(result, chunk)
+				chunk = nil
+			}
+		} else {
+			chunk = append(chunk, line)
+		}
+	}
+	if chunk != nil {
+		result = append(result, chunk)
+	}
+	return result
+}
+
+// KeyValuePairs splits a space-separated sequence of colon-separated key:value
+// pairs into a map.
+func KeyValuePairs(input string) map[string]string {
+	result := make(map[string]string)
+	parts := strings.Split(input, " ")
+	for _, part := range parts {
+		pieces := strings.SplitN(part, ":", 2)
+		if len(pieces) == 2 {
+			result[pieces[0]] = pieces[1]
+		} else {
+			result[pieces[0]] = ""
+		}
+	}
+	return result
+}

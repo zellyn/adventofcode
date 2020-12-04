@@ -121,3 +121,12 @@ func Read(filename string) (map[geom.Vec2]rune, error) {
 	}
 	return Parse(lines), nil
 }
+
+// MustRead reads a two-dimensional map of characters from a file, or dies.
+func MustRead(filename string) map[geom.Vec2]rune {
+	m, err := Read(filename)
+	if err != nil {
+		panic(err)
+	}
+	return m
+}
