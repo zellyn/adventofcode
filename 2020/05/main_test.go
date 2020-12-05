@@ -8,9 +8,10 @@ import (
 )
 
 var example = util.TrimmedLines(`
-1-3 a: abcde
-1-3 b: cdefg
-2-9 c: ccccccccc
+FBFBBFFRLR
+BFFFBBFRRR
+FFFBBBFRRR
+BBFFBBFRLL
 `)
 
 var input = ioutil.MustReadLines("input")
@@ -24,86 +25,59 @@ func TestPart1(t *testing.T) {
 		{
 			name:  "example",
 			input: example,
-			want:  2,
+			want:  820,
 		},
 		{
 			name:  "input",
 			input: input,
-			want:  645,
+			want:  871,
 		},
 	}
 
 	for _, tt := range testdata {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := valid1Count(tt.input)
-			if err != nil {
-				t.Fatal(err)
-			}
+			got := maxParse(tt.input)
 			if got != tt.want {
-				t.Errorf("Want valid1Count(tt.input)=%d; got %d", tt.want, got)
+				t.Errorf("Want maxParse(tt.input)=%d; got %d", tt.want, got)
 			}
 		})
 	}
 }
-
-func TestValid2(t *testing.T) {
-	testdata := []struct {
-		input string
-		want  bool
-	}{
-		{
-			input: "1-3 a: abcde",
-			want:  true,
-		},
-		{
-			input: "1-3 b: cdefg",
-			want:  false,
-		},
-		{
-			input: "2-9 c: ccccccccc",
-			want:  false,
-		},
-	}
-
-	for _, tt := range testdata {
-		got, err := valid2(tt.input)
-		if err != nil {
-			t.Fatal(err)
-		}
-		if got != tt.want {
-			t.Errorf("Want valid2(%q)=%v; got %v", tt.input, tt.want, got)
-		}
-
-	}
-}
-
 func TestPart2(t *testing.T) {
+	got := missing(input)
+	want := 640
+	if got != want {
+		t.Errorf("want missing(input)=%d; got %d", want, got)
+	}
+}
+
+func TestParse(t *testing.T) {
 	testdata := []struct {
-		name  string
-		input []string
-		want  int
+		pass string
+		want int
 	}{
 		{
-			name:  "example",
-			input: example,
-			want:  1,
+			pass: "FBFBBFFRLR",
+			want: 357,
 		},
 		{
-			name:  "input",
-			input: input,
-			want:  737,
+			pass: "BFFFBBFRRR",
+			want: 567,
+		},
+		{
+			pass: "FFFBBBFRRR",
+			want: 119,
+		},
+		{
+			pass: "BBFFBBFRLL",
+			want: 820,
 		},
 	}
 
 	for _, tt := range testdata {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := valid2Count(tt.input)
-			if err != nil {
-				t.Fatal(err)
-			}
-			if got != tt.want {
-				t.Errorf("Want valid2Count(tt.input)=%d; got %d", tt.want, got)
-			}
-		})
+		got := parse(tt.pass)
+		if got != tt.want {
+			t.Errorf("want parse(%q)=%d; got %d", tt.pass, tt.want, got)
+		}
 	}
 }
