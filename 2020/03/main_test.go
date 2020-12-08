@@ -46,7 +46,7 @@ func TestPart1(t *testing.T) {
 			step:  geom.Vec2{X: 3, Y: 1},
 			steps: []geom.Vec2{{X: 1, Y: 1}, {X: 3, Y: 1}, {X: 5, Y: 1}, {X: 7, Y: 1}, {X: 1, Y: 2}},
 			want1: 259,
-			want2: 42,
+			want2: 2224913600,
 		},
 	}
 

@@ -44,7 +44,7 @@ func TestPart1(t *testing.T) {
 			name:    "input",
 			input:   input,
 			wantAny: 6549,
-			wantAll: 42,
+			wantAll: 3466,
 		},
 	}
 
