@@ -113,6 +113,25 @@ func (m M) Copy() map[geom.Vec2]rune {
 	return c
 }
 
+// Equal tests two charmaps for equality.
+func (m M) Equal(n M) bool {
+	if len(m) != len(n) {
+		return false
+	}
+
+	for k, v := range m {
+		v2, ok := n[k]
+		if !ok {
+			return false
+		}
+		if v != v2 {
+			return false
+		}
+	}
+
+	return true
+}
+
 // Read reads a two-dimensional map of characters from a file.
 func Read(filename string) (map[geom.Vec2]rune, error) {
 	lines, err := ioutil.ReadLines(filename)
