@@ -8,7 +8,11 @@ import (
 )
 
 var example = util.TrimmedLines(`
-example_input
+F10
+N3
+F7
+R90
+F11
 `)
 
 var input = ioutil.MustReadLines("input")
@@ -23,14 +27,14 @@ func TestPart1(t *testing.T) {
 		{
 			name:  "example",
 			input: example,
-			want1: 42,
-			want2: 42,
+			want1: 25,
+			want2: 286,
 		},
 		{
 			name:  "input",
 			input: input,
-			want1: 42,
-			want2: 42,
+			want1: 1133,
+			want2: 61053,
 		},
 	}
 

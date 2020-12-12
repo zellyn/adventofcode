@@ -20,6 +20,16 @@ type Vec3 struct {
 	Z int
 }
 
+// String does the usual.
+func (v Vec2) String() string {
+	return fmt.Sprintf("(%d,%d)", v.X, v.Y)
+}
+
+// String does the usual.
+func (v Vec3) String() string {
+	return fmt.Sprintf("(%d,%d,%d)", v.X, v.Y, v.Z)
+}
+
 // Abs returns the same vector, but with negative coordinates replaced by their positive values.
 func (v Vec3) Abs() Vec3 {
 	if v.X < 0 {
