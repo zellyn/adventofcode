@@ -52,7 +52,7 @@ func TestPart1(t *testing.T) {
 			input:    input,
 			prefix:   25,
 			want:     167829540,
-			weakWant: 42,
+			weakWant: 28045630,
 		},
 	}
 

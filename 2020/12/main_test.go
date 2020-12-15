@@ -40,22 +40,22 @@ func TestPart1(t *testing.T) {
 
 	for _, tt := range testdata {
 		t.Run(tt.name, func(t *testing.T) {
-			want1, err := part1(tt.input)
+			got1, err := part1(tt.input)
 			if err != nil {
 				t.Error(err)
 			}
 
-			if want1 != tt.want1 {
-				t.Errorf("Want part1(tt.input)=%d; got %d", tt.want1, want1)
+			if got1 != tt.want1 {
+				t.Errorf("Want part1(tt.input)=%d; got %d", tt.want1, got1)
 			}
 
-			want2, err := part2(tt.input)
+			got2, err := part2(tt.input)
 			if err != nil {
 				t.Error(err)
 			}
 
-			if want2 != tt.want2 {
-				t.Errorf("Want part2(tt.input)=%d; got %d", tt.want2, want2)
+			if got2 != tt.want2 {
+				t.Errorf("Want part2(tt.input)=%d; got %d", tt.want2, got2)
 			}
 		})
 	}

@@ -7,8 +7,18 @@ import (
 	"github.com/zellyn/adventofcode/util"
 )
 
-var example = util.TrimmedLines(`
-example_input
+var example1 = util.TrimmedLines(`
+mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X
+mem[8] = 11
+mem[7] = 101
+mem[8] = 0
+`)
+
+var example2 = util.TrimmedLines(`
+mask = 000000000000000000000000000000X1001X
+mem[42] = 100
+mask = 00000000000000000000000000000000X0XX
+mem[26] = 1
 `)
 
 var input = ioutil.MustReadLines("input")
@@ -21,13 +31,13 @@ func TestPart1(t *testing.T) {
 	}{
 		{
 			name:  "example",
-			input: example,
-			want:  42,
+			input: example1,
+			want:  165,
 		},
 		{
 			name:  "input",
 			input: input,
-			want:  42,
+			want:  5902420735773,
 		},
 	}
 
@@ -52,14 +62,14 @@ func TestPart2(t *testing.T) {
 		want  int
 	}{
 		{
-			name:  "example",
-			input: example,
-			want:  42,
+			name:  "example2",
+			input: example2,
+			want:  208,
 		},
 		{
 			name:  "input",
 			input: input,
-			want:  42,
+			want:  3801988250775,
 		},
 	}
 

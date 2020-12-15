@@ -45,16 +45,14 @@ func TestPart1(t *testing.T) {
 
 	for _, tt := range testdata {
 		t.Run(tt.name, func(t *testing.T) {
-			want1 := part1(tt.input)
-
-			if want1 != tt.want1 {
-				t.Errorf("Want part1(tt.input)=%d; got %d", tt.want1, want1)
+			got1 := part1(tt.input)
+			if got1 != tt.want1 {
+				t.Errorf("Want part1(tt.input)=%d; got %d", tt.want1, got1)
 			}
 
-			want2 := part2(tt.input)
-
-			if want2 != tt.want2 {
-				t.Errorf("Want part2(tt.input)=%d; got %d", tt.want2, want2)
+			got2 := part2(tt.input)
+			if got2 != tt.want2 {
+				t.Errorf("Want part2(tt.input)=%d; got %d", tt.want2, got2)
 			}
 		})
 	}

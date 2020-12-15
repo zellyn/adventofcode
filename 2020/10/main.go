@@ -20,7 +20,6 @@ func prod(inputs []int) int {
 }
 
 func ways(inputs []int) int {
-	fmt.Println()
 	inputs = append(inputs, 0)
 	sort.Ints(inputs)
 	inputs = append(inputs, inputs[len(inputs)-1]+3)
