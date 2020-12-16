@@ -84,6 +84,20 @@ func ParseInts(commaString string, separator string) ([]int, error) {
 	return ints, nil
 }
 
+// ParseLinesOfInts runs ParseInts on every string in the passed slice, passing
+// back a slice of slices of ints.
+func ParseLinesOfInts(commaStrings []string, separator string) ([][]int, error) {
+	result := make([][]int, 0, len(commaStrings))
+	for _, commaString := range commaStrings {
+		ints, err := ParseInts(commaString, separator)
+		if err != nil {
+			return nil, err
+		}
+		result = append(result, ints)
+	}
+	return result, nil
+}
+
 // MustStringsToInts takes a slice of strings and returns a slice of ints, or panics.
 func MustStringsToInts(strings []string) []int {
 	ints, err := StringsToInts(strings)

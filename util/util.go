@@ -226,3 +226,17 @@ func KeyValuePairs(input string) map[string]string {
 	}
 	return result
 }
+
+func Transpose(input [][]int) [][]int {
+	var result [][]int
+
+	for col := 0; col < len(input[0]); col++ {
+		var newRow []int
+		for row := range input {
+			newRow = append(newRow, input[row][col])
+		}
+		result = append(result, newRow)
+	}
+
+	return result
+}
