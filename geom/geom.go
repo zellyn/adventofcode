@@ -20,6 +20,14 @@ type Vec3 struct {
 	Z int
 }
 
+// Vec4 is a three-element vector.
+type Vec4 struct {
+	W int
+	X int
+	Y int
+	Z int
+}
+
 // String does the usual.
 func (v Vec2) String() string {
 	return fmt.Sprintf("(%d,%d)", v.X, v.Y)
@@ -228,6 +236,11 @@ func Max2(a, b Vec2) Vec2 {
 	return a
 }
 
+// Add adds two vectors.
+func (v Vec4) Add(w Vec4) Vec4 {
+	return Vec4{v.W + w.W, v.X + w.X, v.Y + w.Y, v.Z + w.Z}
+}
+
 // Dirs4 are the four cardinal direction length-1 Vec2s.
 var Dirs4 = []Vec2{
 	{0, -1},
@@ -270,4 +283,122 @@ func Neighbors8(pos Vec2) []Vec2 {
 		{pos.X - 1, pos.Y},
 		{pos.X - 1, pos.Y - 1},
 	}
+}
+
+// Dirs6 are the four cardinal direction length-1 Vec3s.
+var Dirs6 = []Vec3{
+	{0, -1, 0},
+	{1, 0, 0},
+	{0, 1, 0},
+	{-1, 0, 0},
+	{0, 0, -1},
+	{0, 0, 1},
+}
+
+// Neighbors6 returns the six orthogonally adjacent positions of a Vec3 position.
+func Neighbors6(pos Vec3) []Vec3 {
+	return []Vec3{
+		{pos.X - 1, pos.Y, pos.Z},
+		{pos.X, pos.Y + 1, pos.Z},
+		{pos.X + 1, pos.Y, pos.Z},
+		{pos.X, pos.Y - 1, pos.Z},
+		{pos.X, pos.Y, pos.Z - 1},
+		{pos.X, pos.Y, pos.Z + 1},
+	}
+}
+
+// Dirs26 are the 26 neighboring Vec3s to the given Vec3.
+var Dirs26 = []Vec3{
+	{0, -1, 0},
+	{1, -1, 0},
+	{1, 0, 0},
+	{1, 1, 0},
+	{0, 1, 0},
+	{-1, 1, 0},
+	{-1, 0, 0},
+	{-1, -1, 0},
+
+	{0, 0, -1},
+	{0, -1, -1},
+	{1, -1, -1},
+	{1, 0, -1},
+	{1, 1, -1},
+	{0, 1, -1},
+	{-1, 1, -1},
+	{-1, 0, -1},
+	{-1, -1, -1},
+
+	{0, 0, 1},
+	{0, -1, 1},
+	{1, -1, 1},
+	{1, 0, 1},
+	{1, 1, 1},
+	{0, 1, 1},
+	{-1, 1, 1},
+	{-1, 0, 1},
+	{-1, -1, 1},
+}
+
+// Neighbors26 returns the 26 orthogonally and diagonally adjacent positions of a Vec3 position.
+func Neighbors26(pos Vec3) []Vec3 {
+	return []Vec3{
+		{pos.X, pos.Y - 1, pos.Z},
+		{pos.X + 1, pos.Y - 1, pos.Z},
+		{pos.X + 1, pos.Y, pos.Z},
+		{pos.X + 1, pos.Y + 1, pos.Z},
+		{pos.X, pos.Y + 1, pos.Z},
+		{pos.X - 1, pos.Y + 1, pos.Z},
+		{pos.X - 1, pos.Y, pos.Z},
+		{pos.X - 1, pos.Y - 1, pos.Z},
+
+		{pos.X, pos.Y, pos.Z - 1},
+		{pos.X, pos.Y - 1, pos.Z - 1},
+		{pos.X + 1, pos.Y - 1, pos.Z - 1},
+		{pos.X + 1, pos.Y, pos.Z - 1},
+		{pos.X + 1, pos.Y + 1, pos.Z - 1},
+		{pos.X, pos.Y + 1, pos.Z - 1},
+		{pos.X - 1, pos.Y + 1, pos.Z - 1},
+		{pos.X - 1, pos.Y, pos.Z - 1},
+		{pos.X - 1, pos.Y - 1, pos.Z - 1},
+
+		{pos.X, pos.Y, pos.Z + 1},
+		{pos.X, pos.Y - 1, pos.Z + 1},
+		{pos.X + 1, pos.Y - 1, pos.Z + 1},
+		{pos.X + 1, pos.Y, pos.Z + 1},
+		{pos.X + 1, pos.Y + 1, pos.Z + 1},
+		{pos.X, pos.Y + 1, pos.Z + 1},
+		{pos.X - 1, pos.Y + 1, pos.Z + 1},
+		{pos.X - 1, pos.Y, pos.Z + 1},
+		{pos.X - 1, pos.Y - 1, pos.Z + 1},
+	}
+}
+
+// Dirs80 are the 80 neighboring Vec4s to the given Vec4.
+var Dirs80 []Vec4
+
+func init() {
+	for w := -1; w <= 1; w++ {
+		for x := -1; x <= 1; x++ {
+			for y := -1; y <= 1; y++ {
+				for z := -1; z <= 1; z++ {
+					if w == 0 && x == 0 && y == 0 && z == 0 {
+						continue
+					}
+					Dirs80 = append(Dirs80, Vec4{W: w, X: x, Y: y, Z: z})
+				}
+
+			}
+
+		}
+
+	}
+}
+
+// Neighbors80 returns the 80 orthogonally and diagonally adjacent positions of a Vec4 position.
+func Neighbors80(pos Vec4) []Vec4 {
+	result := make([]Vec4, 80)
+	for i, v := range Dirs80 {
+		result[i] = v.Add(pos)
+	}
+	return result
 }
