@@ -3,7 +3,6 @@ package main
 import (
 	"testing"
 
-	"github.com/zellyn/adventofcode/ioutil"
 	"github.com/zellyn/adventofcode/util"
 )
 
@@ -13,7 +12,7 @@ func TestPart1(t *testing.T) {
 		a-b-c-d-e-f-g-h-987[abcde]
 		not-a-real-room-404[oarel]
 		totally-real-room-200[decoy]`)
-	input, err := ioutil.ReadLines("input")
+	input, err := util.ReadLines("input")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -60,7 +59,7 @@ func TestDecrypt(t *testing.T) {
 }
 
 func TestPart2(t *testing.T) {
-	input, err := ioutil.ReadLines("input")
+	input, err := util.ReadLines("input")
 	if err != nil {
 		t.Fatal(err)
 	}

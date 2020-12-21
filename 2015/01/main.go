@@ -5,11 +5,11 @@ import (
 	"os"
 	"strings"
 
-	"github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
 )
 
 func run() error {
-	s, err := ioutil.ReadFileString("input")
+	s, err := util.ReadFileString("input")
 	if err != nil {
 		return err
 	}

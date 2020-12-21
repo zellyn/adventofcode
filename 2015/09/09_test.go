@@ -1,17 +1,17 @@
 package main
 
-import "testing"
+import (
+	"testing"
 
-import "github.com/zellyn/adventofcode/util"
-
-import "github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
+)
 
 func TestDistances(t *testing.T) {
 	example := util.TrimmedLines(`
 		London to Dublin = 464
 		London to Belfast = 518
 		Dublin to Belfast = 141`)
-	input, err := ioutil.ReadLines("input")
+	input, err := util.ReadLines("input")
 	if err != nil {
 		t.Fatal(err)
 	}

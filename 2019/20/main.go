@@ -7,7 +7,7 @@ import (
 	"github.com/zellyn/adventofcode/charmap"
 	"github.com/zellyn/adventofcode/geom"
 	"github.com/zellyn/adventofcode/graph"
-	"github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
 )
 
 type vec2 = geom.Vec2
@@ -119,7 +119,7 @@ type state struct {
 }
 
 func newState(filename string) (*state, error) {
-	lines, err := ioutil.ReadLines(filename)
+	lines, err := util.ReadLines(filename)
 	if err != nil {
 		return nil, err
 	}

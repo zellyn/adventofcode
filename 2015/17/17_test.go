@@ -3,7 +3,6 @@ package main
 import (
 	"testing"
 
-	"github.com/zellyn/adventofcode/ioutil"
 	"github.com/zellyn/adventofcode/util"
 )
 
@@ -15,7 +14,7 @@ var example = util.TrimmedLines(`
 	5`)
 
 func TestStuff(t *testing.T) {
-	input, err := ioutil.ReadLines("input")
+	input, err := util.ReadLines("input")
 	if err != nil {
 		t.Fatal(err)
 	}

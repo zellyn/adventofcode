@@ -5,7 +5,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/zellyn/adventofcode/ioutil"
 	"github.com/zellyn/adventofcode/util"
 )
 
@@ -45,7 +44,7 @@ func parseRules(input string) (string, rule, error) {
 	}
 	var rs rule
 	for _, s := range strings.Split(parts[1], " or ") {
-		ii, err := ioutil.ParseInts(s, "-")
+		ii, err := util.ParseInts(s, "-")
 		if err != nil {
 			return "", nil, err
 		}
@@ -84,11 +83,11 @@ func parse(inputs []string) (map[string]rule, []int, [][]int, error) {
 	if parts[2][0] != "nearby tickets:" {
 		return nil, nil, nil, fmt.Errorf("want para3 line1 = %q; got %q", "your ticket:", parts[2][0])
 	}
-	yours, err := ioutil.ParseInts(parts[1][1], ",")
+	yours, err := util.ParseInts(parts[1][1], ",")
 	if err != nil {
 		return nil, nil, nil, err
 	}
-	nearby, err := ioutil.ParseLinesOfInts(parts[2][1:], ",")
+	nearby, err := util.ParseLinesOfInts(parts[2][1:], ",")
 	if err != nil {
 		return nil, nil, nil, err
 	}

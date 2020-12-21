@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/zellyn/adventofcode/ioutil"
 	"strings"
 	"testing"
+
+	"github.com/zellyn/adventofcode/util"
 )
 
 var example4 = `deal into new stack
@@ -18,7 +19,7 @@ deal with increment 9
 deal with increment 3
 cut -1`
 
-var inputLines = strings.Split(ioutil.MustReadFileString("input"), "\n")
+var inputLines = strings.Split(util.MustReadFileString("input"), "\n")
 
 func TestPart1(t *testing.T) {
 	prod, sum, err := shuffle(10007, inputLines)

@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
 )
 
 func count(s string, c rune) int {
@@ -46,7 +46,7 @@ func render(image string) {
 }
 
 func run() error {
-	input, err := ioutil.ReadFileString("input")
+	input, err := util.ReadFileString("input")
 	if err != nil {
 		return err
 	}

@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
 )
 
 func which(input string, which int) (int, error) {
-	ints, err := ioutil.ParseInts(input, ",")
+	ints, err := util.ParseInts(input, ",")
 	if err != nil {
 		return 0, err
 	}

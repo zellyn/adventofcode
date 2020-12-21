@@ -5,16 +5,16 @@ import (
 	"math/bits"
 	"os"
 
-	"github.com/zellyn/adventofcode/ioutil"
 	"github.com/zellyn/adventofcode/math"
+	"github.com/zellyn/adventofcode/util"
 )
 
 func readInput(filename string) ([]int, error) {
-	s, err := ioutil.ReadFileString(filename)
+	s, err := util.ReadFileString(filename)
 	if err != nil {
 		return nil, err
 	}
-	return ioutil.ParseInts(s, "\n")
+	return util.ParseInts(s, "\n")
 }
 
 func canAddTo(target int, mask uint32, sum int, ints []int, memo map[int]map[uint32]bool) bool {

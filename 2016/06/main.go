@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
 )
 
 func flip(lines []string) []string {
@@ -61,7 +61,7 @@ func leastCommon(s string) string {
 }
 
 func decode(filename string) (string, string, error) {
-	lines, err := ioutil.ReadLines(filename)
+	lines, err := util.ReadLines(filename)
 	if err != nil {
 		return "", "", err
 	}

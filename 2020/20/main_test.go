@@ -6,9 +6,7 @@ import (
 	"github.com/zellyn/adventofcode/util"
 )
 
-var example = util.TrimmedLines(`
-example_input
-`)
+var example = util.MustReadLines("example")
 
 var input = util.MustReadLines("input")
 
@@ -21,12 +19,12 @@ func TestPart1(t *testing.T) {
 		{
 			name:  "example",
 			input: example,
-			want:  42,
+			want:  20899048083289,
 		},
 		{
 			name:  "input",
 			input: input,
-			want:  42,
+			want:  17032646100079,
 		},
 	}
 
@@ -53,12 +51,12 @@ func TestPart2(t *testing.T) {
 		{
 			name:  "example",
 			input: example,
-			want:  42,
+			want:  273,
 		},
 		{
 			name:  "input",
 			input: input,
-			want:  42,
+			want:  2006,
 		},
 	}
 

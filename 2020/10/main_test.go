@@ -3,11 +3,10 @@ package main
 import (
 	"testing"
 
-	"github.com/zellyn/adventofcode/ioutil"
 	"github.com/zellyn/adventofcode/util"
 )
 
-var example1 = ioutil.MustStringsToInts(util.TrimmedLines(`
+var example1 = util.MustStringsToInts(util.TrimmedLines(`
 16
 10
 15
@@ -21,7 +20,7 @@ var example1 = ioutil.MustStringsToInts(util.TrimmedLines(`
 4
 `))
 
-var example2 = ioutil.MustStringsToInts(util.TrimmedLines(`
+var example2 = util.MustStringsToInts(util.TrimmedLines(`
 28
 33
 18
@@ -55,7 +54,7 @@ var example2 = ioutil.MustStringsToInts(util.TrimmedLines(`
 3
 `))
 
-var input = ioutil.MustReadFileInts("input")
+var input = util.MustReadFileInts("input")
 
 func TestPart1(t *testing.T) {
 	testdata := []struct {

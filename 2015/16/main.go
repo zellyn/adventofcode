@@ -6,7 +6,6 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/zellyn/adventofcode/ioutil"
 	"github.com/zellyn/adventofcode/util"
 )
 
@@ -62,7 +61,7 @@ func parseInput(input []string) (map[int]map[string]int, error) {
 }
 
 func which() (int, error) {
-	input, err := ioutil.ReadLines("input")
+	input, err := util.ReadLines("input")
 	if err != nil {
 		return 0, err
 	}
@@ -96,7 +95,7 @@ func which2() (int, error) {
 		"cats":  true,
 		"trees": true,
 	}
-	input, err := ioutil.ReadLines("input")
+	input, err := util.ReadLines("input")
 	if err != nil {
 		return 0, err
 	}

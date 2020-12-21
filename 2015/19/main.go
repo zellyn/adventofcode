@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/zellyn/adventofcode/graph"
-	"github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
 )
 
 func positions(s, substr string) []int {
@@ -39,7 +39,7 @@ func parseReplacements(lines []string) (map[string][]string, error) {
 }
 
 func parseInput(filename string) (map[string][]string, string, error) {
-	lines, err := ioutil.ReadLines(filename)
+	lines, err := util.ReadLines(filename)
 	if err != nil {
 		return nil, "", err
 	}

@@ -3,7 +3,6 @@ package main
 import (
 	"testing"
 
-	"github.com/zellyn/adventofcode/ioutil"
 	"github.com/zellyn/adventofcode/util"
 )
 
@@ -37,7 +36,7 @@ var example6 = util.TrimmedLines(`
 1789,37,47,1889
 `)
 
-var input = ioutil.MustReadLines("input")
+var input = util.MustReadLines("input")
 
 func TestPart1(t *testing.T) {
 	testdata := []struct {

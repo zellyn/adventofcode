@@ -3,11 +3,11 @@ package main
 import (
 	"testing"
 
-	"github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
 )
 
 func TestParts(t *testing.T) {
-	input, err := ioutil.ReadFileString("input")
+	input, err := util.ReadFileString("input")
 	if err != nil {
 		t.Fatal(err)
 	}

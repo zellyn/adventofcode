@@ -1,10 +1,10 @@
 package main
 
-import "testing"
+import (
+	"testing"
 
-import "github.com/zellyn/adventofcode/util"
-
-import "github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
+)
 
 func TestDistances(t *testing.T) {
 	example := util.TrimmedLines(`
@@ -20,7 +20,7 @@ func TestDistances(t *testing.T) {
 		David would gain 46 happiness units by sitting next to Alice.
 		David would lose 7 happiness units by sitting next to Bob.
 		David would gain 41 happiness units by sitting next to Carol.`)
-	input, err := ioutil.ReadLines("input")
+	input, err := util.ReadLines("input")
 	if err != nil {
 		t.Fatal(err)
 	}

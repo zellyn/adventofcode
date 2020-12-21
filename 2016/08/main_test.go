@@ -5,13 +5,12 @@ import (
 	"testing"
 
 	"github.com/zellyn/adventofcode/charmap"
-	"github.com/zellyn/adventofcode/ioutil"
 	"github.com/zellyn/adventofcode/util"
 )
 
 func TestPart1(t *testing.T) {
 	m := charmap.New(50, 6, '.')
-	lines, err := ioutil.ReadLines("input")
+	lines, err := util.ReadLines("input")
 	if err != nil {
 		t.Fatal(err)
 	}

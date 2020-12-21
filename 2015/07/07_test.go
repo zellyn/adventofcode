@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
 )
 
 func TestCircuit(t *testing.T) {
@@ -37,14 +37,14 @@ NOT y -> i`
 		},
 		{
 			name:  "part 1",
-			input: ioutil.MustReadFileString("input"),
+			input: util.MustReadFileString("input"),
 			want: map[string]uint16{
 				"a": 3176,
 			},
 		},
 		{
 			name:  "part 2",
-			input: strings.Replace(ioutil.MustReadFileString("input"), "44430 -> b", "3176 -> b", 1),
+			input: strings.Replace(util.MustReadFileString("input"), "44430 -> b", "3176 -> b", 1),
 			want: map[string]uint16{
 				"a": 14710,
 			},

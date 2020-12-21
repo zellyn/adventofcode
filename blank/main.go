@@ -6,11 +6,11 @@ import (
 )
 
 func part1(inputs []string) (int, error) {
-	return 0, nil
+	return 42, nil
 }
 
 func part2(inputs []string) (int, error) {
-	return 0, nil
+	return 42, nil
 }
 
 func run() error {

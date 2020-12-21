@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
 )
 
 func isNice(s string) bool {
@@ -48,7 +48,7 @@ func isNice2(s string) bool {
 }
 
 func run() error {
-	lines, err := ioutil.ReadLines("input")
+	lines, err := util.ReadLines("input")
 	if err != nil {
 		return err
 	}

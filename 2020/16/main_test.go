@@ -3,7 +3,6 @@ package main
 import (
 	"testing"
 
-	"github.com/zellyn/adventofcode/ioutil"
 	"github.com/zellyn/adventofcode/util"
 )
 
@@ -36,7 +35,7 @@ nearby tickets:
 5,14,9
 `)
 
-var input = ioutil.MustReadLines("input")
+var input = util.MustReadLines("input")
 
 func TestPart1(t *testing.T) {
 	testdata := []struct {

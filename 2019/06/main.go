@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/zellyn/adventofcode/ioutil"
 	"os"
 	"strings"
+
+	"github.com/zellyn/adventofcode/util"
 )
 
 type node struct {
@@ -43,7 +44,7 @@ func run() error {
 		"COM": node{name: "COM", depth: 0},
 	}
 
-	lines, err := ioutil.ReadLines("input")
+	lines, err := util.ReadLines("input")
 	if err != nil {
 		return err
 	}

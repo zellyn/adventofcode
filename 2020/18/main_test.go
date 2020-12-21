@@ -4,7 +4,6 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/zellyn/adventofcode/ioutil"
 	"github.com/zellyn/adventofcode/util"
 )
 
@@ -17,7 +16,7 @@ var example = util.TrimmedLines(`
 ((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2
 `)
 
-var input = ioutil.MustReadLines("input")
+var input = util.MustReadLines("input")
 
 func TestPart1(t *testing.T) {
 	testdata := []struct {

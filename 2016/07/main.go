@@ -5,7 +5,7 @@ import (
 	"os"
 	"regexp"
 
-	"github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
 )
 
 var bracketRe = regexp.MustCompile(`\[([^][]+)\]`)
@@ -33,7 +33,7 @@ func tls(s string) bool {
 }
 
 func countValid(filename string) (int, int, error) {
-	lines, err := ioutil.ReadLines(filename)
+	lines, err := util.ReadLines(filename)
 	if err != nil {
 		return 0, 0, err
 	}

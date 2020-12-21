@@ -3,7 +3,6 @@ package main
 import (
 	"testing"
 
-	"github.com/zellyn/adventofcode/ioutil"
 	"github.com/zellyn/adventofcode/util"
 )
 
@@ -21,7 +20,7 @@ mask = 00000000000000000000000000000000X0XX
 mem[26] = 1
 `)
 
-var input = ioutil.MustReadLines("input")
+var input = util.MustReadLines("input")
 
 func TestPart1(t *testing.T) {
 	testdata := []struct {

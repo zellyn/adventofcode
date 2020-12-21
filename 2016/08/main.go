@@ -7,7 +7,7 @@ import (
 
 	"github.com/zellyn/adventofcode/charmap"
 	"github.com/zellyn/adventofcode/geom"
-	"github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
 )
 
 func rect(m charmap.M, x, y int) {
@@ -40,7 +40,7 @@ func matchParse(s, prefix, separator string, num1, num2 *int) bool {
 	if !strings.HasPrefix(s, prefix) {
 		return false
 	}
-	ints, err := ioutil.ParseInts(s[len(prefix):], separator)
+	ints, err := util.ParseInts(s[len(prefix):], separator)
 	if err != nil {
 		return false
 	}

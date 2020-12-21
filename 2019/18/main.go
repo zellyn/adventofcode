@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/zellyn/adventofcode/geom"
-	"github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
 )
 
 type vec2 = geom.Vec2
@@ -53,7 +53,7 @@ func readMap(filename string) (m map[vec2]rune, startPos vec2, startPos4 [4]vec2
 	m = map[vec2]rune{}
 	keyPos = map[rune]vec2{}
 	starts := 0
-	lines, err := ioutil.ReadLines(filename)
+	lines, err := util.ReadLines(filename)
 	if err != nil {
 		return
 	}

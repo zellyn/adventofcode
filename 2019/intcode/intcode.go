@@ -7,12 +7,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
 )
 
 // ReadProgram reads a file with a single intCode program.
 func ReadProgram(filename string) ([]int64, error) {
-	bb, err := ioutil.ReadFile(filename)
+	bb, err := util.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}

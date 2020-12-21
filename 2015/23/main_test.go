@@ -3,7 +3,6 @@ package main
 import (
 	"testing"
 
-	"github.com/zellyn/adventofcode/ioutil"
 	"github.com/zellyn/adventofcode/util"
 )
 
@@ -13,7 +12,7 @@ func TestParts(t *testing.T) {
 		jio a, +2
 		tpl a
 		inc a`)
-	input, err := ioutil.ReadLines("input")
+	input, err := util.ReadLines("input")
 	if err != nil {
 		t.Fatal(err)
 	}

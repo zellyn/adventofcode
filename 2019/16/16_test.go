@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
 )
 
-var fileInput = ioutil.MustReadFileString("input")
+var fileInput = util.MustReadFileString("input")
 
 var testdata = []struct {
 	input  string

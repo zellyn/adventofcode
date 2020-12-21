@@ -7,7 +7,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
 )
 
 func gcd(a, b int) int {
@@ -153,7 +153,7 @@ func best(m map[[2]int]bool) ([2]int, int) {
 }
 
 func run() error {
-	input, err := ioutil.ReadFileString("input")
+	input, err := util.ReadFileString("input")
 	if err != nil {
 		return err
 	}

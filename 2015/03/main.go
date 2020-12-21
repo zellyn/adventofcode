@@ -5,13 +5,13 @@ import (
 	"os"
 
 	"github.com/zellyn/adventofcode/geom"
-	"github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
 )
 
 type vec2 = geom.Vec2
 
 func run() error {
-	s, err := ioutil.ReadFileString("input")
+	s, err := util.ReadFileString("input")
 	if err != nil {
 		return err
 	}

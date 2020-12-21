@@ -4,7 +4,6 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/zellyn/adventofcode/ioutil"
 	"github.com/zellyn/adventofcode/util"
 )
 
@@ -30,7 +29,7 @@ dark blue bags contain 2 dark violet bags.
 dark violet bags contain no other bags.
 `)
 
-var input = ioutil.MustReadLines("input")
+var input = util.MustReadLines("input")
 
 func TestPart1(t *testing.T) {
 	testdata := []struct {

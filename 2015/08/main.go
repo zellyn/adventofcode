@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/zellyn/adventofcode/ioutil"
 	"os"
+
+	"github.com/zellyn/adventofcode/util"
 )
 
 func escape(s string) string {
@@ -40,7 +41,7 @@ func unescape(s string) string {
 }
 
 func run() error {
-	lines, err := ioutil.ReadLines("input")
+	lines, err := util.ReadLines("input")
 	if err != nil {
 		return err
 	}

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
 )
 
 type lastN struct {
@@ -50,7 +50,7 @@ func (ln lastN) add(i int) bool {
 }
 
 func firstInvalid(inputs []string, prefix int) (int, error) {
-	ints, err := ioutil.StringsToInts(inputs)
+	ints, err := util.StringsToInts(inputs)
 	if err != nil {
 		return 0, err
 	}
@@ -81,7 +81,7 @@ func weakness(inputs []string, prefix int) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	ints, err := ioutil.StringsToInts(inputs)
+	ints, err := util.StringsToInts(inputs)
 	if err != nil {
 		return 0, err
 	}

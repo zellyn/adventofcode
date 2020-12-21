@@ -5,7 +5,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
 )
 
 func split(s string) []int32 {
@@ -82,7 +82,7 @@ func special(int32s []int32) {
 }
 
 func run() error {
-	input := ioutil.MustReadFileString("input")
+	input := util.MustReadFileString("input")
 	offset64, err := strconv.ParseInt(input[:7], 10, 32)
 	if err != nil {
 		return err

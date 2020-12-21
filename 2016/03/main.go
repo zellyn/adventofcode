@@ -4,13 +4,12 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/zellyn/adventofcode/ioutil"
 	"github.com/zellyn/adventofcode/math"
 	"github.com/zellyn/adventofcode/util"
 )
 
 func readGrid(filename string) ([][]int, error) {
-	lines, err := ioutil.ReadLines(filename)
+	lines, err := util.ReadLines(filename)
 	if err != nil {
 		return nil, err
 	}

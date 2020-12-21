@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/zellyn/adventofcode/geom"
-	"github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
 )
 
 // M is a map of geom.Vec2 to rune.
@@ -80,7 +80,7 @@ func String(drawing map[geom.Vec2]rune, unknown rune) string {
 }
 
 // Parse parses a map from a list of strings.
-func Parse(lines []string) map[geom.Vec2]rune {
+func Parse(lines []string) M {
 	m := map[geom.Vec2]rune{}
 	for y, line := range lines {
 		for x, ch := range line {
@@ -132,9 +132,120 @@ func (m M) Equal(n M) bool {
 	return true
 }
 
+// SliceAsString follows a horizontal or vertical slice and returns the
+// characters as a string.
+func (m M) SliceAsString(start, end geom.Vec2, unknown rune) string {
+	if start.X != end.X && start.Y != end.Y {
+		return ""
+	}
+	inc := end.Sub(start).Sgn()
+	end = end.Add(inc)
+	result := ""
+	for pos := start; pos != end; pos = pos.Add(inc) {
+		c, ok := m[pos]
+		if !ok {
+			c = unknown
+		}
+		result += string(c)
+	}
+
+	return result
+}
+
+// Rotate the map clockwise. It's assumed the top left is (0,0).
+func (m M) Clockwise() M {
+	_, max := m.MinMax()
+	mm := make(map[geom.Vec2]rune, len(m))
+	for pos, c := range m {
+		mm[geom.Vec2{X: max.Y - pos.Y, Y: pos.X}] = c
+	}
+	return mm
+}
+
+// FlipLR mirrors the map left-to-right. It's assumed the top left is (0,0).
+func (m M) FlipLR() M {
+	_, max := m.MinMax()
+	mm := make(map[geom.Vec2]rune, len(m))
+	for pos, c := range m {
+		mm[geom.Vec2{X: max.X - pos.X, Y: pos.Y}] = c
+	}
+	return mm
+}
+
+// Paste writes the given map into this map, at the given offset.
+func (m M) Paste(mm M, offset geom.Vec2) {
+	for pos, c := range mm {
+		m[pos.Add(offset)] = c
+	}
+}
+
+// Subset takes the section of m from `tl` to `br` (inclusive) and creates a new
+// map containing just that rectangle, shifting it to (0,0).
+func (m M) Subset(tl, br geom.Vec2) M {
+	mm := make(map[geom.Vec2]rune, len(m))
+	for pos, c := range m {
+		if pos.X >= tl.X && pos.X <= br.X && pos.Y >= tl.Y && pos.Y <= br.Y {
+			mm[geom.Vec2{X: pos.X - tl.X, Y: pos.Y - tl.Y}] = c
+		}
+	}
+	return mm
+}
+
+// Without creates a copy of a charmap, but with every instance of the given
+// rune removed.
+func (m M) Without(r rune) M {
+	mm := make(map[geom.Vec2]rune, len(m))
+
+	for k, v := range m {
+		if v != r {
+			mm[k] = v
+		}
+	}
+
+	return mm
+}
+
+// AllInstances finds all offsets at which `m` contains `mm`. Both are assumed
+// to start at (0,0).
+func (m M) AllInstances(mm M) []geom.Vec2 {
+	_, max := m.MinMax()
+	_, mmax := mm.MinMax()
+	var result []geom.Vec2
+
+	for x := 0; x <= max.X-mmax.X; x++ {
+	NEXT:
+		for y := 0; y <= max.Y-mmax.Y; y++ {
+			offset := geom.Vec2{X: x, Y: y}
+			for pos, c := range mm {
+				if m[pos.Add(offset)] != c {
+					continue NEXT
+				}
+			}
+			result = append(result, offset)
+		}
+	}
+	return result
+}
+
+// Replacing creates a copy of a charmap, but with every instance of `from`
+// replaced with `to`.
+func (m M) Replacing(from, to rune) map[geom.Vec2]rune {
+	mm := make(map[geom.Vec2]rune, len(m))
+
+	for k, v := range m {
+		if v != from {
+			mm[k] = v
+		} else {
+			mm[k] = to
+		}
+	}
+
+	return mm
+}
+
 // Read reads a two-dimensional map of characters from a file.
 func Read(filename string) (map[geom.Vec2]rune, error) {
-	lines, err := ioutil.ReadLines(filename)
+	lines, err := util.ReadLines(filename)
 	if err != nil {
 		return nil, err
 	}

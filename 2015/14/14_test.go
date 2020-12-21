@@ -1,16 +1,16 @@
 package main
 
-import "testing"
+import (
+	"testing"
 
-import "github.com/zellyn/adventofcode/util"
-
-import "github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
+)
 
 func TestStuff(t *testing.T) {
 	example := util.TrimmedLines(`
 		Comet can fly 14 km/s for 10 seconds, but then must rest for 127 seconds.
     	Dancer can fly 16 km/s for 11 seconds, but then must rest for 162 seconds.`)
-	input, err := ioutil.ReadLines("input")
+	input, err := util.ReadLines("input")
 	if err != nil {
 		t.Fatal(err)
 	}

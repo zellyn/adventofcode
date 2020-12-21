@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/zellyn/adventofcode/ioutil"
 	"github.com/zellyn/adventofcode/math"
+	"github.com/zellyn/adventofcode/util"
 )
 
 func run() error {
-	lines, err := ioutil.ReadLines("input")
+	lines, err := util.ReadLines("input")
 	if err != nil {
 		return err
 	}
@@ -18,7 +18,7 @@ func run() error {
 	ribbon := 0
 
 	for _, line := range lines {
-		ints, err := ioutil.ParseInts(line, "x")
+		ints, err := util.ParseInts(line, "x")
 		if err != nil {
 			return err
 		}

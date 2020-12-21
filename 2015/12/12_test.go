@@ -1,8 +1,10 @@
 package main
 
-import "testing"
+import (
+	"testing"
 
-import "github.com/zellyn/adventofcode/ioutil"
+	"github.com/zellyn/adventofcode/util"
+)
 
 func TestSum(t *testing.T) {
 	testdata := []struct {
@@ -42,7 +44,7 @@ func TestSum(t *testing.T) {
 			want:  0,
 		},
 		{
-			input: ioutil.MustReadFileString("input"),
+			input: util.MustReadFileString("input"),
 			want:  119433,
 		},
 	}
@@ -81,7 +83,7 @@ func TestSumRed(t *testing.T) {
 			want:  6,
 		},
 		{
-			input: ioutil.MustReadFileString("input"),
+			input: util.MustReadFileString("input"),
 			want:  68466,
 		},
 	}
