@@ -355,6 +355,20 @@ func StringsToInts(strings []string) ([]int, error) {
 	return ints, nil
 }
 
+// StringsToInt32s takes a slice of strings and returns a slice of int32s
+func StringsToInt32s(strings []string) ([]int32, error) {
+	ints := make([]int32, len(strings))
+
+	for i, v := range strings {
+		i64, err := strconv.ParseInt(v, 10, 32)
+		if err != nil {
+			return nil, err
+		}
+		ints[i] = int32(i64)
+	}
+	return ints, nil
+}
+
 // Reverse reverses a string.
 func Reverse(s string) string {
 	chars := []rune(s)

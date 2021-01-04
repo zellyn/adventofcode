@@ -1,5 +1,10 @@
 package stringset
 
+import (
+	"bytes"
+	"sort"
+)
+
 type S map[string]bool
 
 // New returns a new stringset with the given entries.
@@ -28,6 +33,24 @@ func (s S) AddAll(other S) {
 	}
 }
 
+func (s S) String() string {
+	var buf bytes.Buffer
+
+	buf.WriteRune('{')
+	first := true
+	for k := range s {
+		if first {
+			first = false
+		} else {
+			buf.WriteRune(',')
+		}
+		buf.WriteString(k)
+	}
+	buf.WriteRune('}')
+
+	return buf.String()
+}
+
 func Intersect(a, b S) S {
 	result := make(map[string]bool)
 
@@ -37,5 +60,24 @@ func Intersect(a, b S) S {
 		}
 	}
 
+	return result
+}
+
+func (s S) Copy() S {
+	result := make(map[string]bool, len(s))
+	for k, v := range s {
+		result[k] = v
+	}
+	return result
+}
+
+func (s S) Keys() []string {
+	result := make([]string, 0, len(s))
+	for k, v := range s {
+		if v {
+			result = append(result, k)
+		}
+	}
+	sort.Strings(result)
 	return result
 }

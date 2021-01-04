@@ -7,7 +7,19 @@ import (
 )
 
 var example = util.TrimmedLines(`
-example_input
+Player 1:
+9
+2
+6
+3
+1
+
+Player 2:
+5
+8
+4
+7
+10
 `)
 
 var input = util.MustReadLines("input")
@@ -21,13 +33,13 @@ func TestPart1(t *testing.T) {
 		{
 			name:  "example",
 			input: example,
-			want:  42,
+			want:  306,
 		},
-		// {
-		// 	name:  "input",
-		// 	input: input,
-		// 	want:  42,
-		// },
+		{
+			name:  "input",
+			input: input,
+			want:  35397,
+		},
 	}
 
 	for _, tt := range testdata {
@@ -44,7 +56,7 @@ func TestPart1(t *testing.T) {
 	}
 }
 
-func XTestPart2(t *testing.T) {
+func TestPart2(t *testing.T) {
 	testdata := []struct {
 		name  string
 		input []string
@@ -53,12 +65,12 @@ func XTestPart2(t *testing.T) {
 		{
 			name:  "example",
 			input: example,
-			want:  42,
+			want:  291,
 		},
 		{
 			name:  "input",
 			input: input,
-			want:  42,
+			want:  31120,
 		},
 	}
 
