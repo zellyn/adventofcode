@@ -5,10 +5,17 @@ import (
 	"io/ioutil"
 	"strconv"
 	"strings"
+
+	"golang.org/x/exp/constraints"
 )
 
 const MaxUint = ^uint(0)
 const MaxInt = int(MaxUint >> 1)
+
+// Number is a Float or Integer
+type Number interface {
+	constraints.Float | constraints.Integer
+}
 
 func LowestTrue(lowFalseStart int, pred func(int) (bool, error)) (int, error) {
 	lf, err := pred(lowFalseStart)
@@ -376,4 +383,37 @@ func Reverse(s string) string {
 		chars[i], chars[j] = chars[j], chars[i]
 	}
 	return string(chars)
+}
+
+// Sum gives the sum of a slice of ints or floats.
+func Sum[T Number](items []T) T {
+	var sum T
+	for _, item := range items {
+		sum += item
+	}
+	return sum
+}
+
+// MapSum returns a slice of the Sums of sublists.
+func MapSum[T Number](slicesOfItems [][]T) []T {
+	result := make([]T, 0, len(slicesOfItems))
+
+	for _, items := range slicesOfItems {
+		result = append(result, Sum(items))
+	}
+	return result
+}
+
+// Max gives the max of a slice of ints or floats.
+func Max[T Number](items []T) T {
+	var max T
+	if len(items) > 0 {
+		max = items[0]
+	}
+	for _, item := range items[1:] {
+		if item > max {
+			max = item
+		}
+	}
+	return max
 }
