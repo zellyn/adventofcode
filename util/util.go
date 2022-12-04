@@ -325,6 +325,16 @@ func ParseInts(commaString string, separator string) ([]int, error) {
 	return ints, nil
 }
 
+// MustParseInts parses a string of separated ints into a slice of ints,
+// or panics.
+func MustParseInts(commaString string, separator string) []int {
+	ints, err := ParseInts(commaString, separator)
+	if err != nil {
+		panic(err)
+	}
+	return ints
+}
+
 // ParseLinesOfInts runs ParseInts on every string in the passed slice, passing
 // back a slice of slices of ints.
 func ParseLinesOfInts(commaStrings []string, separator string) ([][]int, error) {
