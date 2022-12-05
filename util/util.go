@@ -102,6 +102,12 @@ func TrimmedLines(s string) []string {
 	return result
 }
 
+// SurroundingNewlineTrimmedLines trimes leading and trailing newlines from the input,
+// then splits on newlines.
+func SurroundingNewlineTrimmedLines(s string) []string {
+	return strings.Split(strings.Trim(s, "\r\n"), "\n")
+}
+
 // RemoveBlanks returns a slice of strings, but trimmed, and with empty/all-whitespace
 // strings removed.
 func RemoveBlanks(ss []string) []string {
