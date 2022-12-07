@@ -433,3 +433,19 @@ func Max[T Number](items []T) T {
 	}
 	return max
 }
+
+// SplitBefore takes a slice and a predicate, and returns the slice chunked,
+// split before any element where the predicate returns true.
+func SplitBefore[T any](slice []T, predicate func(T) bool) [][]T {
+	var result [][]T
+	last := -1
+	for _, elem := range slice {
+		if last < 0 || predicate(elem) {
+			result = append(result, []T{elem})
+			last++
+		} else {
+			result[last] = append(result[last], elem)
+		}
+	}
+	return result
+}
