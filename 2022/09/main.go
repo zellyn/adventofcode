@@ -16,7 +16,7 @@ var dirs = map[byte]geom.Vec2{
 }
 
 func follow(head, tail geom.Vec2) geom.Vec2 {
-	if head == tail || head.Adjacent8(tail) {
+	if head.Adjacent8(tail) {
 		return tail
 	}
 	return tail.Add(head.Sub(tail).Sgn())

@@ -219,6 +219,24 @@ func (v Vec2) Within(min, max Vec2) bool {
 	return v.X >= min.X && v.X <= max.X && v.Y >= min.Y && v.Y <= max.Y
 }
 
+// Adjacent4 returns true if the two inputs are adjacent in the four cardinal directions.
+func (v Vec2) Adjacent4(other Vec2) bool {
+	diff := v.Sub(other).Abs()
+	return diff.Sum() == 1
+}
+
+// Adjacent8 returns true if the two inputs are adjacent in all eight directions.
+func (v Vec2) Adjacent8(other Vec2) bool {
+	diff := v.Sub(other).Abs()
+	if diff.Sum() == 1 {
+		return true
+	}
+	if diff.X == 1 && diff.Y == 1 {
+		return true
+	}
+	return false
+}
+
 // Min2 returns the minimum of two vectors in both X and Y.
 func Min2(a, b Vec2) Vec2 {
 	if a.X > b.X {
