@@ -2,6 +2,15 @@ package fun
 
 import "golang.org/x/exp/constraints"
 
+// Map applies a function to each value in a slice, yielding a slice with the new values (and type).
+func Map[T any, U any](m []T, f func(T) U) []U {
+	var result []U = make([]U, len(m))
+	for i, v := range m {
+		result[i] = f(v)
+	}
+	return result
+}
+
 // MapMapValues applies a function to each value in a map, yielding a map with the new values (and type).
 func MapMapValues[K comparable, V1, V2 any](m map[K]V1, f func(K, V1) V2) map[K]V2 {
 	result := make(map[K]V2, len(m))
