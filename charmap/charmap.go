@@ -33,6 +33,30 @@ func (m M) Count(which rune) int {
 	return count
 }
 
+// Find returns the coordinates of a cell in m that holds the matching rune.
+// If there aren't any, it returns false for its second argument. If there is more than one
+// matching location, it returns one of them at (Go map traversal order) random.
+func (m M) Find(which rune) (geom.Vec2, bool) {
+	for pos, ch := range m {
+		if ch == which {
+			return pos, true
+		}
+	}
+	return geom.Vec2{}, false
+}
+
+// FindAll returns the coordinates of any cell in m that holds the matching rune.
+func (m M) FindAll(which rune) []geom.Vec2 {
+	var result []geom.Vec2
+	for pos, ch := range m {
+		if ch == which {
+			pos := pos
+			result = append(result, pos)
+		}
+	}
+	return result
+}
+
 // MinMax returns a geom.Vec2 for minimum coordinates, and one for maximum.
 func MinMax(drawing map[geom.Vec2]rune) (geom.Vec2, geom.Vec2) {
 	minx, miny, maxx, maxy := 0, 0, 0, 0

@@ -282,6 +282,16 @@ func Neighbors4(pos Vec2) []Vec2 {
 	}
 }
 
+// Neighbors4 returns the four orthogonally adjacent positions of a Vec2 position.
+func (v Vec2) Neighbors4() []Vec2 {
+	return Neighbors4(v)
+}
+
+// Neighbors8 returns the four orthogonally and diagonally adjacent positions of a Vec2 position.
+func (v Vec2) Neighbors8() []Vec2 {
+	return Neighbors8(v)
+}
+
 // Dirs8 are the eight neighboring Vec2s to the given Vec2.
 var Dirs8 = []Vec2{
 	{0, -1},
