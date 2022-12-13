@@ -8,7 +8,7 @@ import (
 type Node interface {
 	End() bool
 	Neighbors() []CostedNode
-	String() string
+	String() string // Used to identify nodes, check if we've seen them before (yuck!)
 }
 
 type CostedNode struct {

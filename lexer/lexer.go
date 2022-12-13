@@ -21,6 +21,13 @@ type Lexer struct {
 	width Pos    // width of last rune read from input
 }
 
+// New creates a new Lexer from a String
+func NewLexer(input string) *Lexer {
+	return &Lexer{
+		Input: input,
+	}
+}
+
 // EOF is returned at end-of-file.
 const EOF = -1
 
@@ -114,6 +121,11 @@ func (l *Lexer) mark() [2]Pos {
 func (l *Lexer) restore(state [2]Pos) {
 	l.pos = state[0]
 	l.width = state[1]
+}
+
+// Rest shows the rest of the input
+func (l *Lexer) Rest() string {
+	return l.Input[l.pos:]
 }
 
 // ParseInt parses and returns an int. It does not do any bounds checking.

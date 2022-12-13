@@ -449,3 +449,21 @@ func SplitBefore[T any](slice []T, predicate func(T) bool) [][]T {
 	}
 	return result
 }
+
+// SplitAfter takes a slice and a predicate, and returns the slice chunked,
+// split after any element where the predicate returns true.
+func SplitAfter[T any](slice []T, predicate func(T) bool) [][]T {
+	var result [][]T
+	var building []T
+	for _, elem := range slice {
+		building = append(building, elem)
+		if predicate(elem) {
+			result = append(result, building)
+			building = []T{}
+		}
+	}
+	if len(building) > 0 {
+		result = append(result, building)
+	}
+	return result
+}

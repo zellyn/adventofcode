@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/zellyn/adventofcode/fun"
+	"github.com/zellyn/adventofcode/lists"
 	"github.com/zellyn/adventofcode/util"
 )
 
@@ -133,7 +133,7 @@ func part1(input []string) (int, error) {
 		doMonkeys(monkeys, nil)
 	}
 
-	var tests []int = fun.Map(monkeys, func(m *monkey) int {
+	var tests []int = lists.Map(monkeys, func(m *monkey) int {
 		return m.tests
 	})
 	sort.Ints(tests)
@@ -155,7 +155,7 @@ func part2(input []string) (int, error) {
 		doMonkeys(monkeys, &mod)
 	}
 
-	var tests []int = fun.Map(monkeys, func(m *monkey) int {
+	var tests []int = lists.Map(monkeys, func(m *monkey) int {
 		return m.tests
 	})
 	sort.Ints(tests)

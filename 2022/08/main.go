@@ -5,8 +5,8 @@ import (
 	"os"
 
 	"github.com/zellyn/adventofcode/charmap"
-	"github.com/zellyn/adventofcode/fun"
 	"github.com/zellyn/adventofcode/geom"
+	"github.com/zellyn/adventofcode/maps"
 )
 
 func visible(pos geom.Vec2, m map[geom.Vec2]int, min, max geom.Vec2) bool {
@@ -68,7 +68,7 @@ func totalVisible(m map[geom.Vec2]int, min, max geom.Vec2) int {
 func parse(inputs []string) (m map[geom.Vec2]int, min, max geom.Vec2) {
 	charMap := charmap.Parse(inputs)
 	min, max = charMap.MinMax()
-	intMap := fun.MapMapValues(charMap, func(_ geom.Vec2, r rune) int {
+	intMap := maps.MapMapValues(charMap, func(_ geom.Vec2, r rune) int {
 		return int(r - '0')
 	})
 	return intMap, min, max
@@ -81,10 +81,10 @@ func part1(inputs []string) (int, error) {
 
 func part2(inputs []string) (int, error) {
 	mHeights, min, max := parse(inputs)
-	mScores := fun.MapMapValues(mHeights, func(pos geom.Vec2, _ int) int {
+	mScores := maps.MapMapValues(mHeights, func(pos geom.Vec2, _ int) int {
 		return scenicScore(pos, mHeights, min, max)
 	})
-	return fun.MapMax(mScores), nil
+	return maps.MapMax(mScores), nil
 }
 
 func run() error {

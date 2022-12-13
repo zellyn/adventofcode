@@ -40,7 +40,7 @@ func intersect3Score(input1, input2, input3 string) int {
 	i := stringset.Intersect(s1, s2)
 	i = stringset.Intersect(i, s3)
 	if len(i) != 1 {
-		panic(fmt.Sprintf("want len(intersection)==1; got %d, for input %q", len(i), input))
+		panic(fmt.Sprintf("want len(intersection)==1; got %d, for inputs %q %q %q", len(i), input1, input2, input3))
 	}
 	for k := range i {
 		return score(k)
