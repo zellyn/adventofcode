@@ -203,7 +203,7 @@ func (n node) End() bool {
 	return n.value == n.md.goal
 }
 
-func (n node) String() string {
+func (n node) Key() string {
 	return n.value
 }
 

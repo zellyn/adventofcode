@@ -67,7 +67,7 @@ func (s *state) End() bool {
 	return s.bossHealth <= 0
 }
 
-func (s *state) String() string {
+func (s *state) Key() string {
 	return fmt.Sprintf("%v", *s)
 }
 

@@ -52,7 +52,7 @@ func (n node) Neighbors() []graph.CostedNode {
 	return result
 }
 
-func (n node) String() string {
+func (n node) Key() string {
 	return n.path
 }
 

@@ -32,7 +32,7 @@ func TestPart1(t *testing.T) {
 			name:      "input",
 			input:     input,
 			wantCount: 1913,
-			wantList:  "foo",
+			wantList:  "gpgrb,tjlz,gtjmd,spbxz,pfdkkzp,xcfpc,txzv,znqbr",
 		},
 	}
 

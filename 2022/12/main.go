@@ -19,7 +19,7 @@ func (n *node) End() bool {
 	return n.m[n.pos] == 'E'
 }
 
-func (n *node) String() string {
+func (n *node) Key() string {
 	return fmt.Sprintf("(%d,%d): '%c'", n.pos.X, n.pos.Y, n.m[n.pos])
 }
 

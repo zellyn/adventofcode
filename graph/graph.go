@@ -8,7 +8,7 @@ import (
 type Node interface {
 	End() bool
 	Neighbors() []CostedNode
-	String() string // Used to identify nodes, check if we've seen them before (yuck!)
+	Key() string // Used to identify nodes, check if we've seen them before
 }
 
 type CostedNode struct {
@@ -50,12 +50,12 @@ func Dijkstra(start Node) (int, error) {
 func DijkstraDebug(start Node, debug bool) (int, error) {
 	// priors := map[string]string{}
 	nameToNeighbor := map[string]Node{
-		start.String(): start,
+		start.Key(): start,
 	}
 
 	done := map[string]bool{}
 
-	todo := nodeHeap([]costedNodeName{{name: start.String(), steps: 0}})
+	todo := nodeHeap([]costedNodeName{{name: start.Key(), steps: 0}})
 
 	count := 0
 
@@ -82,7 +82,7 @@ func DijkstraDebug(start Node, debug bool) (int, error) {
 
 		for _, info := range node.Neighbors() {
 			neighbor := info.N
-			neighborName := neighbor.String()
+			neighborName := neighbor.Key()
 			steps := min + info.Steps
 
 			nameToNeighbor[neighborName] = neighbor

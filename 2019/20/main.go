@@ -31,20 +31,20 @@ type cell struct {
 func (c *cell) neighborString() string {
 	var normals []string
 	for _, nn := range c.normalNeighbors {
-		normals = append(normals, "("+nn.String()+")")
+		normals = append(normals, "("+nn.Key()+")")
 	}
 	var inwards []string
 	for _, nn := range c.inwardNeighbors {
-		inwards = append(inwards, "("+nn.String()+")")
+		inwards = append(inwards, "("+nn.Key()+")")
 	}
 	var outwards []string
 	for _, nn := range c.outwardNeighbors {
-		outwards = append(outwards, "("+nn.String()+")")
+		outwards = append(outwards, "("+nn.Key()+")")
 	}
 	return "[" + strings.Join(normals, ",") + " | " + strings.Join(inwards, ",") + " | " + strings.Join(inwards, ",") + "]"
 }
 
-func (c *cell) String() string {
+func (c *cell) Key() string {
 	return fmt.Sprintf("%d,%d", c.pos.X, c.pos.Y)
 }
 
@@ -73,7 +73,7 @@ type leveledCell struct {
 	cell  *cell
 }
 
-func (lc leveledCell) String() string {
+func (lc leveledCell) Key() string {
 	return fmt.Sprintf("%d:%d,%d", lc.level, lc.cell.pos.X, lc.cell.pos.Y)
 }
 
@@ -131,7 +131,7 @@ func newState(filename string) (*state, error) {
 	// Read rune map.
 	for y, line := range lines {
 		for x, r := range line {
-			pos := vec2{x, y}
+			pos := vec2{X: x, Y: y}
 			s.rm[pos] = r
 			if r == space {
 				s.m[pos] = &cell{pos: pos}
@@ -189,10 +189,10 @@ func newState(filename string) (*state, error) {
 		}
 	}
 
-	if s.start == (vec2{0, 0}) {
+	if s.start == (vec2{}) {
 		return nil, fmt.Errorf("Cannot find start 'AA'")
 	}
-	if s.end == (vec2{0, 0}) {
+	if s.end == (vec2{}) {
 		return nil, fmt.Errorf("Cannot find end 'ZZ'")
 	}
 	return s, nil
