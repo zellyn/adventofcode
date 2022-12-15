@@ -59,8 +59,19 @@ func (m M) FindAll(which rune) []geom.Vec2 {
 
 // MinMax returns a geom.Vec2 for minimum coordinates, and one for maximum.
 func MinMax(drawing map[geom.Vec2]rune) (geom.Vec2, geom.Vec2) {
-	minx, miny, maxx, maxy := 0, 0, 0, 0
+	if len(drawing) == 0 {
+		return geom.Vec2{}, geom.Vec2{}
+	}
+	var minx, miny, maxx, maxy int
+	first := true
 	for k := range drawing {
+		if first {
+			first = false
+			minx = k.X
+			maxx = k.X
+			miny = k.Y
+			maxy = k.Y
+		}
 		if k.X < minx {
 			minx = k.X
 		}
