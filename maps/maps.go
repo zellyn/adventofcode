@@ -27,3 +27,24 @@ func MapMax[K comparable, V constraints.Ordered](m map[K]V) V {
 	}
 	return max
 }
+
+// Sum returns the sum of values the function returns from a map.
+func Sum[K comparable, V1 any, V2 constraints.Integer | constraints.Float | constraints.Complex](m map[K]V1, f func(V1) V2) V2 {
+	var sum V2
+	for _, v := range m {
+		sum += f(v)
+	}
+	return sum
+}
+
+// MapFilter returns a new map, containing only those values for which the filter function
+// returns true.
+func MapFilter[K comparable, V any](m map[K]V, f func(V) bool) map[K]V {
+	result := make(map[K]V, len(m))
+	for k, v := range m {
+		if f(v) {
+			result[k] = v
+		}
+	}
+	return result
+}
