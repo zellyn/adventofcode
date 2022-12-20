@@ -15,11 +15,30 @@ func (m M) MinMax() (geom.Vec2, geom.Vec2) {
 	return MinMax(m)
 }
 
+// MaxY returns the maximum Y value in the map.
+func (m M) MaxY() int {
+	_, max := MinMax(m)
+	return max.Y
+}
+
+// Max returns the maximum X and Y values in the map.
+func (m M) Max() geom.Vec2 {
+	_, max := MinMax(m)
+	return max
+}
+
 // AsString stringifies a charmap.
 // It uses the `unknown` param for positions within the min/max range
 // of X and Y, but not in the map. Rows are terminated by newlines.
 func (m M) AsString(unknown rune) string {
 	return String(m, unknown)
+}
+
+// AsStringFlipY stringifies a charmap, but with positive Y moving upwards.
+// It uses the `unknown` param for positions within the min/max range
+// of X and Y, but not in the map. Rows are terminated by newlines.
+func (m M) AsStringFlipY(unknown rune) string {
+	return StringFlipY(m, unknown)
 }
 
 // Count returns a count of the number of cells in m that hold the matching rune.
@@ -114,11 +133,46 @@ func String(drawing map[geom.Vec2]rune, unknown rune) string {
 	return result
 }
 
+// String takes a map of `geom.Vec2` to `rune`, and stringifies it out.
+// It uses the `unknown` param for positions within the min/max range
+// of X and Y, but not in the map. Rows are terminated by newlines.
+// We flip Y compared to `String`: increasing Y moves upwards.
+func StringFlipY(drawing map[geom.Vec2]rune, unknown rune) string {
+	result := ""
+	min, max := MinMax(drawing)
+	for y := max.Y; y >= min.Y; y-- {
+		for x := min.X; x <= max.X; x++ {
+			c, ok := drawing[geom.Vec2{X: x, Y: y}]
+			if !ok {
+				c = unknown
+			}
+			result += string(c)
+		}
+		result += "\n"
+	}
+	return result
+}
+
 // Parse parses a map from a list of strings.
 func Parse(lines []string) M {
 	m := map[geom.Vec2]rune{}
 	for y, line := range lines {
 		for x, ch := range line {
+			pos := geom.Vec2{X: x, Y: y}
+			m[pos] = ch
+		}
+	}
+	return m
+}
+
+// ParseWithBackground parses a map from a list of strings, ignoring the specified background character.
+func ParseWithBackground(lines []string, background rune) M {
+	m := map[geom.Vec2]rune{}
+	for y, line := range lines {
+		for x, ch := range line {
+			if ch == background {
+				continue
+			}
 			pos := geom.Vec2{X: x, Y: y}
 			m[pos] = ch
 		}
@@ -137,8 +191,13 @@ func New(width, height int, fill rune) M {
 	return m
 }
 
+// Empty creates a new charmap, with nothing in it.
+func Empty() M {
+	return map[geom.Vec2]rune{}
+}
+
 // Copy creates a copy of a charmap.
-func (m M) Copy() map[geom.Vec2]rune {
+func (m M) Copy() M {
 	c := make(map[geom.Vec2]rune, len(m))
 
 	for k, v := range m {
@@ -208,10 +267,11 @@ func (m M) FlipLR() M {
 }
 
 // Paste writes the given map into this map, at the given offset.
-func (m M) Paste(mm M, offset geom.Vec2) {
-	for pos, c := range mm {
+func (m M) Paste(other M, offset geom.Vec2) M {
+	for pos, c := range other {
 		m[pos.Add(offset)] = c
 	}
+	return m
 }
 
 // Subset takes the section of m from `tl` to `br` (inclusive) and creates a new
@@ -294,4 +354,65 @@ func MustRead(filename string) map[geom.Vec2]rune {
 		panic(err)
 	}
 	return m
+}
+
+// Translated returns a new charmap, translated by the given amount.
+func (m M) Translated(offset geom.Vec2) M {
+	m2 := make(M, len(m))
+	for k, v := range m {
+		m2[k.Add(offset)] = v
+	}
+	return m2
+}
+
+// Translate translates the coordinates of this map by the given amount.
+func (m M) Translate(offset geom.Vec2) {
+	c2 := make(M, len(m))
+	for k, v := range m {
+		c2[k.Add(offset)] = v
+	}
+	for k := range m {
+		delete(m, k)
+	}
+	for k, v := range c2 {
+		m[k] = v
+	}
+}
+
+// Overlaps returns true if the two charmaps overlap at all.
+func (m M) Overlaps(other M) bool {
+	m1, m2 := m, other
+	if len(m2) < len(m1) {
+		m1, m2 = m2, m1
+	}
+	for k := range m1 {
+		if _, found := m2[k]; found {
+			return true
+		}
+	}
+	return false
+}
+
+// DrawLine draws a line made of r from start to end.
+// It looks at start and end to choose an increment, which will always be a Vec2
+// with -1 <= X <= 1 and -1 <= Y <= 1, which means it'll only draw horizontal,
+// vertical, and diagonal lines.
+func (m M) DrawLine(start, end geom.Vec2, r rune) {
+	iters := end.Sub(start).Abs().Max() + 1
+
+	for i := 0; i <= iters; i++ {
+		m[start] = r
+		start = start.Add(end.Sub(start).Sgn())
+	}
+}
+
+// Put puts r at (x,y). It's a convenience to avoid geom.Vec2 literals littering the code.
+func (m M) Put(x, y int, r rune) {
+	m[geom.Vec2{X: x, Y: y}] = r
+}
+
+// Has returns true if the charmap has an entry at pos.
+func (m M) Has(pos geom.Vec2) bool {
+	_, ok := m[pos]
+	return ok
 }

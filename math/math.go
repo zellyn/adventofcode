@@ -179,3 +179,31 @@ func ChooseNUint32(ints []uint32, n int) [][]uint32 {
 	}
 	return result
 }
+
+// GCD uses the Euclidean algorithm to calculate the GCD of a and b.
+func GCD(a, b int) int {
+	if a > b {
+		a, b = b, a
+	}
+	if a == 0 {
+		return b
+	}
+	if a == 1 {
+		return 1
+	}
+	m := b % a
+	if m == 0 {
+		return a
+	}
+	return GCD(m, a)
+}
+
+// LCM computes the least common multiple of a and b. It doesn't handle negative numbers.
+// If either a or b is zero, it returns zero.
+func LCM(a, b int) int {
+	if a == 0 || b == 0 {
+		return 0
+	}
+
+	return a * (b / GCD(a, b))
+}

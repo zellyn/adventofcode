@@ -5,6 +5,8 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/zellyn/adventofcode/util"
 )
 
 // Vec2 is a two-element vector.
@@ -36,6 +38,16 @@ func (v Vec2) String() string {
 // String does the usual.
 func (v Vec3) String() string {
 	return fmt.Sprintf("(%d,%d,%d)", v.X, v.Y, v.Z)
+}
+
+// WithX returns a new Vec2, but replaces the X coordinate with the one given.
+func (v Vec2) WithX(x int) Vec2 {
+	return Vec2{X: x, Y: v.Y}
+}
+
+// WithY returns a new Vec2, but replaces the Y coordinate with the one given.
+func (v Vec2) WithY(y int) Vec2 {
+	return Vec2{X: v.X, Y: y}
 }
 
 // Abs returns the same vector, but with negative coordinates replaced by their positive values.
@@ -145,6 +157,22 @@ func ParseVec3Lines(s string) ([]Vec3, error) {
 	return result, nil
 }
 
+// ParseCSVec3Lines parses Vec3s, one per line.
+func ParseCSVec3Lines(inputs []string) ([]Vec3, error) {
+	result := make([]Vec3, 0, len(inputs))
+	ints, err := util.ParseLinesOfInts(inputs, ",")
+	if err != nil {
+		return nil, err
+	}
+	for i, coords := range ints {
+		if len(coords) != 3 {
+			return nil, fmt.Errorf("weird input on line %d; wanted 3 ints, got %d: %q", i+1, len(coords), inputs[i])
+		}
+		result = append(result, Vec3{X: coords[0], Y: coords[1], Z: coords[2]})
+	}
+	return result, nil
+}
+
 // Hash3 takes a shitty hash of a slice of Vec3s.
 func Hash3(vecs []Vec3) uint {
 	res := uint(1)
@@ -165,6 +193,22 @@ func (v Vec2) Abs() Vec2 {
 		v.Y = -v.Y
 	}
 	return v
+}
+
+// Min returns the minimum of X and Y.
+func (v Vec2) Min() int {
+	if v.X < v.Y {
+		return v.X
+	}
+	return v.Y
+}
+
+// Max returns the maximum of X and Y.
+func (v Vec2) Max() int {
+	if v.X > v.Y {
+		return v.X
+	}
+	return v.Y
 }
 
 // Sum returns the x+y.
@@ -326,6 +370,11 @@ var Dirs6 = []Vec3{
 	{-1, 0, 0},
 	{0, 0, -1},
 	{0, 0, 1},
+}
+
+// Neighbors6 returns the 6 orthogonal neighbors of this Vec3.
+func (v Vec3) Neighbors6() []Vec3 {
+	return Neighbors6(v)
 }
 
 // Neighbors6 returns the six orthogonally adjacent positions of a Vec3 position.

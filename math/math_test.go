@@ -223,3 +223,22 @@ func TestChooseNUint32(t *testing.T) {
 		}
 	}
 }
+
+func TestGCD(t *testing.T) {
+	testdata := []struct {
+		a   int
+		b   int
+		gcd int
+	}{
+		{21, 7, 7},
+		{1, 3, 1},
+		{12, 9, 3},
+		{12, 8, 4},
+	}
+	for _, tt := range testdata {
+		g := GCD(tt.a, tt.b)
+		if g != tt.gcd {
+			t.Errorf("want GCD(%d,%d)==%d; got %d", tt.a, tt.b, tt.gcd, g)
+		}
+	}
+}
