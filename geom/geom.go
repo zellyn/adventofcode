@@ -9,6 +9,21 @@ import (
 	"github.com/zellyn/adventofcode/util"
 )
 
+var (
+	LEFT  = Vec2{X: -1}
+	RIGHT = Vec2{X: 1}
+	UP    = Vec2{Y: -1}
+	DOWN  = Vec2{Y: 1}
+	W     = LEFT
+	E     = RIGHT
+	N     = UP
+	S     = DOWN
+	NW    = Vec2{X: -1, Y: -1}
+	NE    = Vec2{X: 1, Y: -1}
+	SW    = Vec2{X: -1, Y: 1}
+	SE    = Vec2{X: 1, Y: 1}
+)
+
 // Vec2 is a two-element vector.
 type Vec2 struct {
 	X int
@@ -57,8 +72,29 @@ func MakeRect(pos1, pos2 Vec2) Rect {
 	return Rect{Min: pos1, Max: pos2}
 }
 
+// Contains returns true if the given position is within the rectangle.
 func (r Rect) Contains(pos Vec2) bool {
 	return pos.X >= r.Min.X && pos.X <= r.Max.X && pos.Y >= r.Min.Y && pos.Y <= r.Max.Y
+}
+
+// Width does the obvious.
+func (r Rect) Width() int {
+	return r.Max.X - r.Min.X + 1
+}
+
+// Height does the obvious.
+func (r Rect) Height() int {
+	return r.Max.Y - r.Min.Y + 1
+}
+
+// BL returns the Bottom Left corner of the Rect
+func (r Rect) BL() Vec2 {
+	return r.Min.WithY(r.Max.Y)
+}
+
+// TR returns the Top Right corner of the Rect
+func (r Rect) TR() Vec2 {
+	return r.Min.WithX(r.Max.X)
 }
 
 // String does the usual.
