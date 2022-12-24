@@ -21,6 +21,12 @@ func (m M) MaxY() int {
 	return max.Y
 }
 
+// MinY returns the minimum Y value in the map.
+func (m M) MinY() int {
+	min, _ := MinMax(m)
+	return min.Y
+}
+
 // Max returns the maximum X and Y values in the map.
 func (m M) Max() geom.Vec2 {
 	_, max := MinMax(m)
@@ -121,6 +127,9 @@ func String(drawing map[geom.Vec2]rune, unknown rune) string {
 	result := ""
 	min, max := MinMax(drawing)
 	for y := min.Y; y <= max.Y; y++ {
+		if y != min.Y {
+			result += "\n"
+		}
 		for x := min.X; x <= max.X; x++ {
 			c, ok := drawing[geom.Vec2{X: x, Y: y}]
 			if !ok {
@@ -128,7 +137,6 @@ func String(drawing map[geom.Vec2]rune, unknown rune) string {
 			}
 			result += string(c)
 		}
-		result += "\n"
 	}
 	return result
 }

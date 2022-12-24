@@ -15,6 +15,12 @@ type Vec2 struct {
 	Y int
 }
 
+// Rect represents a rectangle reaching from (min.X, min.Y) to (max.X, max.Y), inclusive.
+type Rect struct {
+	Min Vec2
+	Max Vec2
+}
+
 // Vec3 is a three-element vector.
 type Vec3 struct {
 	X int
@@ -33,6 +39,26 @@ type Vec4 struct {
 // String does the usual.
 func (v Vec2) String() string {
 	return fmt.Sprintf("(%d,%d)", v.X, v.Y)
+}
+
+// String returns a representation of a Rect.
+func (r Rect) String() string {
+	return fmt.Sprintf("[%d-%d]", r.Min, r.Max)
+}
+
+// MakeRect turns two points into a rectangle, insuring that they are ordered properly.
+func MakeRect(pos1, pos2 Vec2) Rect {
+	if pos1.X > pos2.X {
+		pos1.X, pos2.X = pos2.X, pos1.X
+	}
+	if pos1.Y > pos2.Y {
+		pos1.Y, pos2.Y = pos2.Y, pos1.Y
+	}
+	return Rect{Min: pos1, Max: pos2}
+}
+
+func (r Rect) Contains(pos Vec2) bool {
+	return pos.X >= r.Min.X && pos.X <= r.Max.X && pos.Y >= r.Min.Y && pos.Y <= r.Max.Y
 }
 
 // String does the usual.
@@ -256,6 +282,11 @@ func (v Vec2) Sgn() Vec2 {
 // Mul returns the vector multiplied by a scalar.
 func (v Vec2) Mul(factor int) Vec2 {
 	return Vec2{X: v.X * factor, Y: v.Y * factor}
+}
+
+// Div returns the vector divided by a scalar, using integer division.
+func (v Vec2) Div(factor int) Vec2 {
+	return Vec2{X: v.X / factor, Y: v.Y / factor}
 }
 
 // Within returns true if the Vec2 is within the area specified by min and max (inclusive on all sides).
