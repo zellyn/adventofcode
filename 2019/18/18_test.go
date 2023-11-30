@@ -30,7 +30,7 @@ var testdata = []struct {
 	},
 	{
 		input: "input",
-		want:  5288,
+		want:  5858,
 	},
 }
 
@@ -67,7 +67,7 @@ var testdata4 = []struct {
 	},
 	{
 		input: "input2",
-		want:  2082,
+		want:  2144,
 	},
 }
 

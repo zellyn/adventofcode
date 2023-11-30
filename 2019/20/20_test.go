@@ -20,7 +20,7 @@ func TestSolvePart1(t *testing.T) {
 		},
 		{
 			input: "input",
-			steps: 644,
+			steps: 636,
 		},
 	}
 
@@ -71,7 +71,7 @@ func TestSolvePart2(t *testing.T) {
 		},
 		{
 			input: "input",
-			steps: 7798,
+			steps: 7248,
 		},
 	}
 

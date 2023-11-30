@@ -6,12 +6,10 @@ import (
 	"testing"
 
 	"github.com/zellyn/adventofcode/geom"
+	"github.com/zellyn/adventofcode/util"
 )
 
-var mainInput = `<x=14, y=4, z=5>
-<x=12, y=10, z=8>
-<x=1, y=7, z=-10>
-<x=16, y=-5, z=3>`
+var mainInput = util.MustReadFileString("input")
 
 var testdata = []struct {
 	input  string
@@ -49,11 +47,11 @@ var testdata = []struct {
 	{
 		input:  mainInput,
 		steps:  1000,
-		energy: 6423,
-		repeat: 327636285682704, // 9999999999,
-		xl:     167624,
-		yl:     135024,
-		zl:     231614,
+		energy: 7098,
+		repeat: 400128139852752,
+		xl:     135024,
+		yl:     231614,
+		zl:     102356,
 	},
 }
 

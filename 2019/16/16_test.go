@@ -47,15 +47,12 @@ var testdata = []struct {
 	{
 		input:  fileInput,
 		reps:   100,
-		result: "36627552",
+		result: "40580215",
 	},
 }
 
 func TestReps(t *testing.T) {
 	for i, tt := range testdata {
-		if i != 3 {
-			continue
-		}
 		t.Run(fmt.Sprintf("%d:%s", i, tt.input[:8]), func(t *testing.T) {
 			ints := split(tt.input)
 			for i := 0; i < tt.reps; i++ {
@@ -99,7 +96,7 @@ func TestSubRep(t *testing.T) {
 		{
 			input:  fileInput + fileInput + fileInput + fileInput + fileInput + fileInput + fileInput + fileInput + fileInput + fileInput,
 			offset: 2000,
-			result: "72989685",
+			result: "81832980",
 		},
 	}
 

@@ -60,8 +60,8 @@ func countBetween2(start, end int) int {
 }
 
 func run() error {
-	fmt.Printf("Count 382345-843167: %d\n", countBetween(382345, 843167))
-	fmt.Printf("Count 382345-843167: %d\n", countBetween2(382345, 843167))
+	fmt.Printf("Count 231832-767346: %d\n", countBetween(231832, 767346))
+	fmt.Printf("Count 231832-767346: %d\n", countBetween2(231832, 767346))
 	fmt.Printf("Valid 112233? %v\n", valid2("112233"))
 	fmt.Printf("Valid 123444? %v\n", valid2("123444"))
 	fmt.Printf("Valid 111122? %v\n", valid2("111122"))

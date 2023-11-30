@@ -261,7 +261,6 @@ func run() error {
 			break
 		}
 		for _, newPos := range path {
-			fmt.Println()
 			_, err := s.move(newPos)
 			if err != nil {
 				return err

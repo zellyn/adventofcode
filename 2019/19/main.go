@@ -72,8 +72,8 @@ func run() error {
 	count := 0
 
 	var max vec2
-	for y := 0; y < 100; y++ {
-		for x := 0; x < 100; x++ {
+	for y := 0; y < 50; y++ {
+		for x := 0; x < 50; x++ {
 			active, err := s.check(x, y)
 			if err != nil {
 				return err
@@ -92,7 +92,8 @@ func run() error {
 		}
 	}
 	fmt.Println(count)
-	x, err := util.LowestTrue(1000, func(x int) (bool, error) {
+
+	predicate := func(x int) (bool, error) {
 		y, err := s.findy(x)
 		if err != nil {
 			return false, err
@@ -102,9 +103,22 @@ func run() error {
 			return false, err
 		}
 		return active, nil
-	})
+	}
+
+	x, err := util.LowestTrue(500, predicate)
 	if err != nil {
 		return err
+	}
+
+	// Search back a tiny bit in case there are gaps...
+	for maybeX := x - 1; maybeX > x-10; maybeX-- {
+		good, err := predicate(maybeX)
+		if err != nil {
+			continue
+		}
+		if good {
+			x = maybeX
+		}
 	}
 
 	y, err := s.findy(x)

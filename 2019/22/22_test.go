@@ -27,7 +27,7 @@ func TestPart1(t *testing.T) {
 		t.Fatal(err)
 	}
 	got := (2019*prod + sum) % 10007
-	want := 1822
+	want := 7860
 	if got != want {
 		t.Errorf("Want %d; got %d", want, got)
 	}
@@ -44,7 +44,7 @@ func TestPart2(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	want := 49174686993380
+	want := 61256063148970
 	if got != want {
 		t.Errorf("Want %d; got %d", want, got)
 	}
