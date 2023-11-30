@@ -4,10 +4,15 @@ import (
 	"crypto/md5"
 	"fmt"
 	"os"
+
+	"github.com/zellyn/adventofcode/util"
 )
 
 func run() error {
-	input := "bgvyzdsv"
+	input, err := util.ReadFileString("input")
+	if err != nil {
+		return err
+	}
 
 	for i := 0; ; i++ {
 		sum := md5.Sum([]byte(fmt.Sprintf("%s%d", input, i)))
