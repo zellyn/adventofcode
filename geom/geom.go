@@ -551,3 +551,19 @@ func Neighbors80(pos Vec4) []Vec4 {
 	}
 	return result
 }
+
+func (v Vec2) N() Vec2 {
+	return v.Add(N)
+}
+
+func (v Vec2) S() Vec2 {
+	return v.Add(S)
+}
+
+func (v Vec2) E() Vec2 {
+	return v.Add(E)
+}
+
+func (v Vec2) W() Vec2 {
+	return v.Add(W)
+}

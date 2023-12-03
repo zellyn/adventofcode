@@ -6,11 +6,20 @@ import (
 	"github.com/zellyn/adventofcode/util"
 )
 
-var example = util.TrimmedLines(`
-example_input
-`)
-
 var input = util.MustReadLines("input")
+
+var example = util.TrimmedLines(`1abc2
+pqr3stu8vwx
+a1b2c3d4e5f
+treb7uchet`)
+
+var example2 = util.TrimmedLines(`two1nine
+eightwothree
+abcone2threexyz
+xtwone3four
+4nineeightseven2
+zoneight234
+7pqrstsixteen`)
 
 func TestPart1(t *testing.T) {
 	testdata := []struct {
@@ -21,13 +30,13 @@ func TestPart1(t *testing.T) {
 		{
 			name:  "example",
 			input: example,
-			want:  42,
+			want:  142,
 		},
-		// {
-		// 	name:  "input",
-		// 	input: input,
-		// 	want:  42,
-		// },
+		{
+			name:  "input",
+			input: input,
+			want:  54632,
+		},
 	}
 
 	for _, tt := range testdata {
@@ -44,7 +53,7 @@ func TestPart1(t *testing.T) {
 	}
 }
 
-func XTestPart2(t *testing.T) {
+func TestPart2(t *testing.T) {
 	testdata := []struct {
 		name  string
 		input []string
@@ -53,12 +62,17 @@ func XTestPart2(t *testing.T) {
 		{
 			name:  "example",
 			input: example,
-			want:  42,
+			want:  142,
+		},
+		{
+			name:  "example2",
+			input: example2,
+			want:  281,
 		},
 		{
 			name:  "input",
 			input: input,
-			want:  42,
+			want:  54019,
 		},
 	}
 
