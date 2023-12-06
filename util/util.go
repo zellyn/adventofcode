@@ -467,3 +467,14 @@ func SplitAfter[T any](slice []T, predicate func(T) bool) [][]T {
 	}
 	return result
 }
+
+// MappedSum runs `mapper` on each element, and sums the result.
+func MappedSum[T any, U constraints.Integer | constraints.Float | ~string](slice []T, mapper func(T) U) U {
+	var sum U
+
+	for _, elem := range slice {
+		sum = sum + mapper(elem)
+	}
+
+	return sum
+}
