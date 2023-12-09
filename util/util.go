@@ -492,3 +492,53 @@ func MappedSum[T any, U constraints.Integer | constraints.Float | ~string](slice
 
 	return sum
 }
+
+// Map is a simple map over a slice.
+func Map[T, U any](slice []T, mapper func(T) U) []U {
+	result := make([]U, 0, len(slice))
+
+	for _, elem := range slice {
+		result = append(result, mapper(elem))
+	}
+
+	return result
+}
+
+// MapE is a simple map over a slice, but passing errors up.
+func MapE[T, U any](slice []T, mapper func(T) (U, error)) ([]U, error) {
+	result := make([]U, 0, len(slice))
+
+	for i, elem := range slice {
+		mapped, err := mapper(elem)
+		if err != nil {
+			return nil, fmt.Errorf("error mapping element %d: %w", i, err)
+		}
+		result = append(result, mapped)
+	}
+
+	return result, nil
+}
+
+// Filter is a simple filter over a slice.
+func Filter[T any](slice []T, predicate func(T) bool) []T {
+	var result []T
+
+	for _, elem := range slice {
+		if predicate(elem) {
+			result = append(result, elem)
+		}
+	}
+
+	return result
+}
+
+// All checks if all elements satisfy the predicate.
+func All[T any](slice []T, predicate func(T) bool) bool {
+	for _, elem := range slice {
+		if !predicate(elem) {
+			return false
+		}
+	}
+
+	return true
+}

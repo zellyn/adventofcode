@@ -5,6 +5,9 @@ import (
 	"os"
 )
 
+// var printf = func(string, ...any) {}
+var printf = fmt.Printf
+
 func part1(inputs []string) (int, error) {
 	return 42, nil
 }
