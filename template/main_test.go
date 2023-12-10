@@ -35,6 +35,7 @@ func TestPart1(t *testing.T) {
 			got, err := part1(tt.input)
 			if err != nil {
 				t.Error(err)
+				return
 			}
 
 			if got != tt.want {
@@ -67,6 +68,7 @@ func XTestPart2(t *testing.T) {
 			got, err := part2(tt.input)
 			if err != nil {
 				t.Error(err)
+				return
 			}
 
 			if got != tt.want {

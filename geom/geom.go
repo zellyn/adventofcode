@@ -24,6 +24,26 @@ var (
 	SE    = Vec2{X: 1, Y: 1}
 )
 
+// Compass4 map the 4 cardinal compass directions to corresponding vectors.
+var Compass4 = map[string]Vec2{
+	"N": N,
+	"S": S,
+	"E": E,
+	"W": W,
+}
+
+// Compass8 map the 8 compass directions to corresponding vectors.
+var Compass8 = map[string]Vec2{
+	"N":  N,
+	"S":  S,
+	"E":  E,
+	"W":  W,
+	"NW": NW,
+	"NE": NE,
+	"SW": SW,
+	"SE": SE,
+}
+
 // Vec2 is a two-element vector.
 type Vec2 struct {
 	X int
