@@ -2,6 +2,7 @@ package charmap
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/zellyn/adventofcode/geom"
 	"github.com/zellyn/adventofcode/util"
@@ -38,6 +39,13 @@ func (m M) Max() geom.Vec2 {
 // of X and Y, but not in the map. Rows are terminated by newlines.
 func (m M) AsString(unknown rune) string {
 	return String(m, unknown)
+}
+
+// AsStrings stringifies a charmap, returning a slice of one string per line.
+// It uses the `unknown` param for positions within the min/max range
+// of X and Y, but not in the map.
+func (m M) AsStrings(unknown rune) []string {
+	return strings.Split(String(m, unknown), "\n")
 }
 
 // AsStringFlipY stringifies a charmap, but with positive Y moving upwards.
@@ -369,6 +377,15 @@ func (m M) Translated(offset geom.Vec2) M {
 	m2 := make(M, len(m))
 	for k, v := range m {
 		m2[k.Add(offset)] = v
+	}
+	return m2
+}
+
+// Transpose returns a new charmap, flipped across the Y=X line.
+func (m M) Transpose() M {
+	m2 := make(M, len(m))
+	for k, v := range m {
+		m2[k.Transpose()] = v
 	}
 	return m2
 }

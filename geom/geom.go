@@ -277,6 +277,11 @@ func (v Vec2) Abs() Vec2 {
 	return v
 }
 
+// Transpose returns the same vector, but with X and Y flipped.
+func (v Vec2) Transpose() Vec2 {
+	return Vec2{X: v.Y, Y: v.X}
+}
+
 // Min returns the minimum of X and Y.
 func (v Vec2) Min() int {
 	if v.X < v.Y {
