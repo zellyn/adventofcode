@@ -89,7 +89,7 @@ func trace(m charmap.M, pos, dir geom.Vec2) int {
 
 func part1(inputs []string) (int, error) {
 	m := charmap.Parse(inputs)
-	return trace(m, geom.Vec2{X: -1, Y: 0}, geom.E), nil
+	return trace(m, geom.V2(-1, 0), geom.E), nil
 }
 
 func part2(inputs []string) (int, error) {
@@ -100,15 +100,15 @@ func part2(inputs []string) (int, error) {
 
 	for y := min.Y; y <= max.Y; y++ {
 		starts = append(starts,
-			pair{geom.Vec2{X: min.X - 1, Y: y}, geom.E},
-			pair{geom.Vec2{X: max.X + 1, Y: y}, geom.W},
+			pair{geom.V2(min.X-1, y), geom.E},
+			pair{geom.V2(max.X+1, y), geom.W},
 		)
 	}
 
 	for x := min.X; x <= max.X; x++ {
 		starts = append(starts,
-			pair{geom.Vec2{X: x, Y: min.Y - 1}, geom.S},
-			pair{geom.Vec2{X: x, Y: max.Y + 1}, geom.N},
+			pair{geom.V2(x, min.Y-1), geom.S},
+			pair{geom.V2(x, max.Y+1), geom.N},
 		)
 	}
 

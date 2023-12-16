@@ -577,18 +577,27 @@ func Neighbors80(pos Vec4) []Vec4 {
 	return result
 }
 
+// N returns the position north of this one.
 func (v Vec2) N() Vec2 {
 	return v.Add(N)
 }
 
+// S returns the position south of this one.
 func (v Vec2) S() Vec2 {
 	return v.Add(S)
 }
 
+// E returns the position east of this one.
 func (v Vec2) E() Vec2 {
 	return v.Add(E)
 }
 
+// W returns the position west of this one.
 func (v Vec2) W() Vec2 {
 	return v.Add(W)
+}
+
+// V2 succinctly builds a Vec2.
+func V2(x, y int) Vec2 {
+	return Vec2{X: x, Y: y}
 }
