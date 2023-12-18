@@ -5,6 +5,9 @@ import (
 	"fmt"
 )
 
+// var printf = fmt.Printf
+var printf = func(string, ...any) {}
+
 type Node interface {
 	End() bool
 	Neighbors() []CostedNode
@@ -25,9 +28,11 @@ type costedNodeName struct {
 // A nodeHeap is a min-heap of costedNodeNames
 type nodeHeap []costedNodeName
 
-func (h nodeHeap) Len() int           { return len(h) }
-func (h nodeHeap) Less(i, j int) bool { return h[i].steps < h[j].steps }
-func (h nodeHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+func (h nodeHeap) Len() int { return len(h) }
+func (h nodeHeap) Less(i, j int) bool {
+	return h[i].steps < h[j].steps
+}
+func (h nodeHeap) Swap(i, j int) { h[i], h[j] = h[j], h[i] }
 
 func (h *nodeHeap) Push(x interface{}) {
 	// Push and Pop use pointer receivers because they modify the slice's length,
@@ -71,10 +76,10 @@ func DijkstraDebug(start Node, debug bool) (int, error) {
 		if debug {
 			count++
 			if count%10000 == 0 {
-				fmt.Printf("...%d: steps=%d\n", count, min)
+				printf("...%d: steps=%d\n", count, min)
 			}
 		}
-		// fmt.Printf("Considering node %v: steps=%d\n", node, min)
+		printf("Considering node %s: steps=%d\n", node.Key(), min)
 
 		if node.End() {
 			return min, nil

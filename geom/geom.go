@@ -32,8 +32,8 @@ var Compass4 = map[string]Vec2{
 	"W": W,
 }
 
-// Compass8 map the 8 compass directions to corresponding vectors.
-var Compass8 = map[string]Vec2{
+// NameToDir maps the 8 compass directions to corresponding vectors.
+var NameToDir = map[string]Vec2{
 	"N":  N,
 	"S":  S,
 	"E":  E,
@@ -42,6 +42,18 @@ var Compass8 = map[string]Vec2{
 	"NE": NE,
 	"SW": SW,
 	"SE": SE,
+}
+
+// DirToName maps direction vectors to compass directions.
+var DirToName = map[Vec2]string{
+	N:  "N",
+	S:  "S",
+	E:  "E",
+	W:  "W",
+	NW: "NW",
+	NE: "NE",
+	SW: "SW",
+	SE: "SE",
 }
 
 // Vec2 is a two-element vector.
