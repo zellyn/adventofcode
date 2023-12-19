@@ -32,7 +32,7 @@ var Compass4 = map[string]Vec2{
 	"W": W,
 }
 
-// NameToDir maps the 8 compass directions to corresponding vectors.
+// NameToDir maps the compass directions and U,D,L,R to corresponding vectors.
 var NameToDir = map[string]Vec2{
 	"N":  N,
 	"S":  S,
@@ -42,6 +42,10 @@ var NameToDir = map[string]Vec2{
 	"NE": NE,
 	"SW": SW,
 	"SE": SE,
+	"U":  N,
+	"D":  S,
+	"L":  W,
+	"R":  E,
 }
 
 // DirToName maps direction vectors to compass directions.
@@ -594,9 +598,29 @@ func (v Vec2) N() Vec2 {
 	return v.Add(N)
 }
 
+// NE returns the position northeast of this one.
+func (v Vec2) NE() Vec2 {
+	return v.Add(NE)
+}
+
+// NW returns the position northwest of this one.
+func (v Vec2) NW() Vec2 {
+	return v.Add(NW)
+}
+
 // S returns the position south of this one.
 func (v Vec2) S() Vec2 {
 	return v.Add(S)
+}
+
+// SE returns the position southeast of this one.
+func (v Vec2) SE() Vec2 {
+	return v.Add(SE)
+}
+
+// SW returns the position southwest of this one.
+func (v Vec2) SW() Vec2 {
+	return v.Add(SW)
 }
 
 // E returns the position east of this one.
