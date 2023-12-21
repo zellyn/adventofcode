@@ -6,8 +6,18 @@ import (
 	"github.com/zellyn/adventofcode/util"
 )
 
-var example = util.TrimmedLines(`
-example_input
+var example1 = util.TrimmedLines(`
+...........
+.....###.#.
+.###.##..#.
+..#.#...#..
+....#.#....
+.##..S####.
+.##..#...#.
+.......##..
+.##.#.####.
+.##..##.##.
+...........
 `)
 
 var input = util.MustReadLines("input")
@@ -16,23 +26,26 @@ func TestPart1(t *testing.T) {
 	testdata := []struct {
 		name  string
 		input []string
+		steps int
 		want  int
 	}{
 		{
-			name:  "example",
-			input: example,
-			want:  42,
+			name:  "example1",
+			input: example1,
+			steps: 6,
+			want:  16,
 		},
-		// {
-		// 	name:  "input",
-		// 	input: input,
-		// 	want:  42,
-		// },
+		{
+			name:  "input",
+			input: input,
+			steps: 64,
+			want:  3740,
+		},
 	}
 
 	for _, tt := range testdata {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := part1(tt.input)
+			got, err := part1(tt.input, tt.steps)
 			if err != nil {
 				t.Error(err)
 			}
@@ -44,27 +57,36 @@ func TestPart1(t *testing.T) {
 	}
 }
 
-func XTestPart2(t *testing.T) {
+func TestPart2(t *testing.T) {
 	testdata := []struct {
 		name  string
 		input []string
+		steps int
 		want  int
 	}{
 		{
-			name:  "example",
-			input: example,
-			want:  42,
+			name:  "input",
+			input: input,
+			steps: 458,
+			want:  186292,
 		},
 		{
 			name:  "input",
 			input: input,
-			want:  42,
+			steps: 589,
+			want:  307795,
+		},
+		{
+			name:  "input",
+			input: input,
+			steps: 26501365,
+			want:  620962518745459,
 		},
 	}
 
 	for _, tt := range testdata {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := part2(tt.input)
+			got, err := part2(tt.input, tt.steps)
 			if err != nil {
 				t.Error(err)
 			}

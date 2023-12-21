@@ -207,3 +207,82 @@ func LCM(a, b int) int {
 
 	return a * (b / GCD(a, b))
 }
+
+type Factor struct {
+	Prime int
+	Count int
+}
+
+var primes = []int{2, 3, 5, 7, 11, 13}
+
+func SlowPrimesLessThanOrEqualTo(target int) []int {
+OUTER:
+	for n := primes[len(primes)-1] + 2; n <= target; n += 2 {
+		for _, p := range primes[1:] {
+			if n%p == 0 {
+				continue OUTER
+			}
+		}
+		primes = append(primes, n)
+	}
+
+	for i, p := range primes {
+		if p > target {
+			return primes[:i]
+		}
+	}
+	return primes
+}
+
+func PrimeFactors(n int) []Factor {
+	if n < 2 {
+		return nil
+	}
+	pp := SlowPrimesLessThanOrEqualTo(n)
+
+	factorCount := make(map[int]int)
+
+	largest := 0
+	for i := 0; i < len(pp) && n > 1; i++ {
+		prime := pp[i]
+		for n%prime == 0 {
+			factorCount[prime]++
+			n /= prime
+			largest = i
+		}
+	}
+
+	res := make([]Factor, 0, largest+1)
+
+	for i, prime := range pp {
+		if i > largest {
+			break
+		}
+		if count := factorCount[prime]; count > 0 {
+			res = append(res, Factor{Prime: prime, Count: count})
+		}
+	}
+
+	return res
+}
+
+// MultiLCM computes the LCM of multiple numbers.
+func MultiLCM(nums ...int) int {
+	maxFactors := make(map[int]int)
+
+	for _, num := range nums {
+		for _, factor := range PrimeFactors(num) {
+			if maxFactors[factor.Prime] < factor.Count {
+				maxFactors[factor.Prime] = factor.Count
+			}
+		}
+	}
+	product := 1
+	for factor, count := range maxFactors {
+		for i := 0; i < count; i++ {
+			product *= factor
+		}
+	}
+
+	return product
+}
