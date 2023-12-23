@@ -133,6 +133,20 @@ func (r Rect) TR() Vec2 {
 	return r.Min.WithX(r.Max.X)
 }
 
+// Positions returns a slice holding all the positions included by the
+// rect (inclusive of edges).
+func (r Rect) Positions() []Vec2 {
+	res := make([]Vec2, 0, r.Width()*r.Height())
+
+	for x := r.Min.X; x <= r.Max.X; x++ {
+		for y := r.Min.Y; y <= r.Max.Y; y++ {
+			res = append(res, Vec2{X: x, Y: y})
+		}
+	}
+
+	return res
+}
+
 // String does the usual.
 func (v Vec3) String() string {
 	return fmt.Sprintf("(%d,%d,%d)", v.X, v.Y, v.Z)
@@ -146,6 +160,27 @@ func (v Vec2) WithX(x int) Vec2 {
 // WithY returns a new Vec2, but replaces the Y coordinate with the one given.
 func (v Vec2) WithY(y int) Vec2 {
 	return Vec2{X: v.X, Y: y}
+}
+
+// WithZ returns a new Vec3, with the given Z coordinate, and the same
+// X and Y coordinates as v.
+func (v Vec2) WithZ(z int) Vec3 {
+	return Vec3{X: v.X, Y: v.Y, Z: z}
+}
+
+// WithX returns a new Vec3, but replaces the X coordinate with the one given.
+func (v Vec3) WithX(x int) Vec3 {
+	return Vec3{X: x, Y: v.Y, Z: v.Z}
+}
+
+// WithY returns a new Vec3, but replaces the Y coordinate with the one given.
+func (v Vec3) WithY(y int) Vec3 {
+	return Vec3{X: v.X, Y: y, Z: v.Z}
+}
+
+// WithZ returns a new Vec3, but replaces the Z coordinate with the one given.
+func (v Vec3) WithZ(z int) Vec3 {
+	return Vec3{X: v.X, Y: v.Y, Z: z}
 }
 
 // Abs returns the same vector, but with negative coordinates replaced by their positive values.
@@ -636,4 +671,14 @@ func (v Vec2) W() Vec2 {
 // V2 succinctly builds a Vec2.
 func V2(x, y int) Vec2 {
 	return Vec2{X: x, Y: y}
+}
+
+// V3 succinctly builds a Vec3.
+func V3(x, y, z int) Vec3 {
+	return Vec3{X: x, Y: y, Z: z}
+}
+
+// XY returns a Vec2 holding just the X and Y coordinates of v.
+func (v Vec3) XY() Vec2 {
+	return Vec2{X: v.X, Y: v.Y}
 }

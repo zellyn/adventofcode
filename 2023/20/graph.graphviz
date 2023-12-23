@@ -1,0 +1,179 @@
+/*
+
+https://viz-js.com/?dot=ZGlncmFwaCB7CiAgYnV0dG9uIFtzaGFwZT1jaXJjbGVdCiAgYnJvYWRjYXN0ZXIgW3NoYXBlPXN0YXJdCiAgYmogW3NoYXBlPWRpYW1vbmRdCiAgYmsgW3NoYXBlPWRpYW1vbmRdCiAgYnMgW3NoYXBlPWRpYW1vbmRdCiAgYnYgW3NoYXBlPWRpYW1vbmRdCiAgYnggW3NoYXBlPWRpYW1vbmRdCiAgY2ogW3NoYXBlPWRpYW1vbmRdCiAgZGIgW3NoYXBlPWRpYW1vbmRdCiAgZGMgW3NoYXBlPWRpYW1vbmRdCiAgZGYgW3NoYXBlPWRpYW1vbmRdCiAgZHggW3NoYXBlPWRpYW1vbmRdCiAgZHogW3NoYXBlPWRpYW1vbmRdCiAgZmcgW3NoYXBlPWRpYW1vbmRdCiAgZmogW3NoYXBlPWRpYW1vbmRdCiAgZnAgW3NoYXBlPWRpYW1vbmRdCiAgZnQgW3NoYXBlPWRpYW1vbmRdCiAgZ3EgW3NoYXBlPWRpYW1vbmRdCiAgZ3ogW3NoYXBlPWRpYW1vbmRdCiAgamMgW3NoYXBlPWRpYW1vbmRdCiAgamcgW3NoYXBlPWRpYW1vbmRdCiAgamsgW3NoYXBlPWRpYW1vbmRdCiAga2QgW3NoYXBlPWRpYW1vbmRdCiAga24gW3NoYXBlPWRpYW1vbmRdCiAgbGggW3NoYXBlPWRpYW1vbmRdCiAgbGwgW3NoYXBlPWRpYW1vbmRdCiAgbG0gW3NoYXBlPWRpYW1vbmRdCiAgbHAgW3NoYXBlPWRpYW1vbmRdCiAgbHMgW3NoYXBlPWRpYW1vbmRdCiAgbWcgW3NoYXBlPWRpYW1vbmRdCiAgbXAgW3NoYXBlPWRpYW1vbmRdCiAgbmcgW3NoYXBlPWRpYW1vbmRdCiAgbnggW3NoYXBlPWRpYW1vbmRdCiAgcGcgW3NoYXBlPWRpYW1vbmRdCiAgcHogW3NoYXBlPWRpYW1vbmRdCiAgcWIgW3NoYXBlPWRpYW1vbmRdCiAgcWcgW3NoYXBlPWRpYW1vbmRdCiAgcW0gW3NoYXBlPWRpYW1vbmRdCiAgcXIgW3NoYXBlPWRpYW1vbmRdCiAgcXMgW3NoYXBlPWRpYW1vbmRdCiAgcnMgW3NoYXBlPWRpYW1vbmRdCiAgcnYgW3NoYXBlPWRpYW1vbmRdCiAgc2IgW3NoYXBlPWRpYW1vbmRdCiAgc2ggW3NoYXBlPWRpYW1vbmRdCiAgc3ggW3NoYXBlPWRpYW1vbmRdCiAgdHIgW3NoYXBlPWRpYW1vbmRdCiAgdnggW3NoYXBlPWRpYW1vbmRdCiAgeHogW3NoYXBlPWRpYW1vbmRdCiAgemIgW3NoYXBlPWRpYW1vbmRdCiAgemYgW3NoYXBlPWRpYW1vbmRdCiAgYmQgW3NoYXBlPWludnRyaWFuZ2xlXQogIGJtIFtzaGFwZT1pbnZ0cmlhbmdsZV0KICBjbCBbc2hhcGU9aW52dHJpYW5nbGVdCiAgY3MgW3NoYXBlPWludnRyaWFuZ2xlXQogIGRyIFtzaGFwZT1pbnZ0cmlhbmdsZV0KICBkcyBbc2hhcGU9aW52dHJpYW5nbGVdCiAgZHQgW3NoYXBlPWludnRyaWFuZ2xlXQogIHRuIFtzaGFwZT1pbnZ0cmlhbmdsZV0KICB2ciBbc2hhcGU9aW52dHJpYW5nbGVdCiAgcnggW3NoYXBlPXN0YXJdCgogIGJ1dHRvbiAtPiBicm9hZGNhc3RlcgogIGJyb2FkY2FzdGVyIC0-IHNiCiAgYnJvYWRjYXN0ZXIgLT4gZGMKICBicm9hZGNhc3RlciAtPiBqawogIGJyb2FkY2FzdGVyIC0-IG1nCiAgZHMgLT4gcWcKICBkcyAtPiBkYgogIGRzIC0-IGJtCiAgZHMgLT4gZnQKICBkcyAtPiBqawogIGRzIC0-IHFzCiAgZHMgLT4gZHoKICBjaiAtPiBwZwogIHh6IC0-IHN4CiAgeHogLT4gZHMKICBrZCAtPiBjcwogIGtkIC0-IGpnCiAgamsgLT4gZHMKICBqayAtPiBxcwogIG54IC0-IHFyCiAgZHQgLT4gYngKICBkdCAtPiBtZwogIGR0IC0-IHFiCiAgZHQgLT4gY2wKICBkdCAtPiB6YgogIHZ4IC0-IGJkCiAgcHogLT4gcnYKICBmdCAtPiBkegogIGd6IC0-IGR0CiAgZ3ogLT4gZHgKICBuZyAtPiBmdAogIG5nIC0-IGRzCiAgc2ggLT4ga24KICBzaCAtPiBjcwogIGtuIC0-IGpjCiAga24gLT4gY3MKICBxZyAtPiBscwogIHNiIC0-IGxwCiAgc2IgLT4gY3MKICBkeiAtPiBmZwogIGRjIC0-IGJkCiAgZGMgLT4gbngKICBjcyAtPiBscAogIGNzIC0-IGpnCiAgY3MgLT4gc2IKICBjcyAtPiBqYwogIGNzIC0-IGRyCiAgdHIgLT4gYngKICB0ciAtPiBkdAogIG1nIC0-IGZqCiAgbWcgLT4gZHQKICBzeCAtPiBkcwogIHN4IC0-IGxtCiAgYnggLT4gcWIKICBkeCAtPiBidgogIGR4IC0-IGR0CiAgamMgLT4gemYKICBiZCAtPiBueAogIGJkIC0-IHB6CiAgYmQgLT4gZGMKICBiZCAtPiBxcgogIGJkIC0-IGNqCiAgYmQgLT4gZGYKICBiZCAtPiB0bgogIGxsIC0-IHpiCiAgbGwgLT4gZHQKICBmZyAtPiBkcwogIGZnIC0-IHh6CiAgamcgLT4gYmoKICBibSAtPiB2cgogIGxzIC0-IGRzCiAgbHMgLT4gbmcKICBxcyAtPiBkYgogIGJ2IC0-IGJzCiAgYnYgLT4gZHQKICBncSAtPiBiZAogIGdxIC0-IHZ4CiAgZGIgLT4gcWcKICB6ZiAtPiBsaAogIHpmIC0-IGNzCiAgcGcgLT4gZGYKICBwZyAtPiBiZAogIGJzIC0-IGR0CiAgbG0gLT4gZHMKICBkZiAtPiBycwogIGNsIC0-IHZyCiAgcW0gLT4gZHQKICBxbSAtPiBsbAogIHZyIC0-IHJ4CiAgZnAgLT4gYmsKICBmcCAtPiBjcwogIHFyIC0-IHB6CiAgbXAgLT4gY2oKICBtcCAtPiBiZAogIHRuIC0-IHZyCiAgYmogLT4gY3MKICBiaiAtPiBmcAogIHJzIC0-IGdxCiAgcnMgLT4gYmQKICBxYiAtPiBxbQogIHpiIC0-IGd6CiAgYmsgLT4gY3MKICBkciAtPiB2cgogIGxwIC0-IHNoCiAgZmogLT4gZHQKICBmaiAtPiB0cgogIHJ2IC0-IGJkCiAgcnYgLT4gbXAKICBsaCAtPiBjcwogIGxoIC0-IGtkCn0~
+
+*/
+
+digraph {
+  button [shape=circle]
+  broadcaster [shape=star]
+  bj [shape=diamond]
+  bk [shape=diamond]
+  bs [shape=diamond]
+  bv [shape=diamond]
+  bx [shape=diamond]
+  cj [shape=diamond]
+  db [shape=diamond]
+  dc [shape=diamond]
+  df [shape=diamond]
+  dx [shape=diamond]
+  dz [shape=diamond]
+  fg [shape=diamond]
+  fj [shape=diamond]
+  fp [shape=diamond]
+  ft [shape=diamond]
+  gq [shape=diamond]
+  gz [shape=diamond]
+  jc [shape=diamond]
+  jg [shape=diamond]
+  jk [shape=diamond]
+  kd [shape=diamond]
+  kn [shape=diamond]
+  lh [shape=diamond]
+  ll [shape=diamond]
+  lm [shape=diamond]
+  lp [shape=diamond]
+  ls [shape=diamond]
+  mg [shape=diamond]
+  mp [shape=diamond]
+  ng [shape=diamond]
+  nx [shape=diamond]
+  pg [shape=diamond]
+  pz [shape=diamond]
+  qb [shape=diamond]
+  qg [shape=diamond]
+  qm [shape=diamond]
+  qr [shape=diamond]
+  qs [shape=diamond]
+  rs [shape=diamond]
+  rv [shape=diamond]
+  sb [shape=diamond]
+  sh [shape=diamond]
+  sx [shape=diamond]
+  tr [shape=diamond]
+  vx [shape=diamond]
+  xz [shape=diamond]
+  zb [shape=diamond]
+  zf [shape=diamond]
+  bd [shape=invtriangle]
+  bm [shape=invtriangle]
+  cl [shape=invtriangle]
+  cs [shape=invtriangle]
+  dr [shape=invtriangle]
+  ds [shape=invtriangle]
+  dt [shape=invtriangle]
+  tn [shape=invtriangle]
+  vr [shape=invtriangle]
+  rx [shape=star]
+
+  button -> broadcaster
+  broadcaster -> sb
+  broadcaster -> dc
+  broadcaster -> jk
+  broadcaster -> mg
+  ds -> qg
+  ds -> db
+  ds -> bm
+  ds -> ft
+  ds -> jk
+  ds -> qs
+  ds -> dz
+  cj -> pg
+  xz -> sx
+  xz -> ds
+  kd -> cs
+  kd -> jg
+  jk -> ds
+  jk -> qs
+  nx -> qr
+  dt -> bx
+  dt -> mg
+  dt -> qb
+  dt -> cl
+  dt -> zb
+  vx -> bd
+  pz -> rv
+  ft -> dz
+  gz -> dt
+  gz -> dx
+  ng -> ft
+  ng -> ds
+  sh -> kn
+  sh -> cs
+  kn -> jc
+  kn -> cs
+  qg -> ls
+  sb -> lp
+  sb -> cs
+  dz -> fg
+  dc -> bd
+  dc -> nx
+  cs -> lp
+  cs -> jg
+  cs -> sb
+  cs -> jc
+  cs -> dr
+  tr -> bx
+  tr -> dt
+  mg -> fj
+  mg -> dt
+  sx -> ds
+  sx -> lm
+  bx -> qb
+  dx -> bv
+  dx -> dt
+  jc -> zf
+  bd -> nx
+  bd -> pz
+  bd -> dc
+  bd -> qr
+  bd -> cj
+  bd -> df
+  bd -> tn
+  ll -> zb
+  ll -> dt
+  fg -> ds
+  fg -> xz
+  jg -> bj
+  bm -> vr
+  ls -> ds
+  ls -> ng
+  qs -> db
+  bv -> bs
+  bv -> dt
+  gq -> bd
+  gq -> vx
+  db -> qg
+  zf -> lh
+  zf -> cs
+  pg -> df
+  pg -> bd
+  bs -> dt
+  lm -> ds
+  df -> rs
+  cl -> vr
+  qm -> dt
+  qm -> ll
+  vr -> rx
+  fp -> bk
+  fp -> cs
+  qr -> pz
+  mp -> cj
+  mp -> bd
+  tn -> vr
+  bj -> cs
+  bj -> fp
+  rs -> gq
+  rs -> bd
+  qb -> qm
+  zb -> gz
+  bk -> cs
+  dr -> vr
+  lp -> sh
+  fj -> dt
+  fj -> tr
+  rv -> bd
+  rv -> mp
+  lh -> cs
+  lh -> kd
+}

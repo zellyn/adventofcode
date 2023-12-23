@@ -81,3 +81,20 @@ In 458 steps, we got a total count of 186292
 In 589 steps, we got a total count of 307795
 
 (/ 589  131) 4
+
+
+
+evenCount:    7577
+oddCount:     7596
+nCount:       5715
+sCount:       5721
+eCount:       5711
+wCount:       5725
+nwCount:      970
+neCount:      954
+swCount:      961
+seCount:      971
+nwInnerCount: 6645
+neInnerCount: 6647
+swInnerCount: 6657
+seInnerCount: 6641

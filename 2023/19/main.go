@@ -438,12 +438,17 @@ func part2(inputs []string) (int, error) {
 			i.min[0], i.max[0], i.min[1], i.max[1], i.min[2], i.max[2], i.min[3], i.max[3])
 	}
 
-	breaks := findBreaks(intervals)
-	for _, br := range breaks {
-		printf("%v\n", br)
-	}
+	// All this was unnecessary, and could have been saved by thinking. sigh.
+	/*
+		breaks := findBreaks(intervals)
+		for _, br := range breaks {
+			printf("%v\n", br)
+		}
 
-	return count(0, intervals, breaks), nil
+		return count(0, intervals, breaks), nil
+	*/
+
+	return util.MappedSum(intervals, interval.count), nil
 }
 
 func run() error {
