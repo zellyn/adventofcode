@@ -217,20 +217,13 @@ OUTER:
 }
 
 func fallCount(disintegrated int, blocks []block, aboves map[int][]int, belows map[int][]int) int {
-	fallen := map[int]bool{
-		disintegrated: true,
-	}
-	seen := map[int]bool{
-		disintegrated: true,
-	}
-
+	fallen := map[int]bool{disintegrated: true}
+	seen := map[int]bool{disintegrated: true}
 	queue := slices.Clone(aboves[disintegrated])
-	printf(" initial queue: %v\n", queue)
 
 OUTER:
 	for len(queue) > 0 {
 		sortIndicesByBottom(queue, blocks)
-
 		index := queue[0]
 		queue = queue[1:]
 		if seen[index] {
@@ -238,17 +231,13 @@ OUTER:
 		}
 		seen[index] = true
 
-		if blocks[index].a.Z == 1 {
-			panic("BOOM")
-			// supported by floor: can't drop this one
-			continue OUTER
-		}
 		for _, support := range belows[index] {
 			if !fallen[support] {
 				// still supported: can't drop this one
 				continue OUTER
 			}
 		}
+
 		// Ok, so we can fall.
 		fallen[index] = true
 		for _, supported := range aboves[index] {
@@ -256,10 +245,8 @@ OUTER:
 				queue = append(queue, supported)
 			}
 		}
-
 	}
 
-	printf(" returning %d\n", len(fallen)-1)
 	return len(fallen) - 1
 }
 

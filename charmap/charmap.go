@@ -441,3 +441,16 @@ func (m M) Has(pos geom.Vec2) bool {
 	_, ok := m[pos]
 	return ok
 }
+
+// Surround puts the smallest rectangle of the given rune around the existing maze that will fit.
+func (m M) Surround(r rune) {
+	min, max := m.MinMax()
+	for y := min.Y - 1; y <= max.Y+1; y++ {
+		m[geom.Vec2{X: min.X - 1, Y: y}] = r
+		m[geom.Vec2{X: max.X + 1, Y: y}] = r
+	}
+	for x := min.X; x <= max.X; x++ {
+		m[geom.Vec2{X: x, Y: min.Y - 1}] = r
+		m[geom.Vec2{X: x, Y: max.Y + 1}] = r
+	}
+}

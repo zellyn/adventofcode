@@ -439,10 +439,10 @@ func Max[T Number](items []T) T {
 	var max T
 	if len(items) > 0 {
 		max = items[0]
-	}
-	for _, item := range items[1:] {
-		if item > max {
-			max = item
+		for _, item := range items[1:] {
+			if item > max {
+				max = item
+			}
 		}
 	}
 	return max
