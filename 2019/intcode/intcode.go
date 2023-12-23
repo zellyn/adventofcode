@@ -203,7 +203,7 @@ func RunProgram(originalState []int64, reads []int64, debug bool) (state []int64
 	for _, read := range reads {
 		readsChan <- read
 	}
-	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	go RunProgramChans(ctx, state, readsChan, writesChan, errChan, nil, debug, "")
 	for {

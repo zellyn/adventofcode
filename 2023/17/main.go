@@ -6,8 +6,8 @@ import (
 	"strconv"
 
 	"github.com/zellyn/adventofcode/charmap"
+	"github.com/zellyn/adventofcode/dgraph"
 	"github.com/zellyn/adventofcode/geom"
-	"github.com/zellyn/adventofcode/graph"
 )
 
 var printf = func(string, ...any) {}
@@ -30,7 +30,7 @@ type node struct {
 	max  int
 }
 
-var _ graph.Node = node{}
+var _ dgraph.Node = node{}
 
 func (n node) lastCount() (string, int) {
 	if n.last == "" {
@@ -55,9 +55,9 @@ func (n node) String() string {
 	return "[" + n.pos.String() + " " + n.last + "]"
 }
 
-func (n node) Neighbors() []graph.CostedNode {
+func (n node) Neighbors() []dgraph.CostedNode {
 	printf(" Neighbors of node %s:\n", n.Key())
-	var result []graph.CostedNode
+	var result []dgraph.CostedNode
 
 	lastName, lastCount := n.lastCount()
 
@@ -93,7 +93,7 @@ func (n node) Neighbors() []graph.CostedNode {
 		nn := n
 		nn.pos = newPos
 		nn.last = name + n.last
-		result = append(result, graph.CostedNode{
+		result = append(result, dgraph.CostedNode{
 			N:     nn,
 			Steps: cost,
 		})
@@ -116,7 +116,7 @@ func part1(inputs []string) (int, error) {
 		max: 3,
 	}
 
-	return graph.Dijkstra(start)
+	return dgraph.Dijkstra(start)
 }
 
 func part2(inputs []string) (int, error) {
@@ -131,7 +131,7 @@ func part2(inputs []string) (int, error) {
 		max: 10,
 	}
 
-	return graph.Dijkstra(start)
+	return dgraph.Dijkstra(start)
 }
 
 func run() error {

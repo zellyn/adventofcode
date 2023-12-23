@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/zellyn/adventofcode/graph"
+	"github.com/zellyn/adventofcode/dgraph"
 	"github.com/zellyn/adventofcode/util"
 )
 
@@ -197,7 +197,7 @@ type node struct {
 	md    *metadata
 }
 
-var _ graph.Node = node{}
+var _ dgraph.Node = node{}
 
 func (n node) End() bool {
 	return n.value == n.md.goal
@@ -207,14 +207,14 @@ func (n node) Key() string {
 	return n.value
 }
 
-func (n node) Neighbors() []graph.CostedNode {
+func (n node) Neighbors() []dgraph.CostedNode {
 	prods := productions(n.value, n.md.repls)
-	res := make([]graph.CostedNode, 0, len(prods))
+	res := make([]dgraph.CostedNode, 0, len(prods))
 	for prod := range prods {
 		if n.md.goal == "e" && strings.Contains(prod, "e") && prod != "e" {
 			continue
 		}
-		res = append(res, graph.CostedNode{
+		res = append(res, dgraph.CostedNode{
 			N: node{
 				value: prod,
 				md:    n.md,
@@ -233,7 +233,7 @@ func fewestSteps(repls map[string][]string, startingValue string, goal string, d
 			goal:  goal,
 		},
 	}
-	return graph.DijkstraDebug(start, debug)
+	return dgraph.DijkstraDebug(start, debug)
 }
 
 func rightOnly(repls map[string][]string) map[string]bool {

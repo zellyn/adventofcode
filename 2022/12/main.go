@@ -5,8 +5,8 @@ import (
 	"os"
 
 	"github.com/zellyn/adventofcode/charmap"
+	"github.com/zellyn/adventofcode/dgraph"
 	"github.com/zellyn/adventofcode/geom"
-	"github.com/zellyn/adventofcode/graph"
 )
 
 type node struct {
@@ -23,8 +23,8 @@ func (n *node) Key() string {
 	return fmt.Sprintf("(%d,%d): '%c'", n.pos.X, n.pos.Y, n.m[n.pos])
 }
 
-func (n *node) Neighbors() []graph.CostedNode {
-	var result []graph.CostedNode
+func (n *node) Neighbors() []dgraph.CostedNode {
+	var result []dgraph.CostedNode
 	for _, pos := range n.pos.Neighbors4() {
 		c, ok := n.m[pos]
 		if !ok {
@@ -35,7 +35,7 @@ func (n *node) Neighbors() []graph.CostedNode {
 			continue
 		}
 		pos := pos
-		result = append(result, graph.CostedNode{
+		result = append(result, dgraph.CostedNode{
 			N: &node{
 				pos:    pos,
 				m:      n.m,
@@ -71,7 +71,7 @@ func part1(input []string) (int, error) {
 		height: 0,
 	}
 
-	shortestLength, err := graph.Dijkstra(startNode)
+	shortestLength, err := dgraph.Dijkstra(startNode)
 	if err != nil {
 		return 0, err
 	}
@@ -95,7 +95,7 @@ func part2(input []string) (int, error) {
 			height: 0,
 		}
 
-		shortestLength, err := graph.Dijkstra(startNode)
+		shortestLength, err := dgraph.Dijkstra(startNode)
 		if err != nil {
 			continue
 		}

@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	"github.com/zellyn/adventofcode/charmap"
+	"github.com/zellyn/adventofcode/dgraph"
 	"github.com/zellyn/adventofcode/geom"
-	"github.com/zellyn/adventofcode/graph"
 	"github.com/zellyn/adventofcode/util"
 )
 
@@ -52,21 +52,21 @@ func (c *cell) End() bool {
 	return c.exit
 }
 
-func (c *cell) Neighbors() []graph.CostedNode {
-	var result []graph.CostedNode
+func (c *cell) Neighbors() []dgraph.CostedNode {
+	var result []dgraph.CostedNode
 	for _, nn := range c.normalNeighbors {
-		result = append(result, graph.CostedNode{N: nn, Steps: 1})
+		result = append(result, dgraph.CostedNode{N: nn, Steps: 1})
 	}
 	for _, nn := range c.inwardNeighbors {
-		result = append(result, graph.CostedNode{N: nn, Steps: 1})
+		result = append(result, dgraph.CostedNode{N: nn, Steps: 1})
 	}
 	for _, nn := range c.outwardNeighbors {
-		result = append(result, graph.CostedNode{N: nn, Steps: 1})
+		result = append(result, dgraph.CostedNode{N: nn, Steps: 1})
 	}
 	return result
 }
 
-var _ = graph.Node(&cell{})
+var _ = dgraph.Node(&cell{})
 
 type leveledCell struct {
 	level int
@@ -81,21 +81,21 @@ func (lc leveledCell) End() bool {
 	return lc.cell.exit && lc.level == 0
 }
 
-func (lc leveledCell) Neighbors() []graph.CostedNode {
-	var result []graph.CostedNode
+func (lc leveledCell) Neighbors() []dgraph.CostedNode {
+	var result []dgraph.CostedNode
 	for _, nn := range lc.cell.normalNeighbors {
 		newCell := leveledCell{
 			level: lc.level,
 			cell:  nn,
 		}
-		result = append(result, graph.CostedNode{N: newCell, Steps: 1})
+		result = append(result, dgraph.CostedNode{N: newCell, Steps: 1})
 	}
 	for _, nn := range lc.cell.inwardNeighbors {
 		newCell := leveledCell{
 			level: lc.level + 1,
 			cell:  nn,
 		}
-		result = append(result, graph.CostedNode{N: newCell, Steps: 1})
+		result = append(result, dgraph.CostedNode{N: newCell, Steps: 1})
 	}
 	if lc.level > 0 {
 		for _, nn := range lc.cell.outwardNeighbors {
@@ -103,13 +103,13 @@ func (lc leveledCell) Neighbors() []graph.CostedNode {
 				level: lc.level - 1,
 				cell:  nn,
 			}
-			result = append(result, graph.CostedNode{N: newCell, Steps: 1})
+			result = append(result, dgraph.CostedNode{N: newCell, Steps: 1})
 		}
 	}
 	return result
 }
 
-var _ = graph.Node(leveledCell{})
+var _ = dgraph.Node(leveledCell{})
 
 type state struct {
 	rm    map[vec2]rune
@@ -254,7 +254,7 @@ func (s *state) label(pos vec2) (vec2, bool, string) {
 
 func (s *state) minSteps() (int, error) {
 	c := s.m[s.start]
-	steps, err := graph.Dijkstra(c)
+	steps, err := dgraph.Dijkstra(c)
 	if err != nil {
 		return 0, err
 	}
@@ -265,7 +265,7 @@ func (s *state) minRecursiveSteps() (int, error) {
 	lc := leveledCell{
 		cell: s.m[s.start],
 	}
-	steps, err := graph.Dijkstra(lc)
+	steps, err := dgraph.Dijkstra(lc)
 	if err != nil {
 		return 0, err
 	}

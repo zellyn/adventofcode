@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/zellyn/adventofcode/graph"
+	"github.com/zellyn/adventofcode/dgraph"
 )
 
 type spellInfo struct {
@@ -71,8 +71,8 @@ func (s *state) Key() string {
 	return fmt.Sprintf("%v", *s)
 }
 
-func (s *state) Neighbors() []graph.CostedNode {
-	var result []graph.CostedNode
+func (s *state) Neighbors() []dgraph.CostedNode {
+	var result []dgraph.CostedNode
 	for i := range spells {
 		if s.turnsLeft[i] > 1 {
 			continue
@@ -85,7 +85,7 @@ func (s *state) Neighbors() []graph.CostedNode {
 	return result
 }
 
-var _ graph.Node = &state{}
+var _ dgraph.Node = &state{}
 
 func (s *state) applyEffects() {
 	for i, spell := range spells {
@@ -107,12 +107,12 @@ func (s state) activeArmor() int {
 	return armor
 }
 
-func (s state) twoStep(spellIndex int) graph.CostedNode {
+func (s state) twoStep(spellIndex int) dgraph.CostedNode {
 	// Player turn
 	if s.hard {
 		s.playerHealth--
 		if s.playerHealth <= 0 {
-			return graph.CostedNode{}
+			return dgraph.CostedNode{}
 		}
 	}
 
@@ -121,12 +121,12 @@ func (s state) twoStep(spellIndex int) graph.CostedNode {
 	spell := spells[spellIndex]
 	s.mana -= spell.cost
 	if s.mana < 0 {
-		return graph.CostedNode{} // Empty result
+		return dgraph.CostedNode{} // Empty result
 	}
 	s.playerHealth += spell.heal
 	s.bossHealth -= spell.hit
 	if s.bossHealth <= 0 {
-		return graph.CostedNode{
+		return dgraph.CostedNode{
 			N:     &s,
 			Steps: spell.cost,
 		}
@@ -136,7 +136,7 @@ func (s state) twoStep(spellIndex int) graph.CostedNode {
 	// Boss turn
 	(&s).applyEffects()
 	if s.bossHealth <= 0 {
-		return graph.CostedNode{
+		return dgraph.CostedNode{
 			N:     &s,
 			Steps: spell.cost,
 		}
@@ -147,9 +147,9 @@ func (s state) twoStep(spellIndex int) graph.CostedNode {
 	}
 	s.playerHealth -= damage
 	if s.playerHealth <= 0 {
-		return graph.CostedNode{}
+		return dgraph.CostedNode{}
 	}
-	return graph.CostedNode{
+	return dgraph.CostedNode{
 		N:     &s,
 		Steps: spell.cost,
 	}

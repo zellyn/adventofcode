@@ -47,17 +47,17 @@ type state struct {
 	// path       string
 }
 
-// End implements graph.Node
+// End implements dgraph.Node
 func (_ state) End() bool {
 	return false
 }
 
-// Key implements graph.Node
+// Key implements dgraph.Node
 func (s state) Key() [9]int {
 	return [9]int{s.left, s.ores[0], s.ores[1], s.ores[2], s.ores[3], s.robots[0], s.robots[1], s.robots[2], s.robots[3]}
 }
 
-// Neighbors implements graph.Node
+// Neighbors implements dgraph.Node
 func (s state) Neighbors() []state {
 	max := s.ores[3] + s.left*(s.left-1)/2 + s.left*s.robots[3]
 	if max <= *s.best {

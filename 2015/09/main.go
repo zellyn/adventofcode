@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/zellyn/adventofcode/graph"
+	"github.com/zellyn/adventofcode/dgraph"
 )
 
 type node struct {
@@ -15,17 +15,17 @@ type node struct {
 	graph map[string]map[string]int
 }
 
-var _ graph.Node = node{}
+var _ dgraph.Node = node{}
 
 func (n node) End() bool {
 	return strings.Count(n.path, ".") == len(n.graph)-1
 }
 
-func (n node) Neighbors() []graph.CostedNode {
-	var result []graph.CostedNode
+func (n node) Neighbors() []dgraph.CostedNode {
+	var result []dgraph.CostedNode
 	if n.name == "" {
 		for nn := range n.graph {
-			result = append(result, graph.CostedNode{
+			result = append(result, dgraph.CostedNode{
 				Steps: 0,
 				N: node{
 					name:  nn,
@@ -40,7 +40,7 @@ func (n node) Neighbors() []graph.CostedNode {
 		if strings.Contains(n.path, nn) {
 			continue
 		}
-		result = append(result, graph.CostedNode{
+		result = append(result, dgraph.CostedNode{
 			Steps: dist,
 			N: node{
 				name:  nn,
@@ -91,7 +91,7 @@ func shortestDistance(input []string) (int, error) {
 		path:  "",
 		graph: g,
 	}
-	return graph.Dijkstra(start)
+	return dgraph.Dijkstra(start)
 }
 
 func longestDistance(input []string) (int, error) {
@@ -103,7 +103,7 @@ func longestDistance(input []string) (int, error) {
 	for c := range g {
 		cities = append(cities, c)
 	}
-	perms := graph.PermutationsString(cities)
+	perms := dgraph.PermutationsString(cities)
 	longest := 0
 
 OUTER:

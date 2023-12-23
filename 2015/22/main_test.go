@@ -3,7 +3,7 @@ package main
 import (
 	"testing"
 
-	"github.com/zellyn/adventofcode/graph"
+	"github.com/zellyn/adventofcode/dgraph"
 )
 
 func TestParts(t *testing.T) {
@@ -60,12 +60,12 @@ func TestParts(t *testing.T) {
 				bossDamage:   tt.damage,
 				hard:         tt.hard,
 			}
-			got, err := graph.Dijkstra(s)
+			got, err := dgraph.Dijkstra(s)
 			if err != nil {
 				t.Fatal(err)
 			}
 			if got != tt.want {
-				t.Errorf("Want graph.Dijkstra(s)=%d; got %d", tt.want, got)
+				t.Errorf("Want dgraph.Dijkstra(s)=%d; got %d", tt.want, got)
 			}
 		})
 	}

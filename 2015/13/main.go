@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/zellyn/adventofcode/graph"
+	"github.com/zellyn/adventofcode/dgraph"
 )
 
 func parseInput(input []string) (map[string]map[string]int, error) {
@@ -47,7 +47,7 @@ func best(input []string, includeYou bool) (int, error) {
 		people = append(people, "you")
 	}
 
-	perms := graph.PermutationsString(people)
+	perms := dgraph.PermutationsString(people)
 	highest := 0
 
 	for _, perm := range perms {
