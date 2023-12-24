@@ -45,11 +45,11 @@ func TestPart1(t *testing.T) {
 			input: example,
 			want:  94,
 		},
-		// {
-		// 	name:  "input",
-		// 	input: input,
-		// 	want:  42,
-		// },
+		{
+			name:  "input",
+			input: input,
+			want:  2334,
+		},
 	}
 
 	for _, tt := range testdata {
@@ -66,7 +66,7 @@ func TestPart1(t *testing.T) {
 	}
 }
 
-func XTestPart2(t *testing.T) {
+func TestPart2(t *testing.T) {
 	testdata := []struct {
 		name  string
 		input []string
@@ -75,12 +75,12 @@ func XTestPart2(t *testing.T) {
 		{
 			name:  "example",
 			input: example,
-			want:  42,
+			want:  154,
 		},
 		{
 			name:  "input",
 			input: input,
-			want:  42,
+			want:  6422,
 		},
 	}
 

@@ -340,7 +340,7 @@ func (m M) AllInstances(mm M) []geom.Vec2 {
 
 // Replacing creates a copy of a charmap, but with every instance of `from`
 // replaced with `to`.
-func (m M) Replacing(from, to rune) map[geom.Vec2]rune {
+func (m M) Replacing(from, to rune) M {
 	mm := make(map[geom.Vec2]rune, len(m))
 
 	for k, v := range m {
