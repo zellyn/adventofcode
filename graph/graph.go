@@ -10,6 +10,7 @@ type Node[T any] struct {
 	Props T
 	Start bool
 	End   bool
+	index int
 }
 
 func (n *Node[T]) String() string {
@@ -21,6 +22,10 @@ func (n *Node[T]) String() string {
 		startString = " End=true"
 	}
 	return fmt.Sprintf("Node:[%s%s%s]", n.Name, startString, endString)
+}
+
+func (n *Node[T]) Index() int {
+	return n.index
 }
 
 type Edge[T any] struct {
@@ -73,7 +78,8 @@ func NewGraph[T any](nodes []*Node[T], edges []*Edge[T]) *Graph[T] {
 		nameToIsEnd:   make(map[string]bool),
 	}
 
-	for _, node := range nodes {
+	for i, node := range nodes {
+		node.index = i
 		g.nameToNode[node.Name] = node
 		if node.Start {
 			g.nameToIsStart[node.Name] = true

@@ -114,6 +114,7 @@ func TestModGeometricSum(t *testing.T) {
 		}
 	}
 }
+
 func TestModInv(t *testing.T) {
 	testdata := []struct {
 		x    int
@@ -234,11 +235,32 @@ func TestGCD(t *testing.T) {
 		{1, 3, 1},
 		{12, 9, 3},
 		{12, 8, 4},
+		{46, 23, 23},
 	}
 	for _, tt := range testdata {
 		g := GCD(tt.a, tt.b)
 		if g != tt.gcd {
 			t.Errorf("want GCD(%d,%d)==%d; got %d", tt.a, tt.b, tt.gcd, g)
+		}
+	}
+}
+
+func TestMultiGCD(t *testing.T) {
+	testdata := []struct {
+		nums []int
+		gcd  int
+	}{
+		{[]int{21, 7}, 7},
+		{[]int{1, 3}, 1},
+		{[]int{12, 9}, 3},
+		{[]int{12, 8}, 4},
+		{[]int{46, 23}, 23},
+		{[]int{69, 46, 23}, 23},
+	}
+	for _, tt := range testdata {
+		g := MultiGCD(tt.nums...)
+		if g != tt.gcd {
+			t.Errorf("want MultiGCD(%v)==%d; got %d", tt.nums, tt.gcd, g)
 		}
 	}
 }

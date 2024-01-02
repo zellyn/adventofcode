@@ -7,32 +7,41 @@ import (
 )
 
 var example = util.TrimmedLines(`
-example_input
+19, 13, 30 @ -2,  1, -2
+18, 19, 22 @ -1, -1, -2
+20, 25, 34 @ -2, -2, -4
+12, 31, 28 @ -1, -2, -1
+20, 19, 15 @  1, -5, -3
 `)
 
 var input = util.MustReadLines("input")
 
 func TestPart1(t *testing.T) {
 	testdata := []struct {
-		name  string
-		input []string
-		want  int
+		name     string
+		input    []string
+		min, max float64
+		want     int
 	}{
 		{
 			name:  "example",
 			input: example,
-			want:  42,
+			min:   7,
+			max:   27,
+			want:  2,
 		},
-		// {
-		// 	name:  "input",
-		// 	input: input,
-		// 	want:  42,
-		// },
+		{
+			name:  "input",
+			input: input,
+			min:   200000000000000,
+			max:   400000000000000,
+			want:  13754,
+		},
 	}
 
 	for _, tt := range testdata {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := part1(tt.input)
+			got, err := part1(tt.input, tt.min, tt.max)
 			if err != nil {
 				t.Error(err)
 			}
@@ -44,7 +53,7 @@ func TestPart1(t *testing.T) {
 	}
 }
 
-func XTestPart2(t *testing.T) {
+func TestPart2(t *testing.T) {
 	testdata := []struct {
 		name  string
 		input []string
@@ -53,12 +62,12 @@ func XTestPart2(t *testing.T) {
 		{
 			name:  "example",
 			input: example,
-			want:  42,
+			want:  47,
 		},
 		{
 			name:  "input",
 			input: input,
-			want:  42,
+			want:  711031616315001,
 		},
 	}
 

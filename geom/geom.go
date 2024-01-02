@@ -2,6 +2,7 @@ package geom
 
 import (
 	"fmt"
+	"math"
 	"regexp"
 	"strconv"
 	"strings"
@@ -79,12 +80,77 @@ type Vec3 struct {
 	Z int
 }
 
+// Vec2f is a float64-based two-element vector.
+type Vec2f struct {
+	X float64
+	Y float64
+}
+
+// Vec3f is a float64-based three-element vector.
+type Vec3f struct {
+	X float64
+	Y float64
+	Z float64
+}
+
 // Vec4 is a three-element vector.
 type Vec4 struct {
 	W int
 	X int
 	Y int
 	Z int
+}
+
+const EPSILON = 1e-6
+
+func Close(a, b, within float64) bool {
+	diff := fabs(a - b)
+	return -within <= diff && diff <= within
+}
+
+func abs(a int) int {
+	if a < 0 {
+		return -a
+	}
+	return a
+}
+
+func fabs(a float64) float64 {
+	if a < 0 {
+		return -a
+	}
+	return a
+}
+
+// ToF converts a Vec3 to a Vec3f.
+func (v Vec3) ToF() Vec3f {
+	return Vec3f{X: float64(v.X), Y: float64(v.Y), Z: float64(v.Z)}
+}
+
+// ToF converts a Vec2 to a Vec2f.
+func (v Vec2) ToF() Vec2f {
+	return Vec2f{X: float64(v.X), Y: float64(v.Y)}
+}
+
+// XY converts a Vec3f to a Vec2f containing just the X and Y components.
+func (v Vec3f) XY() Vec2f {
+	return Vec2f{X: v.X, Y: v.Y}
+}
+
+// XZ converts a Vec3f to a Vec2f containing just the X and Z components.
+func (v Vec3f) XZ() Vec2f {
+	return Vec2f{X: v.X, Y: v.Z}
+}
+
+// YZ converts a Vec3f to a Vec2f containing just the Y and Z components.
+func (v Vec3f) YZ() Vec2f {
+	return Vec2f{X: v.Y, Y: v.Z}
+}
+
+// WithZ converts a Vec2f to a Vec3f with matching X and Y components,
+// and the specified Z component.
+func (v Vec2f) WithZ(z float64) Vec3f {
+	return Vec3f{X: v.X, Y: v.Y, Z: z}
 }
 
 // String does the usual.
@@ -212,9 +278,19 @@ func (v Vec3) Add(w Vec3) Vec3 {
 	return Vec3{v.X + w.X, v.Y + w.Y, v.Z + w.Z}
 }
 
+// Add adds two vectors.
+func (v Vec3f) Add(w Vec3f) Vec3f {
+	return Vec3f{v.X + w.X, v.Y + w.Y, v.Z + w.Z}
+}
+
 // Sub subtracts a vector from this one, returning the result.
 func (v Vec3) Sub(w Vec3) Vec3 {
 	return Vec3{v.X - w.X, v.Y - w.Y, v.Z - w.Z}
+}
+
+// Sub subtracts a vector from this one, returning the result.
+func (v Vec3f) Sub(w Vec3f) Vec3f {
+	return Vec3f{v.X - w.X, v.Y - w.Y, v.Z - w.Z}
 }
 
 // Neg negates a vector.][]
@@ -248,6 +324,21 @@ func (v Vec3) Sgn() Vec3 {
 // Mul returns the vector multiplied by a scalar.
 func (v Vec3) Mul(factor int) Vec3 {
 	return Vec3{X: v.X * factor, Y: v.Y * factor, Z: v.Z * factor}
+}
+
+// IntDiv returns the vector with each component integer-divided by a scalar.
+func (v Vec2) IntDiv(factor int) Vec2 {
+	return Vec2{X: v.X / factor, Y: v.Y / factor}
+}
+
+// IntDiv returns the vector with each component integer-divided by a scalar.
+func (v Vec3) IntDiv(factor int) Vec3 {
+	return Vec3{X: v.X / factor, Y: v.Y / factor, Z: v.Z / factor}
+}
+
+// Mul returns the vector multiplied by a scalar.
+func (v Vec3f) Mul(factor float64) Vec3f {
+	return Vec3f{X: v.X * factor, Y: v.Y * factor, Z: v.Z * factor}
 }
 
 var vec3regex = regexp.MustCompile(`<x=(-?[0-9]+), *y=(-?[0-9]+), *z=(-?[0-9]+)>`)
@@ -394,6 +485,11 @@ func (v Vec2) Sgn() Vec2 {
 // Mul returns the vector multiplied by a scalar.
 func (v Vec2) Mul(factor int) Vec2 {
 	return Vec2{X: v.X * factor, Y: v.Y * factor}
+}
+
+// Mul returns the vector multiplied by a scalar.
+func (v Vec2f) Mul(factor float64) Vec2f {
+	return Vec2f{X: v.X * factor, Y: v.Y * factor}
 }
 
 // Div returns the vector divided by a scalar, using integer division.
@@ -673,12 +769,209 @@ func V2(x, y int) Vec2 {
 	return Vec2{X: x, Y: y}
 }
 
+// V2f succinctly builds a Vec2f.
+func V2f(x, y float64) Vec2f {
+	return Vec2f{X: x, Y: y}
+}
+
 // V3 succinctly builds a Vec3.
 func V3(x, y, z int) Vec3 {
 	return Vec3{X: x, Y: y, Z: z}
 }
 
+// V3f succinctly builds a Vec3f.
+func V3f(x, y, z float64) Vec3f {
+	return Vec3f{X: x, Y: y, Z: z}
+}
+
 // XY returns a Vec2 holding just the X and Y coordinates of v.
 func (v Vec3) XY() Vec2 {
 	return Vec2{X: v.X, Y: v.Y}
+}
+
+// XZ returns a Vec2 holding just the X and Z coordinates of v.
+func (v Vec3) XZ() Vec2 {
+	return Vec2{X: v.X, Y: v.Z}
+}
+
+// YZ returns a Vec2 holding just the Y and Z coordinates of v.
+func (v Vec3) YZ() Vec2 {
+	return Vec2{X: v.Y, Y: v.Z}
+}
+
+// Add adds two vectors.
+func (v Vec2f) Add(w Vec2f) Vec2f {
+	return Vec2f{v.X + w.X, v.Y + w.Y}
+}
+
+// Sub subtracts a vector from this one, returning the result.
+func (v Vec2f) Sub(w Vec2f) Vec2f {
+	return Vec2f{v.X - w.X, v.Y - w.Y}
+}
+
+// Mag calculates the magnitude of the vector.
+func (v Vec2f) Mag() float64 {
+	return math.Sqrt(v.X*v.X + v.Y*v.Y)
+}
+
+// Mag calculates the magnitude of the vector.
+func (v Vec3f) Mag() float64 {
+	return math.Sqrt(v.X*v.X + v.Y*v.Y + v.Z*v.Z)
+}
+
+// Norm returns a normalized version of the vector, or (0,0) if it's the zero vector already.
+func (v Vec2f) Norm() Vec2f {
+	if v == (Vec2f{X: 0, Y: 0}) {
+		return v
+	}
+	mag := math.Sqrt(v.X*v.X + v.Y*v.Y)
+	return Vec2f{X: v.X / mag, Y: v.Y / mag}
+}
+
+// Cross computes the cross product (in 2D, aka perpendicular dot product) with another vector.
+func (v1 Vec2f) Cross(v2 Vec2f) float64 {
+	return v1.X*v2.Y - v1.Y*v2.X
+}
+
+// Dot computes the dot product with another vector.
+func (v1 Vec2f) Dot(v2 Vec2f) float64 {
+	return v1.X*v2.X + v1.Y*v2.Y
+}
+
+func (v Vec2f) String() string {
+	return fmt.Sprintf("(%g,%g)", v.X, v.Y)
+}
+
+func (v Vec2f) Close(other Vec2f, within float64) bool {
+	return Close(v.X, other.X, within) && Close(v.Y, other.Y, within)
+}
+
+func (v Vec3f) Close(other Vec3f, within float64) bool {
+	return Close(v.X, other.X, within) && Close(v.Y, other.Y, within) && Close(v.Z, other.Z, within)
+}
+
+// PosVel2f represents a 2-D position and direction, in float64.
+type PosVel2f struct {
+	Pos Vec2f
+	Vel Vec2f
+}
+
+// PosVel3f represents a 3-D position and direction, in float64.
+type PosVel3f struct {
+	Pos Vec3f
+	Vel Vec3f
+}
+
+// PosVel2 represents a 2-D position and direction.
+type PosVel2 struct {
+	Pos Vec2
+	Vel Vec2
+}
+
+// PosVel3 represents a 3-D position and direction.
+type PosVel3 struct {
+	Pos Vec3
+	Vel Vec3
+}
+
+// PV2 constructs a PosVel2 from x and y position and vx and vy velocity components.
+func PV2(x, y, vx, vy int) PosVel2 {
+	return PosVel2{
+		Pos: Vec2{X: x, Y: y},
+		Vel: Vec2{X: vx, Y: vy},
+	}
+}
+
+// PV3 constructs a PosVel3 from x, y, and z position and vx, vy, and vz velocity components.
+func PV3(x, y, z, vx, vy, vz int) PosVel3 {
+	return PosVel3{
+		Pos: Vec3{X: x, Y: y, Z: z},
+		Vel: Vec3{X: vx, Y: vy, Z: vz},
+	}
+}
+
+// XY returns a PosVel2 from a PosVel3, using just the X and Y components.
+func (pv PosVel3) XY() PosVel2 {
+	return PosVel2{
+		Pos: Vec2{X: pv.Pos.X, Y: pv.Pos.Y},
+		Vel: Vec2{X: pv.Vel.X, Y: pv.Vel.Y},
+	}
+}
+
+// XZ returns a PosVel2 from a PosVel3, using just the X and Z components.
+func (pv PosVel3) XZ() PosVel2 {
+	return PosVel2{
+		Pos: Vec2{X: pv.Pos.X, Y: pv.Pos.Z},
+		Vel: Vec2{X: pv.Vel.X, Y: pv.Vel.Z},
+	}
+}
+
+// YZ returns a PosVel2 from a PosVel3, using just the Y and Z components.
+func (pv PosVel3) YZ() PosVel2 {
+	return PosVel2{
+		Pos: Vec2{X: pv.Pos.Y, Y: pv.Pos.Z},
+		Vel: Vec2{X: pv.Vel.Y, Y: pv.Vel.Z},
+	}
+}
+
+// ToF converts a PosVel3 to a PosVel3f.
+func (pv PosVel3) ToF() PosVel3f {
+	return PosVel3f{
+		Pos: Vec3f{X: float64(pv.Pos.X), Y: float64(pv.Pos.Y), Z: float64(pv.Pos.Z)},
+		Vel: Vec3f{X: float64(pv.Vel.X), Y: float64(pv.Vel.Y), Z: float64(pv.Vel.Z)},
+	}
+}
+
+// XY returns a PosVel2f from a PosVel3f, using just the X and Y components.
+func (pv PosVel3f) XY() PosVel2f {
+	return PosVel2f{
+		Pos: Vec2f{X: pv.Pos.X, Y: pv.Pos.Y},
+		Vel: Vec2f{X: pv.Vel.X, Y: pv.Vel.Y},
+	}
+}
+
+// XZ returns a PosVel2f from a PosVel3, using just the X and Z components.
+func (pv PosVel3f) XZ() PosVel2f {
+	return PosVel2f{
+		Pos: Vec2f{X: pv.Pos.X, Y: pv.Pos.Z},
+		Vel: Vec2f{X: pv.Vel.X, Y: pv.Vel.Z},
+	}
+}
+
+// YZ returns a PosVel2f from a PosVel3, using just the Y and Z components.
+func (pv PosVel3f) YZ() PosVel2f {
+	return PosVel2f{
+		Pos: Vec2f{X: pv.Pos.Y, Y: pv.Pos.Z},
+		Vel: Vec2f{X: pv.Vel.Y, Y: pv.Vel.Z},
+	}
+}
+
+// Zero returns true if X and Y are both 0.
+func (v Vec2) Zero() bool {
+	return v.X == 0 && v.Y == 0
+}
+
+// Zero returns true if X and Y are both 0.
+func (v Vec2f) Zero() bool {
+	return v.X == 0 && v.Y == 0
+}
+
+// NearZero returns true if X and Y are both within `within` of 0.
+func (v Vec2f) NearZero(within float64) bool {
+	return v.Close(Vec2f{}, within)
+}
+
+// Zero returns true if X, Y and Z are all 0.
+func (v Vec3) Zero() bool {
+	return v.X == 0 && v.Y == 0 && v.Z == 0
+}
+
+// Zero returns true if X, Y and Z are all 0.
+func (v Vec3f) Zero() bool {
+	return v.X == 0 && v.Y == 0 && v.Z == 0
+}
+
+// NearZero returns true if X, Y, and Z are all within `within` of 0.
+func (v Vec3f) NearZero(within float64) bool {
+	return v.Close(Vec3f{}, within)
 }

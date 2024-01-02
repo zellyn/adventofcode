@@ -1,17 +1,20 @@
 package linalg
 
 import (
+	"reflect"
 	"testing"
 )
 
 func TestReduction(t *testing.T) {
 
 	testdata := []struct {
-		name           string
-		rows           [][]int
-		wantRows       [][]int
-		wantRank       int
-		wantImpossible bool
+		name            string
+		rows            [][]int
+		wantRows        [][]int
+		wantRank        int
+		wantImpossible  bool
+		wantValues      []float64
+		wantValuesKnown []bool
 	}{
 		{
 			name: "2x2 already in lowest form",
@@ -23,8 +26,10 @@ func TestReduction(t *testing.T) {
 				{1, 0, 1},
 				{0, 1, 1},
 			},
-			wantRank:       2,
-			wantImpossible: false,
+			wantRank:        2,
+			wantImpossible:  false,
+			wantValues:      []float64{1, 1},
+			wantValuesKnown: []bool{true, true},
 		},
 		{
 			name: "3x3 identity matrix",
@@ -38,8 +43,10 @@ func TestReduction(t *testing.T) {
 				{0, 1, 0, 1},
 				{0, 0, 1, 1},
 			},
-			wantRank:       3,
-			wantImpossible: false,
+			wantRank:        3,
+			wantImpossible:  false,
+			wantValues:      []float64{1, 1, 1},
+			wantValuesKnown: []bool{true, true, true},
 		},
 		{
 			name: "3x3 out-of-order identity matrix",
@@ -53,8 +60,10 @@ func TestReduction(t *testing.T) {
 				{0, 1, 0, 1},
 				{0, 0, 1, 1},
 			},
-			wantRank:       3,
-			wantImpossible: false,
+			wantRank:        3,
+			wantImpossible:  false,
+			wantValues:      []float64{1, 1, 1},
+			wantValuesKnown: []bool{true, true, true},
 		},
 		{
 			name: "3x3 out-of-order identity matrix, except with rows multiplied by constants",
@@ -68,8 +77,10 @@ func TestReduction(t *testing.T) {
 				{0, 1, 0, 1},
 				{0, 0, 1, 1},
 			},
-			wantRank:       3,
-			wantImpossible: false,
+			wantRank:        3,
+			wantImpossible:  false,
+			wantValues:      []float64{1, 1, 1},
+			wantValuesKnown: []bool{true, true, true},
 		},
 		{
 			name: "3x3 incrementing integers",
@@ -83,8 +94,9 @@ func TestReduction(t *testing.T) {
 				{0, 1, 2, 3},
 				{0, 0, 0, 0},
 			},
-			wantRank:       2,
-			wantImpossible: false,
+			wantRank:        2,
+			wantImpossible:  false,
+			wantValuesKnown: []bool{false, false, false},
 		},
 		{
 			name: "3x3 incrementing integers, with extra (non-redundant) row",
@@ -100,8 +112,35 @@ func TestReduction(t *testing.T) {
 				{0, 0, 1, -1},
 				{0, 0, 0, 0},
 			},
-			wantRank:       3,
-			wantImpossible: false,
+			wantRank:        3,
+			wantImpossible:  false,
+			wantValues:      []float64{-3, 5, -1},
+			wantValuesKnown: []bool{true, true, true},
+		},
+		{
+			name: "2x2 from parallel, non-intersecting lines",
+			rows: [][]int{
+				{2, 4, 5},
+				{3, 6, 1},
+				{5, 10, -4},
+			},
+			wantImpossible: true,
+		},
+		{
+			name: "2x2 from parallel, colinear lines",
+			rows: [][]int{
+				{1, -2, 1},
+				{2, -4, 2},
+				{3, -6, 3},
+			},
+			wantRows: [][]int{
+				{1, -2, 1},
+				{0, 0, 0},
+				{0, 0, 0},
+			},
+			wantRank:        1,
+			wantImpossible:  false,
+			wantValuesKnown: []bool{false, false},
 		},
 	}
 
@@ -124,6 +163,22 @@ func TestReduction(t *testing.T) {
 			wantM := NewMatrix(tt.wantRows)
 			if !m.Equal(wantM) {
 				t.Errorf("Want reduced matrix to be:\n%s\n but was:\n%s\n", wantM.Printable("  ", true), m.Printable("  ", true))
+			}
+
+			if tt.wantValues != nil || tt.wantValuesKnown != nil {
+				gotValues, gotValuesKnown := m.KnownCoefficientFloats()
+
+				if tt.wantValuesKnown != nil {
+					if !reflect.DeepEqual(tt.wantValuesKnown, gotValuesKnown) {
+						t.Errorf("Want known coefficient flags to be %v; got %v", tt.wantValuesKnown, gotValuesKnown)
+					}
+				}
+
+				if tt.wantValues != nil {
+					if !reflect.DeepEqual(tt.wantValues, gotValues) {
+						t.Errorf("Want known coefficient values to be %v; got %v", tt.wantValues, gotValues)
+					}
+				}
 			}
 		})
 	}

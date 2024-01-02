@@ -1,6 +1,10 @@
 package math
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+	"sort"
+)
 
 // ModMul return a * b, mod m.
 func ModMul(a, b, m int) int {
@@ -215,6 +219,12 @@ type Factor struct {
 
 var primes = []int{2, 3, 5, 7, 11, 13}
 
+func Sieve(n int) {
+	if primes[len(primes)-1] > n {
+		return
+	}
+}
+
 func SlowPrimesLessThanOrEqualTo(target int) []int {
 OUTER:
 	for n := primes[len(primes)-1] + 2; n <= target; n += 2 {
@@ -235,10 +245,14 @@ OUTER:
 }
 
 func PrimeFactors(n int) []Factor {
+	if n < 0 {
+		n = -n
+	}
 	if n < 2 {
 		return nil
 	}
-	pp := SlowPrimesLessThanOrEqualTo(n)
+	sqrt := int(math.Ceil(math.Sqrt(float64(n))))
+	pp := SlowPrimesLessThanOrEqualTo(sqrt)
 
 	factorCount := make(map[int]int)
 
@@ -263,6 +277,10 @@ func PrimeFactors(n int) []Factor {
 		}
 	}
 
+	if n > 1 {
+		res = append(res, Factor{Prime: n, Count: 1})
+	}
+
 	return res
 }
 
@@ -279,6 +297,69 @@ func MultiLCM(nums ...int) int {
 	}
 	product := 1
 	for factor, count := range maxFactors {
+		for i := 0; i < count; i++ {
+			product *= factor
+		}
+	}
+
+	return product
+}
+
+// MultiGCD computes the GCD of multiple numbers.
+func MultiGCD(nums ...int) int {
+	noZeros := make([]int, len(nums))
+	for _, num := range nums {
+		if num != 0 {
+			if num < 0 {
+				num = -num
+			}
+			if num == 1 {
+				return num
+			}
+			noZeros = append(noZeros, num)
+		}
+	}
+
+	sort.Ints(noZeros)
+	switch len(noZeros) {
+	case 0:
+		return 1
+	case 1:
+		return noZeros[0]
+	case 2:
+		return GCD(noZeros[0], noZeros[1])
+	}
+
+	var minFactors map[int]int
+
+	first := true
+	for _, num := range noZeros {
+		theseFactors := make(map[int]int)
+		for _, factor := range PrimeFactors(num) {
+			theseFactors[factor.Prime] = factor.Count
+		}
+		if first {
+			first = false
+			minFactors = theseFactors
+			continue
+		}
+
+		for factor, count := range minFactors {
+			thisCount, found := theseFactors[factor]
+			if !found {
+				delete(minFactors, factor)
+				if len(minFactors) == 0 {
+					return 1
+				}
+			} else {
+				if thisCount < count {
+					minFactors[factor] = thisCount
+				}
+			}
+		}
+	}
+	product := 1
+	for factor, count := range minFactors {
 		for i := 0; i < count; i++ {
 			product *= factor
 		}

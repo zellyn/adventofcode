@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"slices"
-	"strings"
 
 	"github.com/zellyn/adventofcode/charmap"
 	"github.com/zellyn/adventofcode/geom"
@@ -106,19 +105,19 @@ func toGraph(m charmap.M) *graph.Graph[geom.Vec2] {
 }
 
 type pathRep struct {
-	nodes string
+	nodes uint64
 	cost  int
 }
 
 func (p pathRep) add(edge *graph.Edge[geom.Vec2]) pathRep {
 	return pathRep{
-		nodes: p.nodes + edge.To.Name,
+		nodes: p.nodes | (1 << edge.To.Index()),
 		cost:  p.cost + edge.Cost,
 	}
 }
 
 func (p pathRep) freeOf(edge *graph.Edge[geom.Vec2]) bool {
-	return !strings.Contains(p.nodes, edge.To.Name)
+	return p.nodes&(1<<edge.To.Index()) == 0
 }
 
 func allPaths(g *graph.Graph[geom.Vec2], current string, path pathRep) []int {
@@ -158,6 +157,7 @@ func longestPathFromCharmap(m charmap.M) int {
 	m[end] = 'E'
 
 	g := toGraph(m)
+	printf("%s\n", g)
 	paths := allPaths(g, g.Starts()[0].Name, pathRep{})
 
 	return slices.Max(paths)

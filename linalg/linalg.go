@@ -4,18 +4,13 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"math"
 	"math/big"
+	"slices"
 	"sort"
 	"strconv"
 	"text/tabwriter"
 )
-
-// row represents a row in an augmented matrix. The last (constant)
-// column is pulled out into its own field, k.
-type row struct {
-	cs []*big.Rat // coefficients
-	k  *big.Rat   // constant
-}
 
 var (
 	ratZero *big.Rat           // 0
@@ -27,8 +22,25 @@ func isRatZero(x *big.Rat) bool {
 	return x.Num().BitLen() == 0
 }
 
+// Row represents a row in an augmented matrix. The last (constant)
+// column is pulled out into its own field, k.
+type Row struct {
+	cs []*big.Rat // coefficients
+	k  *big.Rat   // constant
+}
+
+// Coefficients returns the coefficients of the row.
+func (r *Row) Coefficients() []*big.Rat {
+	return r.cs
+}
+
+// Constant returns the constant of the row.
+func (r *Row) Constant() *big.Rat {
+	return r.k
+}
+
 // zero returns true if all coefficients and the constant are 0.
-func (r *row) zero() bool {
+func (r *Row) zero() bool {
 	if !isRatZero(r.k) {
 		return false
 	}
@@ -36,7 +48,7 @@ func (r *row) zero() bool {
 }
 
 // empty returns true if all coefficients are 0.
-func (r *row) empty() bool {
+func (r *Row) empty() bool {
 	for _, c := range r.cs {
 		if !isRatZero(c) {
 			return false
@@ -45,22 +57,65 @@ func (r *row) empty() bool {
 	return true
 }
 
+// NonZeroCoefficientCount returns the number of non-zero coefficients in the row.
+func (r *Row) NonZeroCoefficientCount() int {
+	count := 0
+	for _, c := range r.cs {
+		if !isRatZero(c) {
+			count++
+		}
+	}
+
+	return count
+}
+
 // impossible returns true if all coefficients are 0, but the constant is not.
-func (r *row) impossible() bool {
+func (r *Row) impossible() bool {
 	if isRatZero(r.k) {
 		return false
 	}
 	return r.empty()
 }
 
-// coefficients returns the number of coefficients in the row.
-func (r *row) coefficients() int {
+// knownCoefficient returns the coefficient this row identifies, if it
+// does. For a row to identify a coefficient, it needs exactly one
+// non-zero coefficient.
+//
+// The return value is intended to be slightly useful, even if there
+// is no known coefficient: all zero coefficients will return -1, the
+// row's constant, and false, while a non-zero coefficient followed by
+// a later non-zero coefficient will return the index of that
+// coeffiecint, the value it and the constant imply, and false.
+func (r *Row) knownCoefficient() (int, *big.Rat, bool) {
+	rat := &big.Rat{}
+	rat.Set(r.k)
+
+	index := r.firstNonZero()
+	if index == -1 {
+		return -1, rat, false
+	}
+
+	if r.cs[index].Cmp(ratOne) != 0 {
+		rat.Inv(r.cs[index]).Mul(rat, r.k)
+	}
+
+	for _, c := range r.cs[index+1:] {
+		if !isRatZero(c) {
+			return index, rat, false
+		}
+	}
+
+	return index, rat, true
+}
+
+// NumCoefficients returns the number of coefficients in the row.
+func (r *Row) NumCoefficients() int {
 	return len(r.cs)
 }
 
 // normalize multiplies r by whatever factor will make the first non-zero coefficient 1.
 // If all coefficients are zero, and the constant is not, it'll set the constant to 1.
-func (r *row) normalize() {
+func (r *Row) normalize() {
 	factor := &big.Rat{}
 	found := false
 
@@ -87,7 +142,7 @@ func (r *row) normalize() {
 }
 
 // firstNonZero returns the index of the first nonZero coefficient.
-func (r *row) firstNonZero() int {
+func (r *Row) firstNonZero() int {
 	for i, c := range r.cs {
 		if !isRatZero(c) {
 			return i
@@ -100,7 +155,7 @@ func (r *row) firstNonZero() int {
 // they compare different, and returns that compare result. If all
 // coefficients are equal, it returns the compare result of the
 // constants.
-func (r *row) cmp(other *row) int {
+func (r *Row) cmp(other *Row) int {
 	for i, rc := range r.cs {
 		if verdict := rc.Cmp(other.cs[i]); verdict != 0 {
 			return verdict
@@ -112,7 +167,7 @@ func (r *row) cmp(other *row) int {
 
 // sub subtracts the other row from this one, leaving this row
 // containing the result.
-func (r *row) sub(other *row) {
+func (r *Row) sub(other *Row) {
 	for i, rc := range r.cs {
 		rc.Sub(rc, other.cs[i])
 	}
@@ -121,8 +176,8 @@ func (r *row) sub(other *row) {
 
 // mul multiplies a row by a rational, leaving the original unchanged
 // and returning the product.
-func (r *row) mul(factor *big.Rat) *row {
-	res := &row{}
+func (r *Row) mul(factor *big.Rat) *Row {
+	res := &Row{}
 
 	for _, c := range r.cs {
 		newC := &big.Rat{}
@@ -138,7 +193,7 @@ func (r *row) mul(factor *big.Rat) *row {
 // coefficient. Row a should be ordered before row b if row a has a
 // non-zero coefficient first. If all coefficients are zero, the row
 // with the smaller constant should come first.
-func (r *row) orderBefore(other *row) bool {
+func (r *Row) orderBefore(other *Row) bool {
 	rIndex := r.firstNonZero()
 	otherIndex := other.firstNonZero()
 	if rIndex == -1 {
@@ -155,10 +210,67 @@ func (r *row) orderBefore(other *row) bool {
 
 // matrix represents an augmented matrix, for reduction.
 type Matrix struct {
-	rows       []*row
+	rows []*Row
+
+	// cached values
+	// filled in by reduce()
 	reduced    bool
 	impossible bool
 	rank       int
+
+	// filled in by Coefficients()
+	coefficients      []*big.Rat
+	coefficientsKnown []bool
+}
+
+// AddRow adds a new row to the matrix. If the matrix is already
+// reduced, it reduces it again. If the row contains a different
+// number of coefficients from rows already in the matrix, AddRow
+// panics.
+func (m *Matrix) AddRow(r *Row) {
+
+	if len(m.rows) == 0 || m.NumCoefficients() == r.NumCoefficients() {
+		m.rows = append(m.rows, r)
+	} else {
+		panic(fmt.Sprintf("Trying to add a row with %d coefficients to a matrix containing rows with %d coefficients",
+			r.NumCoefficients(), m.NumCoefficients()))
+	}
+
+	if m.reduced {
+		m.reduced, m.impossible, m.rank = false, false, 0
+		m.coefficients, m.coefficientsKnown = nil, nil
+		m.reduce()
+	}
+}
+
+// AddRows adds multiple new rows to the matrix. If the matrix is
+// already reduced, it reduces it again. If the row contains a
+// different number of coefficients from rows already in the matrix,
+// AddRow panics.
+func (m *Matrix) AddRows(rows []*Row) {
+
+	for _, r := range rows {
+		if len(m.rows) == 0 || m.NumCoefficients() == r.NumCoefficients() {
+			m.rows = append(m.rows, r)
+		} else {
+			panic(fmt.Sprintf("Trying to add a row with %d coefficients to a matrix containing rows with %d coefficients",
+				r.NumCoefficients(), m.NumCoefficients()))
+		}
+	}
+
+	if m.reduced {
+		m.reduced, m.impossible, m.rank = false, false, 0
+		m.coefficients, m.coefficientsKnown = nil, nil
+		m.reduce()
+	}
+}
+
+// AddRowInts adds a new row to the matrix, given integer coefficients
+// and constant. If the matrix is already reduced, it reduces it
+// again. If the row contains a different number of coefficients from
+// rows already in the matrix, AddRow panics.
+func (m *Matrix) AddRowInts(coefficients []int, constant int) {
+	m.AddRow(NewRow(coefficients, constant))
 }
 
 // NewMatrix creates a new matrix and returns it.
@@ -178,16 +290,21 @@ func NewMatrix(rows [][]int) *Matrix {
 			panic(fmt.Sprintf("Uneven row lengths: row 0 had %d ints, row %d has %d", ll, i, len(row)))
 		}
 
-		res.rows = append(res.rows, newRow(row[:ll-1], row[ll-1]))
+		res.rows = append(res.rows, NewRow(row[:ll-1], row[ll-1]))
 	}
 
 	return res
 }
 
-// newRow creates a new row object from integer coefficients and
+// Rows returns the matrix's rows.
+func (m *Matrix) Rows() []*Row {
+	return m.rows
+}
+
+// NewRow creates a new row object from integer coefficients and
 // constant.
-func newRow(coefficients []int, constant int) *row {
-	res := &row{}
+func NewRow(coefficients []int, constant int) *Row {
+	res := &Row{}
 	for _, c := range coefficients {
 		res.cs = append(res.cs, big.NewRat(int64(c), 1))
 	}
@@ -200,26 +317,20 @@ func newRow(coefficients []int, constant int) *row {
 // all zero coefficients adding to a non-zero constant. It performs
 // reduction first, if it hasn't been done already.
 func (m *Matrix) Impossible() bool {
-	if !m.reduced {
-		m.reduce()
-	}
-
+	m.reduceOnce()
 	return m.impossible
 }
 
 // Rank returns the rank of the matrix. It performs reduction first,
 // if it hasn't been done already.
 func (m *Matrix) Rank() int {
-	if !m.reduced {
-		m.reduce()
-	}
-
+	m.reduceOnce()
 	return m.rank
 }
 
-// Coefficients returns the number of coefficients in the matrix.
-func (m *Matrix) Coefficients() int {
-	return m.rows[0].coefficients()
+// NumCoefficients returns the number of coefficients in the matrix.
+func (m *Matrix) NumCoefficients() int {
+	return m.rows[0].NumCoefficients()
 }
 
 // downwardPass does the downward subtracting pass of reduction,
@@ -279,6 +390,13 @@ func (m *Matrix) upwardPass() {
 	}
 }
 
+func (m *Matrix) reduceOnce() {
+	if m.reduced {
+		return
+	}
+	m.reduce()
+}
+
 // reduce tries to reduce the matrix by calling downwardPass and then
 // upwardPass.
 func (m *Matrix) reduce() {
@@ -310,9 +428,73 @@ func (m *Matrix) reduce() {
 	m.rank = rank
 }
 
+// KnownCoefficients reduces the matrix, and returns a slice of
+// coefficient values and a slice of booleans denoting whether the
+// corresponding coefficient is actually known.
+func (m *Matrix) KnownCoefficients() ([]*big.Rat, []bool) {
+	if m.coefficients != nil {
+		return m.coefficients, m.coefficientsKnown
+	}
+
+	m.reduceOnce()
+	count := m.NumCoefficients()
+
+	m.coefficients = make([]*big.Rat, count)
+	for i := range m.coefficients {
+		m.coefficients[i] = &big.Rat{}
+	}
+	m.coefficientsKnown = make([]bool, count)
+
+	if m.impossible {
+		return m.coefficients, m.coefficientsKnown
+	}
+
+	for _, r := range m.rows {
+		if index, val, known := r.knownCoefficient(); known {
+			m.coefficients[index].Set(val)
+			m.coefficientsKnown[index] = true
+		}
+	}
+
+	return m.coefficients, m.coefficientsKnown
+}
+
+// KnownCoefficientCount calls KnownCoefficients, but just returns the
+// number of known coefficients.
+func (m *Matrix) KnownCoefficientCount() int {
+	_, known := m.KnownCoefficients()
+	count := 0
+	for _, k := range known {
+		if k {
+			count++
+		}
+	}
+	return count
+}
+
+// KnownCoefficientFloats returns almost the same result as
+// KnownCoefficients, with Rationals converted to float64s. The
+// difference is that if the magnitude of a rational is too large to
+// be represented as a float64, the corresponding float will be an
+// infinity, and the corresponding boolean will be set to false if it
+// wasn't already false.
+func (m *Matrix) KnownCoefficientFloats() ([]float64, []bool) {
+	ratCoefficients, known := m.KnownCoefficients()
+	known = slices.Clone(known)
+	coefficients := make([]float64, len(ratCoefficients))
+	for i, c := range ratCoefficients {
+		floatVal, exact := c.Float64()
+		coefficients[i] = floatVal
+		if math.IsInf(floatVal, 0) && !exact {
+			known[i] = false
+		}
+	}
+	return coefficients, known
+}
+
 // Equal returns true if the matrices have the same rows.
 func (m *Matrix) Equal(other *Matrix) bool {
-	if m.Coefficients() != other.Coefficients() {
+	if m.NumCoefficients() != other.NumCoefficients() {
 		return false
 	}
 
