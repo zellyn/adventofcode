@@ -18,7 +18,7 @@ func TestPart1(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	wantCount := 119
+	wantCount := 123
 	gotCount := m.Count('#')
 	if wantCount != gotCount {
 		t.Errorf("want count=%d; got %d", wantCount, gotCount)
@@ -26,12 +26,12 @@ func TestPart1(t *testing.T) {
 
 	// ZFHFSFOGPO
 	wantStr := strings.Join(util.TrimmedLines(`
-	####.####.#..#.####..###.####..##...##..###...##..
-	...#.#....#..#.#....#....#....#..#.#..#.#..#.#..#.
-	..#..###..####.###..#....###..#..#.#....#..#.#..#.
-	.#...#....#..#.#.....##..#....#..#.#.##.###..#..#.
-	#....#....#..#.#.......#.#....#..#.#..#.#....#..#.
-	####.#....#..#.#....###..#.....##...###.#.....##..`), "\n") + "\n"
+	.##..####.###..#..#.###..####.###....##.###...###.
+	#..#.#....#..#.#..#.#..#....#.#..#....#.#..#.#....
+	#..#.###..###..#..#.#..#...#..###.....#.#..#.#....
+	####.#....#..#.#..#.###...#...#..#....#.###...##..
+	#..#.#....#..#.#..#.#....#....#..#.#..#.#.......#.
+	#..#.#....###...##..#....####.###...##..#....###..`), "\n")
 	if got := charmap.String(m, '?'); got != wantStr {
 		t.Errorf("final value: want \n%sgot \n%s", wantStr, got)
 	}
@@ -41,7 +41,7 @@ func TestCommands(t *testing.T) {
 	want := strings.Join(util.TrimmedLines(`
 		.#..#.#
 		#.#....
-		.#.....`), "\n") + "\n"
+		.#.....`), "\n")
 
 	commands := util.TrimmedLines(`
 		rect 3x2
@@ -63,14 +63,14 @@ func TestOps(t *testing.T) {
 	zero := strings.Join(util.TrimmedLines(`
 		.......
 		.......
-		.......`), "\n") + "\n"
+		.......`), "\n")
 	if got := charmap.String(m, '?'); got != zero {
 		t.Errorf("zero: want \n%sgot \n%s", zero, got)
 	}
 	one := strings.Join(util.TrimmedLines(`
 		###....
 		###....
-		.......`), "\n") + "\n"
+		.......`), "\n")
 	rect(m, 3, 2)
 	if got := charmap.String(m, '?'); got != one {
 		t.Errorf("one: want \n%sgot \n%s", one, got)
@@ -79,7 +79,7 @@ func TestOps(t *testing.T) {
 	two := strings.Join(util.TrimmedLines(`
 		#.#....
 		###....
-		.#.....`), "\n") + "\n"
+		.#.....`), "\n")
 	rotateCol(m, 1, 1)
 	if got := charmap.String(m, '?'); got != two {
 		t.Errorf("two: want \n%sgot \n%s", two, got)
@@ -88,7 +88,7 @@ func TestOps(t *testing.T) {
 	three := strings.Join(util.TrimmedLines(`
 		....#.#
 		###....
-		.#.....`), "\n") + "\n"
+		.#.....`), "\n")
 	rotateRow(m, 0, 4)
 	if got := charmap.String(m, '?'); got != three {
 		t.Errorf("three: want \n%sgot \n%s", three, got)
@@ -97,7 +97,7 @@ func TestOps(t *testing.T) {
 	four := strings.Join(util.TrimmedLines(`
 		.#..#.#
 		#.#....
-		.#.....`), "\n") + "\n"
+		.#.....`), "\n")
 	rotateCol(m, 1, 1)
 	if got := charmap.String(m, '?'); got != four {
 		t.Errorf("four: want \n%sgot \n%s", four, got)

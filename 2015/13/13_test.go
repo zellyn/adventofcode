@@ -40,8 +40,8 @@ func TestDistances(t *testing.T) {
 		{
 			name:        "real input",
 			input:       input,
-			wantBest:    618,
-			wantWithYou: 601,
+			wantBest:    709,
+			wantWithYou: 668,
 		},
 	}
 

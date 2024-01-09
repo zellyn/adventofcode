@@ -46,9 +46,9 @@ func TestParts(t *testing.T) {
 			want2: 6,
 		},
 		{
-			min:   34000000,
-			want1: 786240,
-			want2: 831600,
+			min:   29000000,
+			want1: 665280,
+			want2: 705600,
 		},
 	}
 

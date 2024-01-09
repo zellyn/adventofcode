@@ -45,7 +45,7 @@ func TestSum(t *testing.T) {
 		},
 		{
 			input: util.MustReadFileString("input"),
-			want:  119433,
+			want:  191164,
 		},
 	}
 
@@ -84,7 +84,7 @@ func TestSumRed(t *testing.T) {
 		},
 		{
 			input: util.MustReadFileString("input"),
-			want:  68466,
+			want:  87842,
 		},
 	}
 

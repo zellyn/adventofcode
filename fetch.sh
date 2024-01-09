@@ -20,8 +20,7 @@ if [[ ! -d ./$YEAR/$DAY2 ]]
 then
     echo "Directory ./$YEAR/$DAY2 does not exist: creating"
     mkdir -p ./$YEAR/$DAY2
-    cp template/*
-    ./$YEAR/$DAY2
+    cp template/* ./$YEAR/$DAY2
 fi
 
 COOKIE=$(cat .cookie)

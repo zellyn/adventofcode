@@ -307,7 +307,7 @@ func MultiLCM(nums ...int) int {
 
 // MultiGCD computes the GCD of multiple numbers.
 func MultiGCD(nums ...int) int {
-	noZeros := make([]int, len(nums))
+	noZeros := make([]int, 0, len(nums))
 	for _, num := range nums {
 		if num != 0 {
 			if num < 0 {
@@ -329,6 +329,8 @@ func MultiGCD(nums ...int) int {
 	case 2:
 		return GCD(noZeros[0], noZeros[1])
 	}
+
+	fmt.Printf("noZeros: %v\n", noZeros)
 
 	var minFactors map[int]int
 

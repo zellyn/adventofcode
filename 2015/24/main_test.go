@@ -12,7 +12,7 @@ func TestRead(t *testing.T) {
 		t.Fatal(err)
 	}
 	got := len(ints)
-	want := 29
+	want := 28
 	if got != want {
 		t.Errorf("want %d ints; got %d", want, got)
 	}
@@ -168,13 +168,13 @@ func TestParts(t *testing.T) {
 			name:       "input-part1",
 			ints:       inputInts,
 			partitions: 3,
-			want:       11846773891,
+			want:       11266889531,
 		},
 		{
 			name:       "input-part2",
 			ints:       inputInts,
 			partitions: 4,
-			want:       80393059,
+			want:       77387711,
 		},
 	}
 

@@ -7,7 +7,7 @@ func TestStuff(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	want := 40
+	want := 213
 	if got != want {
 		t.Errorf("want which()=%d; got %d", want, got)
 	}
@@ -16,7 +16,7 @@ func TestStuff(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	want = 241
+	want = 323
 	if got != want {
 		t.Errorf("want which2()=%d; got %d", want, got)
 	}

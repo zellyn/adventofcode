@@ -29,12 +29,12 @@ func TestPart1(t *testing.T) {
 	weapons, armor, rings := gear()
 	hp := 100
 	enemy := stats{
-		hitpoints: 100,
-		damage:    8,
+		hitpoints: 103,
+		damage:    9,
 		armor:     2,
 	}
 	got := lowestWin(weapons, armor, rings, hp, enemy)
-	want := 91
+	want := 121
 	if got != want {
 		t.Errorf("want lowestWin(...)=%d; got %d", want, got)
 	}
@@ -44,12 +44,12 @@ func TestPart2(t *testing.T) {
 	weapons, armor, rings := gear()
 	hp := 100
 	enemy := stats{
-		hitpoints: 100,
-		damage:    8,
+		hitpoints: 103,
+		damage:    9,
 		armor:     2,
 	}
 	got := highestLoss(weapons, armor, rings, hp, enemy)
-	want := 158
+	want := 201
 	if got != want {
 		t.Errorf("want highestLoss(...)=%d; got %d", want, got)
 	}

@@ -7,8 +7,8 @@ func TestParts(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	want1 := 105
-	want2 := 258
+	want1 := 115
+	want2 := 231
 	if got1 != want1 || got2 != want2 {
 		t.Errorf("want countValid(%q)=%d,%d; got %d,%d", "input", want1, want2, got1, got2)
 	}

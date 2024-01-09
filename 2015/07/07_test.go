@@ -39,14 +39,14 @@ NOT y -> i`
 			name:  "part 1",
 			input: util.MustReadFileString("input"),
 			want: map[string]uint16{
-				"a": 3176,
+				"a": 16076,
 			},
 		},
 		{
 			name:  "part 2",
-			input: strings.Replace(util.MustReadFileString("input"), "44430 -> b", "3176 -> b", 1),
+			input: strings.Replace(util.MustReadFileString("input"), "19138 -> b", "16076 -> b", 1),
 			want: map[string]uint16{
-				"a": 14710,
+				"a": 2797,
 			},
 		},
 	}

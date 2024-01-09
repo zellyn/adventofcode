@@ -31,8 +31,8 @@ func TestDistances(t *testing.T) {
 		{
 			name:         "real input",
 			input:        input,
-			wantShortest: 117,
-			wantLongest:  909,
+			wantShortest: 251,
+			wantLongest:  898,
 		},
 	}
 

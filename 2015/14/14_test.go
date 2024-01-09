@@ -33,8 +33,8 @@ func TestStuff(t *testing.T) {
 			name:  "real input",
 			input: input,
 			time:  2503,
-			want1: 2696,
-			want2: 1084,
+			want1: 2640,
+			want2: 1102,
 		},
 	}
 

@@ -29,7 +29,7 @@ func TestPart1(t *testing.T) {
 		{
 			name:  "input",
 			rooms: input,
-			want:  185371,
+			want:  173787,
 		},
 	}
 
@@ -68,7 +68,7 @@ func TestPart2(t *testing.T) {
 		t.Fatal(err)
 	}
 	found := false
-	wantSector := 984
+	wantSector := 548
 	for _, r := range rooms {
 		if r.decrypt() == "northpole object storage" {
 			found = true

@@ -31,8 +31,8 @@ func TestParts(t *testing.T) {
 		{
 			name:  "input",
 			input: input,
-			want1: "12578",
-			want2: "516DD",
+			want1: "69642",
+			want2: "8CB23",
 		},
 	}
 

@@ -15,8 +15,8 @@ func TestParts(t *testing.T) {
 		},
 		{
 			filename:  "input",
-			wantMost:  "ikerpcty",
-			wantLeast: "uwpfaqrq",
+			wantMost:  "qrqlznrl",
+			wantLeast: "kgzdfaon",
 		},
 	}
 

@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestPermute(t *testing.T) {
 	testdata := []struct {
@@ -59,6 +61,16 @@ func TestIterated(t *testing.T) {
 			input:   "1321131112",
 			count:   50,
 			wantLen: 6989950,
+		},
+		{
+			input:   "1113122113",
+			count:   40,
+			wantLen: 360154,
+		},
+		{
+			input:   "1113122113",
+			count:   50,
+			wantLen: 5103798,
 		},
 	}
 

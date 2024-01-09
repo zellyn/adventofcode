@@ -15,12 +15,12 @@ func TestPart1(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	want1 := 138735
+	want1 := 99145
 	got1 := len(expanded)
 	if got1 != want1 {
 		t.Errorf("want len(expanded)=%d; got %d", want1, got1)
 	}
-	want2 := 11125026826
+	want2 := 10943094568
 	got2, err := expandedLength(input)
 	if err != nil {
 		t.Fatal(err)

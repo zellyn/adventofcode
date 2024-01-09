@@ -72,7 +72,7 @@ func TestPart2(t *testing.T) {
 		{
 			name:  "input",
 			input: input,
-			want:  42,
+			want:  3509819803065,
 		},
 	}
 

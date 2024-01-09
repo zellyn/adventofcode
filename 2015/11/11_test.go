@@ -50,6 +50,14 @@ func TestNextValid(t *testing.T) {
 			input: "hepxxyzz",
 			want:  "heqaabcc",
 		},
+		{
+			input: "hxbxwxba",
+			want:  "hxbxxyzz",
+		},
+		{
+			input: "hxbxxyzz",
+			want:  "hxcaabcc",
+		},
 	}
 
 	for _, tt := range testdata {

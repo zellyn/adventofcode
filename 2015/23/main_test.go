@@ -34,14 +34,14 @@ func TestParts(t *testing.T) {
 			name:    "part 1",
 			program: input,
 			wantA:   1,
-			wantB:   255,
+			wantB:   170,
 		},
 		{
 			name:    "part 2",
 			program: input,
 			startA:  1,
 			wantA:   1,
-			wantB:   334,
+			wantB:   247,
 		},
 	}
 

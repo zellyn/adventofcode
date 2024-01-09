@@ -44,8 +44,8 @@ func TestParts(t *testing.T) {
 		{
 			name:      "input",
 			input:     input,
-			wantEnd:   287,
-			wantTwice: 133,
+			wantEnd:   243,
+			wantTwice: 142,
 		},
 	}
 
