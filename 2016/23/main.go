@@ -3,11 +3,17 @@ package main
 import (
 	"fmt"
 	"os"
-	"strconv"
 )
 
-func foo(s string) (int, error) {
-	return strconv.Atoi(s)
+// var printf = func(string, ...any) {}
+var printf = fmt.Printf
+
+func part1(inputs []string) (int, error) {
+	return 42, nil
+}
+
+func part2(inputs []string) (int, error) {
+	return 42, nil
 }
 
 func run() error {

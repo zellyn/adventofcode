@@ -1,26 +1,78 @@
 package main
 
-import "testing"
+import (
+	"testing"
 
-func TestParts(t *testing.T) {
+	"github.com/zellyn/adventofcode/util"
+)
+
+var example = util.TrimmedLines(`
+example_input
+`)
+
+var input = util.MustReadLines("input")
+
+func TestPart1(t *testing.T) {
 	testdata := []struct {
-		s    string
-		want int
+		name  string
+		input []string
+		want  int
 	}{
 		{
-			s:    "42",
-			want: 42,
+			name:  "example",
+			input: example,
+			want:  42,
+		},
+		// {
+		// 	name:  "input",
+		// 	input: input,
+		// 	want:  42,
+		// },
+	}
+
+	for _, tt := range testdata {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := part1(tt.input)
+			if err != nil {
+				t.Error(err)
+				return
+			}
+
+			if got != tt.want {
+				t.Errorf("Want part1(tt.input)=%d; got %d", tt.want, got)
+			}
+		})
+	}
+}
+
+func XTestPart2(t *testing.T) {
+	testdata := []struct {
+		name  string
+		input []string
+		want  int
+	}{
+		{
+			name:  "example",
+			input: example,
+			want:  42,
+		},
+		{
+			name:  "input",
+			input: input,
+			want:  42,
 		},
 	}
 
 	for _, tt := range testdata {
-		t.Run(tt.s, func(t *testing.T) {
-			got, err := foo(tt.s)
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := part2(tt.input)
 			if err != nil {
-				t.Fatal(err)
+				t.Error(err)
+				return
 			}
+
 			if got != tt.want {
-				t.Errorf("Want foo(%q)=%d; got %d", tt.s, tt.want, got)
+				t.Errorf("Want part2(tt.input)=%d; got %d", tt.want, got)
 			}
 		})
 	}
