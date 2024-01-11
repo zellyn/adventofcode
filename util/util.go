@@ -532,6 +532,24 @@ func Filter[T any](slice []T, predicate func(T) bool) []T {
 	return result
 }
 
+// Split2 is a simple filter over a slice. It returns two slices: the
+// first holding elements for which the predicate returned true, the
+// second those for which it returned false.
+func Split2[T any](slice []T, predicate func(T) bool) ([]T, []T) {
+	var trueResult []T
+	var falseResult []T
+
+	for _, elem := range slice {
+		if predicate(elem) {
+			trueResult = append(trueResult, elem)
+		} else {
+			falseResult = append(falseResult, elem)
+		}
+	}
+
+	return trueResult, falseResult
+}
+
 // All checks if all elements satisfy the predicate.
 func All[T any](slice []T, predicate func(T) bool) bool {
 	for _, elem := range slice {
