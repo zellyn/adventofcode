@@ -316,6 +316,12 @@ func MustReadFileInts(filename string) []int {
 	return ints
 }
 
+// MustReadSingleInt reads a single integer from a file.
+func MustReadSingleInt(filename string) int {
+	ints := MustReadFileInts(filename)
+	return ints[0]
+}
+
 // ParseInts parses a string of separated ints into a slice of ints.
 func ParseInts(commaString string, separator string) ([]int, error) {
 	input := strings.TrimSpace(commaString)
