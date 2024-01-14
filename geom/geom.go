@@ -163,7 +163,7 @@ func (r Rect) String() string {
 	return fmt.Sprintf("[%d-%d]", r.Min, r.Max)
 }
 
-// MakeRect turns two points into a rectangle, insuring that they are ordered properly.
+// MakeRect turns two points into a rectangle, ensuring that they are ordered properly.
 func MakeRect(pos1, pos2 Vec2) Rect {
 	if pos1.X > pos2.X {
 		pos1.X, pos2.X = pos2.X, pos1.X
@@ -172,6 +172,18 @@ func MakeRect(pos1, pos2 Vec2) Rect {
 		pos1.Y, pos2.Y = pos2.Y, pos1.Y
 	}
 	return Rect{Min: pos1, Max: pos2}
+}
+
+// MakeRectXYs turns two pairs of X,Y coordinates into a rectangle,
+// ensuring that they are ordered properly.
+func MakeRectXYs(x1, y1, x2, y2 int) Rect {
+	if x1 > x2 {
+		x1, x2 = x2, x1
+	}
+	if y1 > y2 {
+		y1, y2 = y2, y1
+	}
+	return Rect{Min: Vec2{X: x1, Y: y1}, Max: Vec2{X: x2, Y: y2}}
 }
 
 // Contains returns true if the given position is within the rectangle.

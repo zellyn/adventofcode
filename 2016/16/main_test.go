@@ -6,73 +6,45 @@ import (
 	"github.com/zellyn/adventofcode/util"
 )
 
-var example = util.TrimmedLines(`
-example_input
-`)
+var input = util.MustReadFileString("input")
 
-var input = util.MustReadLines("input")
-
-func TestPart1(t *testing.T) {
+func TestParts(t *testing.T) {
 	testdata := []struct {
 		name  string
-		input []string
-		want  int
+		input string
+		size  int
+		want  string
 	}{
 		{
 			name:  "example",
-			input: example,
-			want:  42,
-		},
-		// {
-		// 	name:  "input",
-		// 	input: input,
-		// 	want:  42,
-		// },
-	}
-
-	for _, tt := range testdata {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := part1(tt.input)
-			if err != nil {
-				t.Error(err)
-				return
-			}
-
-			if got != tt.want {
-				t.Errorf("Want part1(tt.input)=%d; got %d", tt.want, got)
-			}
-		})
-	}
-}
-
-func XTestPart2(t *testing.T) {
-	testdata := []struct {
-		name  string
-		input []string
-		want  int
-	}{
-		{
-			name:  "example",
-			input: example,
-			want:  42,
+			input: "10000",
+			size:  20,
+			want:  "01100",
 		},
 		{
-			name:  "input",
+			name:  "input-part1",
 			input: input,
-			want:  42,
+			size:  272,
+			want:  "11100111011101111",
+		},
+		{
+			name:  "input-part2",
+			input: input,
+			size:  35651584,
+			want:  "10001110010000110",
 		},
 	}
 
 	for _, tt := range testdata {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := part2(tt.input)
+			got, err := part1(tt.input, tt.size)
 			if err != nil {
 				t.Error(err)
 				return
 			}
 
 			if got != tt.want {
-				t.Errorf("Want part2(tt.input)=%d; got %d", tt.want, got)
+				t.Errorf("Want part1(tt.input, tt.size)=%q; got %q", tt.want, got)
 			}
 		})
 	}

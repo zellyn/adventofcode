@@ -2,7 +2,8 @@ package util
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -255,9 +256,9 @@ func Transpose(input [][]int) [][]int {
 	return result
 }
 
-// ReadFile is just ioutil.ReadFile
+// ReadFile is just os.ReadFile
 func ReadFile(filename string) ([]byte, error) {
-	return ioutil.ReadFile(filename)
+	return os.ReadFile(filename)
 }
 
 // ReadLines reads a file and returns a slice of strings, one per line.
@@ -373,6 +374,25 @@ func ParseLinesOfInts(commaStrings []string, separator string) ([][]int, error) 
 		result = append(result, ints)
 	}
 	return result, nil
+}
+
+var regexUnsignedInt = regexp.MustCompile(`[1-9][0-9]*|0`)
+var regexSignedInt = regexp.MustCompile(`[-]?[1-9][0-9]*|0`)
+
+// ParseRegexInts takes a slice of lines of text. For each line, it
+// searches for integers using a regex, and turns each into an
+// integer. `allowNegative` determines whether a preceding minus sign
+// is included in the regex or not.
+func ParseRegexInts(inputs []string, allowNegative bool) [][]int {
+	re := regexUnsignedInt
+	if allowNegative {
+		re = regexSignedInt
+	}
+
+	return Map(inputs, func(input string) []int {
+		ints, _ := StringsToInts(re.FindAllString(input, -1))
+		return ints
+	})
 }
 
 // MustStringsToInts takes a slice of strings and returns a slice of ints, or panics.

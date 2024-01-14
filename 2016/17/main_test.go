@@ -6,28 +6,34 @@ import (
 	"github.com/zellyn/adventofcode/util"
 )
 
-var example = util.TrimmedLines(`
-example_input
-`)
-
-var input = util.MustReadLines("input")
+var input = util.MustReadFileString("input")
 
 func TestPart1(t *testing.T) {
 	testdata := []struct {
 		name  string
-		input []string
-		want  int
+		input string
+		want  string
 	}{
 		{
-			name:  "example",
-			input: example,
-			want:  42,
+			name:  "example1",
+			input: "ihgpwlah",
+			want:  "DDRRRD",
 		},
-		// {
-		// 	name:  "input",
-		// 	input: input,
-		// 	want:  42,
-		// },
+		{
+			name:  "example2",
+			input: "kglvqrro",
+			want:  "DDUDRLRRUDRD",
+		},
+		{
+			name:  "example3",
+			input: "ulqzkmiv",
+			want:  "DRURDRUDDLLDLUURRDULRLDUUDDDRR",
+		},
+		{
+			name:  "input",
+			input: input,
+			want:  "DDURRLRRDD",
+		},
 	}
 
 	for _, tt := range testdata {
@@ -39,27 +45,37 @@ func TestPart1(t *testing.T) {
 			}
 
 			if got != tt.want {
-				t.Errorf("Want part1(tt.input)=%d; got %d", tt.want, got)
+				t.Errorf("Want part1(tt.input)=%q; got %q", tt.want, got)
 			}
 		})
 	}
 }
 
-func XTestPart2(t *testing.T) {
+func TestPart2(t *testing.T) {
 	testdata := []struct {
 		name  string
-		input []string
+		input string
 		want  int
 	}{
-		{
-			name:  "example",
-			input: example,
-			want:  42,
-		},
+		// {
+		// 	name:  "example1",
+		// 	input: "ihgpwlah",
+		// 	want:  370,
+		// },
+		// {
+		// 	name:  "example2",
+		// 	input: "kglvqrro",
+		// 	want:  492,
+		// },
+		// {
+		// 	name:  "example3",
+		// 	input: "ulqzkmiv",
+		// 	want:  830,
+		// },
 		{
 			name:  "input",
 			input: input,
-			want:  42,
+			want:  436,
 		},
 	}
 
@@ -72,7 +88,7 @@ func XTestPart2(t *testing.T) {
 			}
 
 			if got != tt.want {
-				t.Errorf("Want part2(tt.input)=%d; got %d", tt.want, got)
+				t.Errorf("Want part1(tt.input)=%d; got %d", tt.want, got)
 			}
 		})
 	}

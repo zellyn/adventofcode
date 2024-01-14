@@ -10,69 +10,51 @@ var example = util.TrimmedLines(`
 example_input
 `)
 
-var input = util.MustReadLines("input")
+var input = util.MustReadFileString("input")
 
-func TestPart1(t *testing.T) {
+func TestParts(t *testing.T) {
 	testdata := []struct {
 		name  string
-		input []string
+		input string
+		rows  int
 		want  int
 	}{
 		{
-			name:  "example",
-			input: example,
-			want:  42,
-		},
-		// {
-		// 	name:  "input",
-		// 	input: input,
-		// 	want:  42,
-		// },
-	}
-
-	for _, tt := range testdata {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := part1(tt.input)
-			if err != nil {
-				t.Error(err)
-				return
-			}
-
-			if got != tt.want {
-				t.Errorf("Want part1(tt.input)=%d; got %d", tt.want, got)
-			}
-		})
-	}
-}
-
-func XTestPart2(t *testing.T) {
-	testdata := []struct {
-		name  string
-		input []string
-		want  int
-	}{
-		{
-			name:  "example",
-			input: example,
-			want:  42,
+			name:  "example1",
+			input: "..^^.",
+			rows:  3,
+			want:  6,
 		},
 		{
-			name:  "input",
+			name:  "example2",
+			input: ".^^.^.^^^^",
+			rows:  10,
+			want:  38,
+		},
+		{
+			name:  "input-40",
 			input: input,
-			want:  42,
+			rows:  40,
+			want:  1987,
+		},
+		{
+			name:  "input-400000",
+			input: input,
+			rows:  400000,
+			want:  19984714,
 		},
 	}
 
 	for _, tt := range testdata {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := part2(tt.input)
+			got, err := part1(tt.input, tt.rows)
 			if err != nil {
 				t.Error(err)
 				return
 			}
 
 			if got != tt.want {
-				t.Errorf("Want part2(tt.input)=%d; got %d", tt.want, got)
+				t.Errorf("Want part1(tt.input, tt.rows)=%d; got %d", tt.want, got)
 			}
 		})
 	}
