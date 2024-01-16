@@ -145,6 +145,7 @@ func GroupString(s string) []string {
 type StringsAndInts struct {
 	Strings []string
 	Ints    []int
+	Input   string // the original input, when appropriate
 }
 
 // ParseStringsAndInts takes a slice of input lines, a slice of string field indexes,
@@ -585,4 +586,37 @@ func All[T any](slice []T, predicate func(T) bool) bool {
 	}
 
 	return true
+}
+
+// parseByRegexps is the per-line helper for ParseByRegexps.
+func parseByRegexps(input string, regexps []*regexp.Regexp) (StringsAndInts, error) {
+	res := StringsAndInts{
+		Input: input,
+	}
+
+	for _, re := range regexps {
+		pieces := re.FindStringSubmatch(input)
+		if pieces == nil {
+			continue
+		}
+
+		for _, piece := range pieces[1:] {
+			if i, err := strconv.Atoi(piece); err == nil {
+				res.Ints = append(res.Ints, i)
+			} else {
+				res.Strings = append(res.Strings, piece)
+			}
+		}
+		return res, nil
+	}
+	return res, fmt.Errorf("unable to match input %q", input)
+}
+
+// ParseByRegexps applies the given list of regexps (in order) to each
+// line of the input. When one matches, the groups in it are parsed
+// into integers if possible, strings otherwise.
+func ParseByRegexps(inputs []string, regexps []*regexp.Regexp) ([]StringsAndInts, error) {
+	return MapE(inputs, func(input string) (StringsAndInts, error) {
+		return parseByRegexps(input, regexps)
+	})
 }

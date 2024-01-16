@@ -7,7 +7,9 @@ import (
 )
 
 var example = util.TrimmedLines(`
-example_input
+5-8
+0-2
+4-7
 `)
 
 var input = util.MustReadLines("input")
@@ -21,13 +23,13 @@ func TestPart1(t *testing.T) {
 		{
 			name:  "example",
 			input: example,
-			want:  42,
+			want:  3,
 		},
-		// {
-		// 	name:  "input",
-		// 	input: input,
-		// 	want:  42,
-		// },
+		{
+			name:  "input",
+			input: input,
+			want:  4793564,
+		},
 	}
 
 	for _, tt := range testdata {
@@ -45,34 +47,37 @@ func TestPart1(t *testing.T) {
 	}
 }
 
-func XTestPart2(t *testing.T) {
+func TestPart2(t *testing.T) {
 	testdata := []struct {
 		name  string
 		input []string
+		last  int
 		want  int
 	}{
 		{
 			name:  "example",
 			input: example,
-			want:  42,
+			last:  9,
+			want:  2,
 		},
 		{
 			name:  "input",
 			input: input,
-			want:  42,
+			last:  (1 << 32) - 1,
+			want:  146,
 		},
 	}
 
 	for _, tt := range testdata {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := part2(tt.input)
+			got, err := part2(tt.input, tt.last)
 			if err != nil {
 				t.Error(err)
 				return
 			}
 
 			if got != tt.want {
-				t.Errorf("Want part2(tt.input)=%d; got %d", tt.want, got)
+				t.Errorf("Want part2(tt.input, tt.last)=%d; got %d", tt.want, got)
 			}
 		})
 	}

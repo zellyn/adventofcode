@@ -216,8 +216,8 @@ func (r Rect) TR() Vec2 {
 func (r Rect) Positions() []Vec2 {
 	res := make([]Vec2, 0, r.Width()*r.Height())
 
-	for x := r.Min.X; x <= r.Max.X; x++ {
-		for y := r.Min.Y; y <= r.Max.Y; y++ {
+	for y := r.Min.Y; y <= r.Max.Y; y++ {
+		for x := r.Min.X; x <= r.Max.X; x++ {
 			res = append(res, Vec2{X: x, Y: y})
 		}
 	}
