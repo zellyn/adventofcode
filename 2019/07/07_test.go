@@ -90,7 +90,7 @@ func TestRunParallelSequence(t *testing.T) {
 	}
 }
 
-func XTestFindBestParallelSequence(t *testing.T) {
+func TestFindBestParallelSequence(t *testing.T) {
 	for i, tt := range parallelTestdata {
 		t.Run("test "+strconv.Itoa(i), func(t *testing.T) {
 			signal, sequence, err := bestParallelSequence(tt.input, false)

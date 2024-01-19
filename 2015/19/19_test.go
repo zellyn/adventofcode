@@ -54,7 +54,7 @@ func TestPart2(t *testing.T) {
 	}
 }
 
-func XTestPart2Floundering(t *testing.T) {
+func OldTestPart2Floundering(t *testing.T) {
 	testdata := []struct {
 		name   string
 		target string

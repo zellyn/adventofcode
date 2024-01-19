@@ -21,7 +21,7 @@ Filesystem            Size  Used  Avail  Use%
 
 var input = util.MustReadLines("input")
 
-func XTestPart1(t *testing.T) {
+func TestPart1(t *testing.T) {
 	testdata := []struct {
 		name  string
 		input []string
