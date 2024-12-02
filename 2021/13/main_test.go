@@ -7,7 +7,27 @@ import (
 )
 
 var example = util.TrimmedLines(`
-example_input
+6,10
+0,14
+9,10
+0,3
+10,4
+4,11
+6,0
+6,12
+4,1
+0,13
+10,12
+3,4
+3,0
+8,4
+1,10
+2,14
+8,10
+9,0
+
+fold along y=7
+fold along x=5
 `)
 
 var input = util.MustReadLines("input")
@@ -21,13 +41,13 @@ func TestPart1(t *testing.T) {
 		{
 			name:  "example",
 			input: example,
-			want:  42,
+			want:  17,
 		},
-		// {
-		// 	name:  "input",
-		// 	input: input,
-		// 	want:  42,
-		// },
+		{
+			name:  "input",
+			input: input,
+			want:  743,
+		},
 	}
 
 	for _, tt := range testdata {
@@ -40,39 +60,6 @@ func TestPart1(t *testing.T) {
 
 			if got != tt.want {
 				t.Errorf("Want part1(tt.input)=%d; got %d", tt.want, got)
-			}
-		})
-	}
-}
-
-func XTestPart2(t *testing.T) {
-	testdata := []struct {
-		name  string
-		input []string
-		want  int
-	}{
-		{
-			name:  "example",
-			input: example,
-			want:  42,
-		},
-		{
-			name:  "input",
-			input: input,
-			want:  42,
-		},
-	}
-
-	for _, tt := range testdata {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := part2(tt.input)
-			if err != nil {
-				t.Error(err)
-				return
-			}
-
-			if got != tt.want {
-				t.Errorf("Want part2(tt.input)=%d; got %d", tt.want, got)
 			}
 		})
 	}
