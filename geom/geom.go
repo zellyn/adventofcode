@@ -963,6 +963,29 @@ func (v Vec2) Zero() bool {
 	return v.X == 0 && v.Y == 0
 }
 
+// Clockwise90 rotates the given direction by 90°
+func (v Vec2) Clockwise90() Vec2 {
+	switch v {
+	case N:
+		return E
+	case NE:
+		return SE
+	case E:
+		return S
+	case SE:
+		return SW
+	case S:
+		return W
+	case SW:
+		return NW
+	case W:
+		return N
+	case NW:
+		return NE
+	}
+	return v
+}
+
 // Zero returns true if X and Y are both 0.
 func (v Vec2f) Zero() bool {
 	return v.X == 0 && v.Y == 0
