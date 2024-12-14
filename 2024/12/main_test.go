@@ -7,7 +7,40 @@ import (
 )
 
 var example = util.TrimmedLines(`
-example_input
+RRRRIICCFF
+RRRRIICCCF
+VVRRRCCFFF
+VVRCCCJFFF
+VVVVCJJCFE
+VVIVCCJJEE
+VVIIICJJEE
+MIIIIIJJEE
+MIIISIJEEE
+MMMISSJEEE
+`)
+
+var example2 = util.TrimmedLines(`
+AAAA
+BBCD
+BBCC
+EEEC
+`)
+
+var example3 = util.TrimmedLines(`
+EEEEE
+EXXXX
+EEEEE
+EXXXX
+EEEEE
+`)
+
+var example4 = util.TrimmedLines(`
+AAAAAA
+AAABBA
+AAABBA
+ABBAAA
+ABBAAA
+AAAAAA
 `)
 
 var input = util.MustReadLines("input")
@@ -21,13 +54,13 @@ func TestPart1(t *testing.T) {
 		{
 			name:  "example",
 			input: example,
-			want:  42,
+			want:  1930,
 		},
-		// {
-		// 	name:  "input",
-		// 	input: input,
-		// 	want:  42,
-		// },
+		{
+			name:  "input",
+			input: input,
+			want:  1363682,
+		},
 	}
 
 	for _, tt := range testdata {
@@ -45,7 +78,7 @@ func TestPart1(t *testing.T) {
 	}
 }
 
-func XTestPart2(t *testing.T) {
+func TestPart2(t *testing.T) {
 	testdata := []struct {
 		name  string
 		input []string
@@ -54,13 +87,13 @@ func XTestPart2(t *testing.T) {
 		{
 			name:  "example",
 			input: example,
-			want:  42,
+			want:  1206,
 		},
-		// {
-		// 	name:  "input",
-		// 	input: input,
-		// 	want:  42,
-		// },
+		{
+			name:  "input",
+			input: input,
+			want:  787680,
+		},
 	}
 
 	for _, tt := range testdata {

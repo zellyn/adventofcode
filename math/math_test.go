@@ -1,6 +1,8 @@
 package math
 
 import (
+	"fmt"
+	"strings"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -261,6 +263,79 @@ func TestMultiGCD(t *testing.T) {
 		g := MultiGCD(tt.nums...)
 		if g != tt.gcd {
 			t.Errorf("want MultiGCD(%v)==%d; got %d", tt.nums, tt.gcd, g)
+		}
+	}
+}
+
+func TestExtendedGCD(t *testing.T) {
+	testdata := []struct {
+		a, b                              int
+		gcd, aQuot, bQuot, aCoeff, bCoeff int
+	}{
+		{
+			a: 240, b: 46,
+			gcd: 2, aQuot: 120, bQuot: 23, aCoeff: -9, bCoeff: 47,
+		},
+		{
+			a: -240, b: 46,
+			gcd: 2, aQuot: -120, bQuot: 23, aCoeff: 9, bCoeff: 47,
+		},
+		{
+			a: 240, b: -46,
+			gcd: 2, aQuot: 120, bQuot: -23, aCoeff: -9, bCoeff: -47,
+		},
+		{
+			a: -240, b: -46,
+			gcd: 2, aQuot: -120, bQuot: -23, aCoeff: 9, bCoeff: -47,
+		},
+		{
+			a: 240, b: 0,
+			gcd: 240, aQuot: 1, bQuot: 0, aCoeff: 1, bCoeff: 0,
+		},
+		{
+			a: 0, b: 46,
+			gcd: 46, aQuot: 0, bQuot: 1, aCoeff: 0, bCoeff: 1,
+		},
+		{
+			a: -240, b: 0,
+			gcd: 240, aQuot: -1, bQuot: 0, aCoeff: -1, bCoeff: 0,
+		},
+		{
+			a: 0, b: -46,
+			gcd: 46, aQuot: 0, bQuot: -1, aCoeff: 0, bCoeff: -1,
+		},
+	}
+
+	for _, tt := range testdata {
+		gcd, aQuot, bQuot, aCoeff, bCoeff := ExtendedGCD(tt.a, tt.b)
+		var errors []string
+		if gcd != tt.gcd {
+			errors = append(errors, fmt.Sprintf("want gcd=%d; got %d", tt.gcd, gcd))
+		}
+		if aQuot != tt.aQuot {
+			errors = append(errors, fmt.Sprintf("want aQuot=%d; got %d", tt.aQuot, aQuot))
+		}
+		if bQuot != tt.bQuot {
+			errors = append(errors, fmt.Sprintf("want bQuot=%d; got %d", tt.bQuot, bQuot))
+		}
+		if aCoeff != tt.aCoeff {
+			errors = append(errors, fmt.Sprintf("want aCoeff=%d; got %d", tt.aCoeff, aCoeff))
+		}
+		if bCoeff != tt.bCoeff {
+			errors = append(errors, fmt.Sprintf("want bCoeff=%d; got %d", tt.bCoeff, bCoeff))
+		}
+
+		if len(errors) > 0 {
+			t.Errorf("want ExtendedGCD(%d,%d)= %d,%d,%d,%d,%d; got %d,%d,%d,%d,%d (%s)",
+				tt.a, tt.b,
+				tt.gcd, tt.aQuot, tt.bQuot, tt.aCoeff, tt.bCoeff,
+				gcd, aQuot, bQuot, aCoeff, bCoeff,
+				strings.Join(errors, ", "),
+			)
+		} else {
+			if calcGCD := tt.a*aCoeff + tt.b*bCoeff; calcGCD != gcd {
+				t.Errorf("want bézout_a(%d) * a(%d) + bézout_b(%d) * b(%d) == gcd(%d); got %d", aCoeff, tt.a, bCoeff, tt.b, tt.gcd, calcGCD)
+			}
 		}
 	}
 }

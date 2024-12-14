@@ -3,6 +3,7 @@ package math
 import (
 	"fmt"
 	"math"
+	"slices"
 	"sort"
 )
 
@@ -226,8 +227,10 @@ func Sieve(n int) {
 }
 
 func SlowPrimesLessThanOrEqualTo(target int) []int {
+	didLoop := false
 OUTER:
 	for n := primes[len(primes)-1] + 2; n <= target; n += 2 {
+		didLoop = true
 		for _, p := range primes[1:] {
 			if n%p == 0 {
 				continue OUTER
@@ -236,10 +239,9 @@ OUTER:
 		primes = append(primes, n)
 	}
 
-	for i, p := range primes {
-		if p > target {
-			return primes[:i]
-		}
+	if !didLoop {
+		pos, _ := slices.BinarySearch(primes, target+1)
+		return primes[:pos]
 	}
 	return primes
 }
@@ -307,6 +309,18 @@ func MultiLCM(nums ...int) int {
 
 // MultiGCD computes the GCD of multiple numbers.
 func MultiGCD(nums ...int) int {
+	switch len(nums) {
+	case 0:
+		return 0
+	case 1:
+		return nums[0]
+	case 2:
+		return GCD(nums[0], nums[1])
+	case 3:
+		return GCD(GCD(nums[0], nums[1]), nums[2])
+	case 4:
+		return GCD(GCD(nums[0], nums[1]), GCD(nums[2], nums[3]))
+	}
 	noZeros := make([]int, 0, len(nums))
 	for _, num := range nums {
 		if num != 0 {
@@ -330,7 +344,7 @@ func MultiGCD(nums ...int) int {
 		return GCD(noZeros[0], noZeros[1])
 	}
 
-	fmt.Printf("noZeros: %v\n", noZeros)
+	// fmt.Printf("noZeros: %v\n", noZeros)
 
 	var minFactors map[int]int
 
@@ -368,4 +382,33 @@ func MultiGCD(nums ...int) int {
 	}
 
 	return product
+}
+
+func ExtendedGCD(a, b int) (gcd, quotientA, quotientB, bézoutCoefficientA, bézoutCoefficientB int) {
+	old_r, r := a, b
+	old_s, s := 1, 0
+	old_t, t := 0, 1
+
+	for r != 0 {
+		quotient := old_r / r
+		old_r, r = r, old_r-quotient*r
+		old_s, s = s, old_s-quotient*s
+		old_t, t = t, old_t-quotient*t
+	}
+
+	// Fix up signs
+
+	if old_r < 0 {
+		old_r, t, s, old_s, old_t = -old_r, -t, -s, -old_s, -old_t
+	}
+
+	if t < 0 && a >= 0 || t > 0 && a < 0 {
+		t = -t
+	}
+
+	if s < 0 && b >= 0 || s > 0 && b < 0 {
+		s = -s
+	}
+
+	return old_r, t, s, old_s, old_t
 }
