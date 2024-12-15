@@ -515,6 +515,12 @@ func (v Vec2) EachDiv(other Vec2) Vec2 {
 	return Vec2{X: v.X / other.X, Y: v.Y / other.Y}
 }
 
+// EachMod returns a new vector with each coordinate (integer) modded
+// by the corresponding coordinate of the argument.
+func (v Vec2) EachMod(other Vec2) Vec2 {
+	return Vec2{X: v.X % other.X, Y: v.Y % other.Y}
+}
+
 // Within returns true if the Vec2 is within the area specified by min and max (inclusive on all sides).
 func (v Vec2) Within(min, max Vec2) bool {
 	return v.X >= min.X && v.X <= max.X && v.Y >= min.Y && v.Y <= max.Y
