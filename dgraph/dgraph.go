@@ -49,10 +49,11 @@ func (h *nodeHeap) Pop() interface{} {
 }
 
 func Dijkstra(start Node) (int, error) {
-	return DijkstraDebug(start, false)
+	_, cost, err := DijkstraDebug(start, false)
+	return cost, err
 }
 
-func DijkstraDebug(start Node, debug bool) (int, error) {
+func DijkstraDebug(start Node, debug bool) (Node, int, error) {
 	// priors := map[string]string{}
 	nameToNeighbor := map[string]Node{
 		start.Key(): start,
@@ -82,7 +83,7 @@ func DijkstraDebug(start Node, debug bool) (int, error) {
 		printf("Considering node %s: steps=%d\n", node.Key(), min)
 
 		if node.End() {
-			return min, nil
+			return node, min, nil
 		}
 
 		for _, info := range node.Neighbors() {
@@ -94,7 +95,7 @@ func DijkstraDebug(start Node, debug bool) (int, error) {
 			heap.Push(&todo, costedNodeName{name: neighborName, steps: steps})
 		}
 	}
-	return 0, fmt.Errorf("no winning path found")
+	return nil, 0, fmt.Errorf("no winning path found")
 }
 
 // PermutationsInt64 returns all permutations of a slice of int64s.

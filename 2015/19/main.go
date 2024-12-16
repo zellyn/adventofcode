@@ -233,7 +233,8 @@ func fewestSteps(repls map[string][]string, startingValue string, goal string, d
 			goal:  goal,
 		},
 	}
-	return dgraph.DijkstraDebug(start, debug)
+	_, cost, err := dgraph.DijkstraDebug(start, debug)
+	return cost, err
 }
 
 func rightOnly(repls map[string][]string) map[string]bool {
