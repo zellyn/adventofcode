@@ -892,6 +892,39 @@ type PosVel2 struct {
 	Vel Vec2
 }
 
+// WithPos returns a new PosVel with Pos replaced.
+func (pv PosVel2) WithPos(pos Vec2) PosVel2 {
+	return PosVel2{
+		Pos: pos,
+		Vel: pv.Vel,
+	}
+}
+
+// WithVel returns a PosVel from the current Vec2, with the given Vec2
+// as its velocity.
+func (v Vec2) WithVel(vel Vec2) PosVel2 {
+	return PosVel2{
+		Pos: v,
+		Vel: vel,
+	}
+}
+
+// WithVel returns a new PosVel with Vel replaced.
+func (pv PosVel2) WithVel(vel Vec2) PosVel2 {
+	return PosVel2{
+		Pos: pv.Pos,
+		Vel: vel,
+	}
+}
+
+// Step returns a new PosVel, but with the position incremented by one addition of the velocity.
+func (pv PosVel2) Step() PosVel2 {
+	return PosVel2{
+		Vec2{X: pv.Pos.X + pv.Vel.X, Y: pv.Pos.Y + pv.Vel.Y},
+		pv.Vel,
+	}
+}
+
 // PosVel3 represents a 3-D position and direction.
 type PosVel3 struct {
 	Pos Vec3
