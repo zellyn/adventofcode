@@ -8,7 +8,16 @@ import (
 // var printf = func(string, ...any) {}
 var printf = fmt.Printf
 
+func parse(inputs []string) ([]int, error) {
+	return nil, nil
+}
+
 func part1(inputs []string) (int, error) {
+	objs, err := parse(inputs)
+	if err != nil {
+		return 0, nil
+	}
+	printf("%v\n", objs)
 	return 42, nil
 }
 
