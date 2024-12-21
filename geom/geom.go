@@ -103,6 +103,12 @@ type Vec4 struct {
 
 const EPSILON = 1e-6
 
+// Z2 is a shortcut for an empty Vec2.
+var Z2 = Vec2{}
+
+// Z3 is a shortcut for an empty Vec3.
+var Z3 = Vec3{}
+
 func Close(a, b, within float64) bool {
 	diff := fabs(a - b)
 	return -within <= diff && diff <= within
@@ -429,6 +435,11 @@ func (v Vec2) Abs() Vec2 {
 		v.Y = -v.Y
 	}
 	return v
+}
+
+// Taxi returns the taxicab distance between two positions.
+func (v Vec2) Taxi(w Vec2) int {
+	return abs(v.X-w.X) + abs(v.Y-w.Y)
 }
 
 // Transpose returns the same vector, but with X and Y flipped.

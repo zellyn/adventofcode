@@ -1,6 +1,7 @@
 package charmap
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
@@ -453,4 +454,56 @@ func (m M) Surround(r rune) {
 		m[geom.Vec2{X: x, Y: min.Y - 1}] = r
 		m[geom.Vec2{X: x, Y: max.Y + 1}] = r
 	}
+}
+
+// NoPathError is returned if a path to the target cannot be found.
+var NoPathError error = errors.New("No path")
+
+func (m M) MinPathRunes(startRune, endRune rune, pathRunes string) ([]geom.Vec2, error) {
+	startPos, ok := m.Find(startRune)
+	if !ok {
+		return nil, fmt.Errorf("No start ('%c') found", startRune)
+	}
+	_, ok = m.Find(endRune)
+	if !ok {
+		return nil, fmt.Errorf("No start ('%c') found", startRune)
+	}
+
+	type state struct {
+		pos  geom.Vec2
+		path []geom.Vec2
+	}
+	var todo []state
+	todo = append(todo, state{
+		pos:  startPos,
+		path: []geom.Vec2{startPos},
+	})
+
+	seen := make(map[geom.Vec2]bool)
+
+	for len(todo) > 0 {
+		next := todo[0]
+		todo = todo[1:]
+		if seen[next.pos] {
+			continue
+		}
+		seen[next.pos] = true
+		if m[next.pos] == endRune {
+			return next.path, nil
+		}
+
+		for _, n := range next.pos.Neighbors4() {
+			if !seen[n] && strings.ContainsRune(pathRunes, m[n]) {
+				newPath := make([]geom.Vec2, len(next.path)+1)
+				copy(newPath, next.path)
+				newPath[len(next.path)] = n
+				todo = append(todo, state{
+					pos:  n,
+					path: newPath,
+				})
+			}
+		}
+	}
+
+	return nil, NoPathError
 }

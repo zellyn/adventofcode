@@ -2,6 +2,7 @@ package util
 
 import (
 	"fmt"
+	"maps"
 	"os"
 	"regexp"
 	"strconv"
@@ -619,4 +620,15 @@ func ParseByRegexps(inputs []string, regexps []*regexp.Regexp) ([]StringsAndInts
 	return MapE(inputs, func(input string) (StringsAndInts, error) {
 		return parseByRegexps(input, regexps)
 	})
+}
+
+// SetPlus takes a set (map[T]bool) and returns a new set with the same items, plus one more.
+func SetPlus[T comparable](set map[T]bool, item T) map[T]bool {
+	if set[item] {
+		return maps.Clone(set)
+	}
+	res := make(map[T]bool, len(set)+1)
+	maps.Copy(res, set)
+	res[item] = true
+	return res
 }
