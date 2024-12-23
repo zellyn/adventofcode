@@ -51,7 +51,7 @@ func part1(inputs []string) (int, string, error) {
 	// Everything is possible at first
 	possible := make(map[string]stringset.S)
 	for k := range ingredients {
-		possible[k] = allergens.Copy()
+		possible[k] = allergens.Clone()
 	}
 
 	for _, inf := range infos {

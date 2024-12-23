@@ -632,3 +632,21 @@ func SetPlus[T comparable](set map[T]bool, item T) map[T]bool {
 	res[item] = true
 	return res
 }
+
+// SlicePlus returns a clone of the given slice with the item appended, and no extra capacity.
+func SlicePlus[T any](slice []T, item T) []T {
+	res := make([]T, len(slice)+1)
+	copy(res, slice)
+	res[len(slice)] = item
+	return res
+}
+
+// SliceWithout returns a clone of the slice, but without the item at the given index.
+func SliceWithout[T any](slice []T, index int) []T {
+	_ = slice[index]
+
+	res := make([]T, len(slice)-1)
+	copy(res, slice[:index])
+	copy(res[index:], slice[index+1:])
+	return res
+}
