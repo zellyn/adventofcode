@@ -1,0 +1,207 @@
+bff: spk & nfv
+bhs: mnj & kkc
+bkd: pqv & bnv
+brc: ffd & twv
+cbk: bgw & wvb
+dkq: dpc & spp
+fcs: vpr & rqp
+fhj: qqq & qgs
+fvt: psd & hdj
+gbf: cmf & qnt
+gcj: mwc & jqk
+gdk: dkw & sqm
+hgr: mwb & tch
+hmn: jks & njg
+hnn: hdh & jmq
+jbb: vhk & ccb
+jmc: whj & hwk
+jms: nvn & ndw
+kmk: kkb & wnd
+mjd: cmq & rvh
+ncw: kbk & ngn
+nrr: pvd & jhh
+qnp: qnk & ghv
+qsb: rgk & kfc
+rgg: fsb & scg
+rhr: cms & pwp
+rmc: tqs & whg
+rsp: grd & rpq
+rth: jvs & kft
+smt: hks & mbv
+spr: cnf & bnp
+svk: ggn & pbr
+thq: kdq & fmw
+tkh: ptt & dpv
+vnd: nmv & rjb
+wgk: jcg & grb
+
+bjj: x30 & y30
+bvf: x26 & y26
+cbv: x24 & y24
+crc: x37 & y37
+csq: x41 & y41
+dcj: x44 & y44
+dnw: x16 & y16
+dqj: x18 & y18
+fht: x40 & y40
+fpp: x28 & y28
+ftm: x31 & y31
+gsf: x33 & y33
+gvm: x10 & y10
+hsv: x20 & y20
+kbq: x42 & y42
+knq: x29 & y29
+ktq: x27 & y27
+mkr: x25 & y25
+ndw: x17 & y17
+nnq: x38 & y38
+pdt: x35 & y35
+prc: x15 & y15
+psn: x12 & y12
+qbf: x11 & y11
+qdh: x19 & y19
+qsj: x22 & y22
+rhf: x08 & y08
+rhh: x32 & y32
+sqd: x43 & y43
+tqf: x34 & y34
+vgg: x36 & y36
+vsk: x13 & y13
+wgv: x21 & y21
+wpr: x23 & y23
+wrj: x14 & y14
+wrn: x00 & y00
+wsd: x09 & y09
+
+
+ggn: mbv ^ hks
+grm: rmn ^ whq
+twr: pqv ^ bnv
+
+
+bgw: x15 ^ y15
+ccb: y23 ^ x23
+ckc: x01 ^ y01
+cmf: x30 ^ y30
+cms: x24 ^ y24
+cnf: x37 ^ y37
+dkw: y22 ^ x22
+dpc: x33 ^ y33
+ffd: y29 ^ x29
+fsb: y38 ^ x38
+grb: x16 ^ y16
+hdh: x42 ^ y42
+hdj: y40 ^ x40
+hks: y10 ^ x10
+hwk: x13 ^ y13
+jcb: x17 ^ y17
+jks: x25 ^ y25
+kbk: y44 ^ x44
+kdq: y36 ^ x36
+kfc: y12 ^ x12
+kft: y43 ^ x43
+kkc: x20 ^ y20
+mwc: y26 ^ x26
+nmv: x19 ^ y19
+pbr: x11 ^ y11
+pqv: x39 ^ y39
+ptt: y41 ^ x41
+pvd: x14 ^ y14
+qnk: y27 ^ x27
+qqq: x35 ^ y35
+rpq: y21 ^ x21
+rvh: x18 ^ y18
+spk: x34 ^ y34
+tqs: y09 ^ x09
+vpr: y31 ^ x31
+whq: x32 ^ y32
+wnd: y28 ^ x28
+
+
+
+bnp: vgg | thq
+bnv: nnq | rgg
+cmq: jcb | jms
+dpv: fvt | fht
+fmw: fhj | pdt
+ghv: bvf | gcj
+grd: bhs | hsv
+jcg: cbk | prc
+jhh: vsk | jmc
+jmq: csq | tkh
+jqk: mkr | hmn
+jvs: kbq | hnn
+kkb: ktq | qnp
+mbv: rmc | wsd
+mnj: vnd | qdh
+nfv: dkq | gsf
+ngn: sqd | rth
+njg: cbv | rhr
+nvn: wgk | dnw
+psd: twr | bkd
+pwp: wpr | jbb
+qgs: bff | tqf
+qnt: knq | brc
+rgk: svk | qbf
+rjb: mjd | dqj
+rmn: fcs | ftm
+rqp: gbf | bjj
+scg: spr | crc
+spp: rhh | grm
+sqm: rsp | wgv
+twv: fpp | kmk
+vhk: qsj | gdk
+whg: rhf | hgr
+whj: psn | qsb
+wvb: nrr | wrj
+
+
+
+               d               and             carry-in        X
+[d ^ carry-in] [xor]           [and]           [X | and-1]     [xor-1 & carry-in-1]
+z00:x00 ^ y00		       wrn: y00 & x00
+z01:ckc ^ wrn  ckc: x01 ^ y01  gfd: y01 & x01
+z02:cmd ^ hkc  cmd: x02 ^ y02  pkj: x02 & y02  hkc: hrv | gfd  hrv: ckc & wrn
+z03:jnn ^ tpg  jnn: x03 ^ y03  dkm: x03 & y03  tpg: hss | pkj  hss: cmd & hkc
+z04:fwq ^ trj  fwq: y04 ^ x04  cfp: x04 & y04  trj: gws | dkm  gws: jnn & tpg
+z05:qsf ^ jvj  qsf: x05 ^ y05  gmd: y05 & x05  jvj: wwp | cfp  wwp: fwq & trj
+z06:vks ^ vvr  vks: x06 ^ y06  jjc: y06 & x06  vvr: rft | gmd  rft: qsf & jvj
+z07:tsc ^ cch  tsc: x07 ^ y07  rqg: y07 & x07  cch: drq | jjc  drq: vks & vvr
+z08:mwb ^ tch  mwb: x08 ^ y08                  tch: jcv | rqg  jcv: tsc & cch
+z09:tqs ^ whg
+z10:gvm | smt
+z11:pbr ^ ggn
+z12:kfc ^ rgk
+z13:hwk ^ whj
+z14:jhh ^ pvd
+z15:bgw ^ wvb
+z16:jcg ^ grb
+z17:ndw ^ nvn
+z18:rvh ^ cmq
+z19:nmv ^ rjb
+z20:mnj ^ kkc
+z21:rpq ^ grd
+z22:sqm ^ dkw
+z23:vhk ^ ccb
+z24:pwp ^ cms
+z25:jks ^ njg
+z26:jqk ^ mwc
+z27:ghv ^ qnk
+z28:kkb ^ wnd
+z29:ffd ^ twv
+z30:qnt ^ cmf
+z31:rqp ^ vpr
+z32:rmn & whq
+z33:dpc ^ spp
+z34:spk ^ nfv
+z35:qqq ^ qgs
+z36:kdq ^ fmw
+z37:bnp ^ cnf
+z38:scg ^ fsb
+z39:x39 & y39
+z40:hdj ^ psd
+z41:dpv ^ ptt
+z42:jmq ^ hdh
+z43:jvs ^ kft
+z44:kbk ^ ngn
+z45:ncw | dcj
