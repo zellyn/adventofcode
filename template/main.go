@@ -18,7 +18,8 @@ func part1(inputs []string) (int, error) {
 		return 0, nil
 	}
 	printf("%v\n", objs)
-	return 42, nil
+	count := 0
+	return count, nil
 }
 
 func part2(inputs []string) (int, error) {
