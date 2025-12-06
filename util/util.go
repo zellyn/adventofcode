@@ -288,7 +288,7 @@ func ReadFileString(filename string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return strings.TrimRight(string(bb), " \t\r\n"), nil
+	return strings.TrimRight(string(bb), "\t\r\n"), nil
 }
 
 // MustReadFileString reads a string from a file or panics.
