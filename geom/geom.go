@@ -854,6 +854,16 @@ func (v Vec3f) Mag() float64 {
 	return math.Sqrt(v.X*v.X + v.Y*v.Y + v.Z*v.Z)
 }
 
+// MagSq calculates the magnitude of the vector, squared.
+func (v Vec2) MagSq() int {
+	return v.X*v.X + v.Y*v.Y
+}
+
+// MagSq calculates the magnitude of the vector, squared.
+func (v Vec3) MagSq() int {
+	return v.X*v.X + v.Y*v.Y + v.Z*v.Z
+}
+
 // Norm returns a normalized version of the vector, or (0,0) if it's the zero vector already.
 func (v Vec2f) Norm() Vec2f {
 	if v == (Vec2f{X: 0, Y: 0}) {
