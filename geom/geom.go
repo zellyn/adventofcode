@@ -1052,6 +1052,29 @@ func (v Vec2) Clockwise90() Vec2 {
 	return v
 }
 
+// Clockwise45 rotates the given direction by 45° (and toggles length between 1 and sqrt2)
+func (v Vec2) Clockwise45() Vec2 {
+	switch v {
+	case N:
+		return NE
+	case NE:
+		return E
+	case E:
+		return SE
+	case SE:
+		return S
+	case S:
+		return SW
+	case SW:
+		return W
+	case W:
+		return NW
+	case NW:
+		return N
+	}
+	return v
+}
+
 // CounterClockwise90 rotates the given direction by 90°
 func (v Vec2) CounterClockwise90() Vec2 {
 	switch v {
@@ -1071,6 +1094,29 @@ func (v Vec2) CounterClockwise90() Vec2 {
 		return W
 	case NE:
 		return NW
+	}
+	return v
+}
+
+// CounterClockwise45 rotates the given direction by 45° (and toggles length between 1 and sqrt2)
+func (v Vec2) CounterClockwise45() Vec2 {
+	switch v {
+	case E:
+		return NE
+	case SE:
+		return E
+	case S:
+		return SE
+	case SW:
+		return S
+	case W:
+		return SW
+	case NW:
+		return W
+	case N:
+		return NW
+	case NE:
+		return N
 	}
 	return v
 }
