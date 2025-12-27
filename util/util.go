@@ -578,10 +578,21 @@ func Split2[T any](slice []T, predicate func(T) bool) ([]T, []T) {
 	return trueResult, falseResult
 }
 
-// All checks if all elements satisfy the predicate.
-func All[T any](slice []T, predicate func(T) bool) bool {
+// AllFunc checks if all elements satisfy the predicate.
+func AllFunc[T any](slice []T, predicate func(T) bool) bool {
 	for _, elem := range slice {
 		if !predicate(elem) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// All checks if all elements are true
+func All(slice []bool) bool {
+	for _, elem := range slice {
+		if !elem {
 			return false
 		}
 	}

@@ -13,8 +13,7 @@ import (
 )
 
 var (
-	ratZero *big.Rat           // 0
-	ratOne  = big.NewRat(1, 1) // 1
+	ratOne = big.NewRat(1, 1) // 1
 )
 
 // isRatZero checks if the given rational is zero.
@@ -29,6 +28,26 @@ type Row struct {
 	k  *big.Rat   // constant
 }
 
+// cloneRats clones a slice of *big.Rat
+func cloneRats(rats []*big.Rat) []*big.Rat {
+	if rats == nil {
+		return nil
+	}
+	res := make([]*big.Rat, len(rats))
+	for i, rat := range rats {
+		res[i] = new(big.Rat).Set(rat)
+	}
+	return res
+}
+
+// Clone creates a clone of a Row.
+func (r *Row) Clone() *Row {
+	return &Row{
+		cs: cloneRats(r.cs),
+		k:  new(big.Rat).Set(r.k),
+	}
+}
+
 // Coefficients returns the coefficients of the row.
 func (r *Row) Coefficients() []*big.Rat {
 	return r.cs
@@ -39,16 +58,16 @@ func (r *Row) Constant() *big.Rat {
 	return r.k
 }
 
-// zero returns true if all coefficients and the constant are 0.
-func (r *Row) zero() bool {
+// Zero returns true if all coefficients and the constant are 0.
+func (r *Row) Zero() bool {
 	if !isRatZero(r.k) {
 		return false
 	}
-	return r.empty()
+	return r.Empty()
 }
 
-// empty returns true if all coefficients are 0.
-func (r *Row) empty() bool {
+// Empty returns true if all coefficients are 0.
+func (r *Row) Empty() bool {
 	for _, c := range r.cs {
 		if !isRatZero(c) {
 			return false
@@ -74,7 +93,7 @@ func (r *Row) impossible() bool {
 	if isRatZero(r.k) {
 		return false
 	}
-	return r.empty()
+	return r.Empty()
 }
 
 // knownCoefficient returns the coefficient this row identifies, if it
@@ -221,6 +240,23 @@ type Matrix struct {
 	// filled in by Coefficients()
 	coefficients      []*big.Rat
 	coefficientsKnown []bool
+}
+
+// Clone creates a clone of a matrix as-is.
+func (m *Matrix) Clone() *Matrix {
+	var rows []*Row
+	for _, row := range m.rows {
+		rows = append(rows, row.Clone())
+	}
+
+	return &Matrix{
+		rows:              rows,
+		reduced:           m.reduced,
+		impossible:        m.impossible,
+		rank:              m.rank,
+		coefficients:      cloneRats(m.coefficients),
+		coefficientsKnown: slices.Clone(m.coefficientsKnown),
+	}
 }
 
 // AddRow adds a new row to the matrix. If the matrix is already
@@ -513,13 +549,6 @@ func (m *Matrix) Equal(other *Matrix) bool {
 
 // Printable returns a grid representation of the matrix.
 func (m *Matrix) Printable(prefix string, brackets bool) string {
-	prettyRat := func(r *big.Rat) string {
-		if r.IsInt() {
-			return r.Num().String()
-		}
-		return r.String()
-	}
-
 	if len(m.rows) == 0 {
 		return prefix + "[no rows]"
 	}
@@ -543,11 +572,11 @@ func (m *Matrix) Printable(prefix string, brackets bool) string {
 		io.WriteString(w, prefix+brack)
 		// io.WriteString(w, prefix)
 		for _, c := range r.cs {
-			io.WriteString(w, prettyRat(c))
+			io.WriteString(w, c.RatString())
 			w.Write(tab)
 		}
 
-		fmt.Fprintf(w, "⎪\t%s\t%s\n", prettyRat(r.k), ets)
+		fmt.Fprintf(w, "⎪\t%s\t%s\n", r.k.RatString(), ets)
 	}
 
 	w.Flush()
